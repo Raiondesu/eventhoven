@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "moduleResolution": "node",
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "outDir": "../dist",
+    "allowJs": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "incremental": true,
+    "tsBuildInfoFile": "dist/info",
+    "baseUrl": "./src",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "typeRoots": [
+      "./types"
+    ],
+    "types": [
+      "@types/node",
+      "@types/jest",
+    ]
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
