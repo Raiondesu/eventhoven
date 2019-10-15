@@ -12,13 +12,17 @@ export type TEventMap<Events extends IEventOptions = IEventOptions> = {
 export type TEventHandler = (...args: any[]) => void;
 
 export type THandlerOf<
-  EventValue extends TEventHandlerDict<TEventHandler>
+  M extends TEventMap,
+  N extends keyof M = keyof M,
+  EventValue extends M[N] = M[N]
 > = EventValue extends TEventHandlerDict<infer H>
   ? H
-  : never;
+  : M[keyof M] extends TEventHandlerDict<infer H>
+    ? H
+    : TEventHandler;
 
 export type THandlerMap<M extends TEventMap> = {
-  [event in keyof M]: THandlerOf<M[event]>;
+  [event in keyof M]: THandlerOf<M, event>;
 };
 
 export interface IEventOptions {
