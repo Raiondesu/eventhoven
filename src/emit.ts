@@ -6,7 +6,7 @@ export const emit = <M extends TEventMap>(
 ) => <E extends keyof M>(
   event: E
 ) => (
-  ...args: Parameters<THandlerOf<M[E]>>
+  ...args: Parameters<THandlerOf<M, E>>
 ) => {
   const handlers = eventMap[event];
 
