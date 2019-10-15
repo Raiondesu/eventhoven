@@ -1,7 +1,7 @@
 import { eventMap, TEventMap, TEventHandler, THandlerOf } from './events';
 import { emitCollection } from './emit';
 
-type TMetaHandlerMap = {
+export type TMetaHandlerMap = {
   subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler): void;
   unsubscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler): void;
   emit(eventMap: TEventMap, eventName: keyof TEventMap, args: any[]): void;
