@@ -1,23 +1,10 @@
-import { eventMap } from './events';
-import { on } from 'subscribe';
-import { emit } from './emit';
+export * from './debug';
+export * from './emit';
+export * from './events';
+export * from './subscribe';
+export * from './unsubscribe';
 
-const searchEvents = eventMap<{
-  search(text: string): void;
-  searchEnter(text: string): void;
-  searchMove(x: number, y: string): void;
-}>('search', 'searchEnter');
-
-const onSearchEvent = on(searchEvents);
-
-const s = onSearchEvent({
-  name: 'search',
-  handlers: (text) => {
-
-  },
-});
-
-s(text => console.log(text));
-
-const emitSearch = emit(searchEvents)('search');
-
+export {
+  meta,
+  metaEventMap
+} from './meta-events';
