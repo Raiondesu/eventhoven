@@ -18,6 +18,7 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noImplicitAny": false,
+    "keyofStringsOnly": true,
     "incremental": true,
     "tsBuildInfoFile": "dist/info",
     "baseUrl": "./src",
