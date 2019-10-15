@@ -1,4 +1,4 @@
-import { eventMap, TEventMap, TEventHandler, THandlerOf } from './events';
+import { eventMap, TEventMap, TEventHandler } from './events';
 import { emitCollection } from './emit';
 
 export type TMetaHandlerMap = {
