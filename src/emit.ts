@@ -23,8 +23,6 @@ export const emit = <M extends TEventMap>(
   });
 }
 
-export const fire = emit;
-
 export const emitCollection = <M extends TEventMap, R = THandlerMap<M>>(
   eventMap: M
 ): R => {
