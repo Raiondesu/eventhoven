@@ -1,4 +1,4 @@
-import { meta } from 'meta-events';
+import { meta } from './meta-events';
 import { mapObject, doForAll } from './util';
 /**
  * Event-emitter factory creator

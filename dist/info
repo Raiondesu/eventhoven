@@ -158,7 +158,7 @@
         "signature": "8f1c0db45a45ffcb20507fb5f3543b63b35b78a2851e579b3d43fe37d67b8de8"
       },
       "../src/emit.ts": {
-        "version": "11c5f37fc9b6fdea6b3a45731db88c78f545702082ac16315df7156fc2771529",
+        "version": "e52daa7ccc38784127c9689c37761b6656c2e7dc9f59466227a6e44111655560",
         "signature": "65ddfb2537440821ca15a7be0ea7ba8ed29edbb1ade38314f0e680167bd76e40"
       },
       "../src/meta-events.ts": {
