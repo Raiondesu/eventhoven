@@ -1,12 +1,12 @@
-type TEventHandlerDict<Event extends TEventHandler> = Map<Event, boolean>;
+import { reduceEvents } from './util';
 
-type TMutableEventMap<Events extends IEventOptions = IEventOptions> = {
-  [event in keyof Events | '*']: TEventHandlerDict<Events[event]>;
+type TEventHandlerData<Event extends TEventHandler> = {
+  arity: number;
+  handlers: Map<Event, boolean>;
 };
 
-// Duplicate code because of VSCode's inability to correctly interpret type extensions
-export type TEventMap<Events extends IEventOptions = IEventOptions> = {
-  readonly [event in keyof Events | '*']: TEventHandlerDict<Events[event]>;
+export type TEventMap<Events extends TEventOptions = TEventOptions> = {
+  readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
 };
 
 export type TEventHandler = (...args: any[]) => void;
@@ -15,9 +15,9 @@ export type THandlerOf<
   M extends TEventMap,
   N extends keyof M = keyof M,
   EventValue extends M[N] = M[N]
-> = EventValue extends TEventHandlerDict<infer H>
+> = EventValue extends TEventHandlerData<infer H>
   ? H
-  : M[keyof M] extends TEventHandlerDict<infer H>
+  : M[keyof M] extends TEventHandlerData<infer H>
     ? H
     : TEventHandler;
 
@@ -25,16 +25,16 @@ export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: THandlerOf<M, event>;
 };
 
-export interface IEventOptions {
-  [name: string]: TEventHandler;
+export type TEventOptions = {
+  [name in PropertyKey]: TEventHandler;
 }
 
-export const eventMap = <Events extends IEventOptions>(
-  ...events: Array<keyof Events>
-): TEventMap<Events> => events.reduce((map, event) => {
-  map[event] = new Map();
-
-  return map;
-}, {
-  '*': new Map()
-} as TMutableEventMap<Events>);
+export const eventMap = <Events extends TEventOptions>(
+  events: Events
+): TEventMap<Events> => reduceEvents(
+  events,
+  (key, obj) => ({
+    arity: obj[key].length,
+    handlers: new Map([[obj[key], false]]),
+  })
+);
