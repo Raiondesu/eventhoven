@@ -33,7 +33,7 @@ export const emit = <M extends TEventMap>(
   m.emit(eventMap, event, slicedArgs);
 
   handlers.forEach((once, handler) => {
-    handler(<ISubscribeOptions<M, E>>{ event, once }, ...slicedArgs);
+    handler(...slicedArgs);
 
     once && handlers.delete(handler);
   });
