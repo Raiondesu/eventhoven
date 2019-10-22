@@ -1,6 +1,6 @@
 {
   "name": "eventhoven",
-  "version": "0.0.2-rc",
+  "version": "0.1.0-rc",
   "sideEffects": false,
   "description": "Compose strongly-typed events effortlessly 🎵",
   "main": "dist/js",
