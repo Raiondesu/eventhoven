@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf, THandlerMap } from './events';
-import { meta, TMetaEmitters } from 'meta-events';
+import { meta, TMetaEmitters } from './meta-events';
 import { ISubscribeOptions } from './subscribe';
 import { mapObject, doForAll, TDoAction } from './util';
 
