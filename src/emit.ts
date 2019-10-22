@@ -25,18 +25,26 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: Parameters<THandlerOf<M, E>>) => {
+(...args: Parameters<THandlerOf<M, E>>): Promise<void> => {
   const { arity, handlers } = eventMap[event];
   const slicedArgs = arity > 0 ? args.slice(arity) : args;
 
-  // Emit meta-event
-  m.emit(eventMap, event, slicedArgs);
+  const results: Promise<void>[] = [
+    // Emit meta-event
+    m.emit(eventMap, event, slicedArgs)
+  ];
 
   handlers.forEach((once, handler) => {
-    handler(...slicedArgs);
+    results.push(
+      Promise.resolve(
+        handler(...slicedArgs)
+      )
+    );
 
     once && handlers.delete(handler);
   });
+
+  return Promise.all(results).then(_ => void 0);
 };
 
 /**

@@ -51,7 +51,7 @@ export function subscribe<M extends TEventMap>(
         return;
       }
 
-      // Emit meta-event
+      // Emit meta-event (ignore promise)
       m.subscribe(eventMap, event as keyof TEventMap, handler);
 
       eventMap[event].handlers.set(handler, once);

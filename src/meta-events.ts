@@ -16,9 +16,11 @@ const emitMeta = emit(metaEvents);
 export const meta = mapObject(metaEvents, (eventName) => {
   const emitEvent = emitMeta(eventName);
 
-  return (...args: Parameters<typeof emitEvent>) => {
-    if (args[0] !== metaEvents) {
-      emitEvent(...args);
+  return (...args: Parameters<typeof emitEvent>) => new Promise<void>(_ => {
+    if (args[0] === metaEvents) {
+      return _();
     }
-  }
+
+    return _(emitEvent(...args));
+  });
 }) as TMetaEmitters;

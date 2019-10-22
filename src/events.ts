@@ -9,7 +9,8 @@ export type TEventMap<Events extends TEventOptions = TEventOptions> = {
   readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
 };
 
-export type TEventHandler = (...args: any[]) => void;
+export type TEventHandler = (...args: any[]) => void | Promise<void>;
+export type TEventHandlerFrom<H extends TEventHandler> = (...args: Parameters<H>) => Promise<void>;
 
 export type THandlerOf<
   M extends TEventMap,
@@ -22,7 +23,7 @@ export type THandlerOf<
     : TEventHandler;
 
 export type THandlerMap<M extends TEventMap> = {
-  [event in keyof M]: THandlerOf<M, event>;
+  [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;
 };
 
 export type TEventOptions = {
