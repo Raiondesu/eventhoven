@@ -108,6 +108,7 @@ on(metaEvents)('subscribe')((eventMap, eventName, handler) => console.log(
 
 // "simulate" subscribtion to an event using a meta-event `subscribe`
 meta.subscribe(dom, 'click', console.log);
+// => somebody subscribed to click with console.log
 
 // Meta-events can be used for plugins, like the `debug` plugin:
 import { debug } from 'eventhoven';
