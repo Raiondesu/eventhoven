@@ -22,10 +22,6 @@ export type THandlerOf<
     ? H
     : TEventHandler;
 
-export type THandlerMap<M extends TEventMap> = {
-  [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;
-};
-
 export type TEventOptions = {
   [name in PropertyKey]: TEventHandler;
 }

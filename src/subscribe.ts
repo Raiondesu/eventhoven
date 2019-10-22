@@ -61,8 +61,8 @@ export function subscribe<M extends TEventMap>(
       .apply(null, handlers);
   };
 
-  function subscribeTo<S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
   function subscribeTo<E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
+  function subscribeTo<S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
   function subscribeTo(
     eventOrOpts: keyof M | ISubscribeOptions<M, keyof M>,
     onceArg: boolean = true

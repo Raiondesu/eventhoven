@@ -1,7 +1,6 @@
-import { TEventMap, THandlerOf, THandlerMap } from './events';
+import { TEventMap, THandlerOf } from './events';
 import { meta, TMetaEmitters } from './meta-events';
-import { ISubscribeOptions } from './subscribe';
-import { mapObject, doForAll, TDoAction } from './util';
+import { doForAll, TDoAction, mapObject } from './util';
 
 /**
  * Event-emitter factory creator
@@ -55,13 +54,3 @@ export const emit = <M extends TEventMap>(
  * @returns a function that emits all events from a collection with given arguments
  */
 export const emitAll = doForAll(emit as TDoAction);
-
-/**
- * Create a namespaced event emitter collection
- * with each property of the collection corresponding to emitting a particular event
- *
- * @param eventMap - event collection to emit events for
- */
-export const emitCollection = <M extends TEventMap, R = THandlerMap<M>>(
-  eventMap: M
-): R => mapObject(eventMap, emit(eventMap));
