@@ -158,20 +158,20 @@
         "signature": "8f1c0db45a45ffcb20507fb5f3543b63b35b78a2851e579b3d43fe37d67b8de8"
       },
       "../src/emit.ts": {
-        "version": "712ca2b40890f16104fa3db292ebbbbc34d50de0498c36e424725bda3c8e9bf0",
-        "signature": "e8f28e36f92163243c6227b91a7b5d185525f8395a480bdb44033f84e0754cb8"
+        "version": "11c5f37fc9b6fdea6b3a45731db88c78f545702082ac16315df7156fc2771529",
+        "signature": "65ddfb2537440821ca15a7be0ea7ba8ed29edbb1ade38314f0e680167bd76e40"
       },
       "../src/meta-events.ts": {
-        "version": "48acb955de79dc81455832a00d77cd3cfd036a453f8cf1d52648f538b6f3496f",
-        "signature": "cc53ccf0edb7fcda9e3ccdbc4b254ed1667402cb91053d191508ca18230f1ed8"
+        "version": "31997e57971c5c88f3de78a3a9fe26dcbec6b3003dce46456f35621b5cfba7fb",
+        "signature": "59e4bd4a9f1e4598c8224cbf98d29589a054ae257b0a4e79759d99effb371b3b"
       },
       "../src/unsubscribe.ts": {
-        "version": "aef1ca1c52a697085468fc8040ab8e5a4c2b29827e2359483df7f4cf519a813a",
-        "signature": "4160abf6e34d1f45d0a4c6eadd6f1930eb33c4ea8014d286035191bdf99d69e8"
+        "version": "24b8e52633c99fe1410f52f57ce6c57853fb06cd68fbe8a57fdf81788e31b3ec",
+        "signature": "388db7a00e4d42653f4e5c1df7a7c74003bd4662cdd641a50a411e185d553b73"
       },
       "../src/subscribe.ts": {
-        "version": "1ebff895ac290f4d5c320c144da7c7b77d305cc349365f9516bb7e06339c8f9c",
-        "signature": "462395af0d09282874cf7368c3dd5a585dd4fb2fbfb1d05d30b99025c334baac"
+        "version": "ef48eaf9bd47cc150cd6df19e3ab690ff6ca8a04456f2ef3f62f17c67d99148c",
+        "signature": "50b15154f5a044c757f0aeaf5491a7b194d5e77342be790d8d2287712bff1ed5"
       },
       "../src/debug.ts": {
         "version": "f1b4ffe1b3fa3df3f5bd19344fe77e9849dd10f13eb1c85329cf57a69021f23c",
@@ -1062,7 +1062,8 @@
       ],
       "../src/subscribe.ts": [
         "../src/events.ts",
-        "../src/unsubscribe.ts"
+        "../src/unsubscribe.ts",
+        "../src/meta-events.ts"
       ],
       "../src/index.ts": [
         "../src/debug.ts",

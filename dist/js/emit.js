@@ -8,7 +8,8 @@ import { mapObject, doForAll } from './util';
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export var emit = function (eventMap) {
+export var emit = function (eventMap, m) {
+    if (m === void 0) { m = meta; }
     /**
      * Emitter factory for a specific event collection
      *
@@ -28,7 +29,7 @@ export var emit = function (eventMap) {
             var _a = eventMap[event], arity = _a.arity, handlers = _a.handlers;
             var slicedArgs = arity > 0 ? args.slice(arity) : args;
             // Emit meta-event
-            meta.emit(eventMap, event, slicedArgs);
+            m.emit(eventMap, event, slicedArgs);
             handlers.forEach(function (once, handler) {
                 handler.apply(void 0, __spread([{ event: event, once: once }], slicedArgs));
                 once && handlers.delete(handler);

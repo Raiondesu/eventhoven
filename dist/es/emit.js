@@ -7,7 +7,7 @@ import { mapObject, doForAll } from './util';
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export const emit = (eventMap) => 
+export const emit = (eventMap, m = meta) => 
 /**
  * Emitter factory for a specific event collection
  *
@@ -23,7 +23,7 @@ export const emit = (eventMap) =>
     const { arity, handlers } = eventMap[event];
     const slicedArgs = arity > 0 ? args.slice(arity) : args;
     // Emit meta-event
-    meta.emit(eventMap, event, slicedArgs);
+    m.emit(eventMap, event, slicedArgs);
     handlers.forEach((once, handler) => {
         handler({ event, once }, ...slicedArgs);
         once && handlers.delete(handler);

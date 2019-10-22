@@ -5,11 +5,15 @@ import { doForAll } from './util';
  * A subscriber factory
  *
  * @param eventMap - an event collection to subscribe to
- * @param unsubscribeF - a custom unsubscribe handler
+ * @param [unsubscribe] - (optional) a custom unsubscribe handler
+ * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-export function subscribe(eventMap, unsubscribeF) {
-    if (unsubscribeF === void 0) { unsubscribeF = unsubscribe; }
+export function subscribe(eventMap, _a) {
+    var _b = _a === void 0 ? {
+        unsubscribe: unsubscribe,
+        meta: meta
+    } : _a, m = _b.meta, unsub = _b.unsubscribe;
     var subscribeHandlers = function (event, once) { return function () {
         var handlers = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -27,10 +31,10 @@ export function subscribe(eventMap, unsubscribeF) {
                 return;
             }
             // Emit meta-event
-            meta.subscribe(eventMap, event, handler);
+            m.subscribe(eventMap, event, handler);
             eventMap[event].handlers.set(handler, once);
         });
-        return function () { return unsubscribeF(eventMap)(event)
+        return function () { return unsub(eventMap)(event)
             .apply(null, handlers); };
     }; };
     function subscribeTo(eventOrOpts, onceArg) {

@@ -5,10 +5,14 @@ import { doForAll } from './util';
  * A subscriber factory
  *
  * @param eventMap - an event collection to subscribe to
- * @param unsubscribeF - a custom unsubscribe handler
+ * @param [unsubscribe] - (optional) a custom unsubscribe handler
+ * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-export function subscribe(eventMap, unsubscribeF = unsubscribe) {
+export function subscribe(eventMap, { meta: m, unsubscribe: unsub } = {
+    unsubscribe,
+    meta
+}) {
     const subscribeHandlers = (event, once) => (...handlers) => {
         if (!eventMap[event]) {
             // Soft handle type mismatch
@@ -22,10 +26,10 @@ export function subscribe(eventMap, unsubscribeF = unsubscribe) {
                 return;
             }
             // Emit meta-event
-            meta.subscribe(eventMap, event, handler);
+            m.subscribe(eventMap, event, handler);
             eventMap[event].handlers.set(handler, once);
         });
-        return () => unsubscribeF(eventMap)(event)
+        return () => unsub(eventMap)(event)
             .apply(null, handlers);
     };
     function subscribeTo(eventOrOpts, onceArg = true) {
