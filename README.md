@@ -2,8 +2,11 @@
 
 > Compose events effortlessly 🎵
 
+[![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page")
+[![npm](https://img.shields.io/npm/dt/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/vue-simple-suggest "Downloads per month, but who cares?")
+
 ## What is this?
-It's a simple event manager library, less than 1KB in size gzipped.
+It's a simple type-safe event manager library, less than 1KB (gzipped).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -21,3 +24,7 @@ A main list of features includes (but not limited to):
   - **I**SP - all data types are the least specific versions of them
   - **D**IP - API depends only on abstractions
 - **DRY** and **KISS**
+
+## API and docs
+
+⚠ Coming soon ⚠
