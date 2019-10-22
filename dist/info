@@ -182,8 +182,8 @@
         "signature": "6e21d1d849995fd99c269d78fa56f7027cc374e168c01798a5236ac983d6501e"
       },
       "../src/index.ts": {
-        "version": "049ff720109dd39abd9aa20c726b7ee28d720e15faba257135e8adeb749fa484",
-        "signature": "21e3564e469d5c0fcdab7e698b52af2c7ce1c5f70d0ad4a9b572c9eecd517831"
+        "version": "4889576b9bbd67b4475870cd0cde9d868e656a41d785eac85b8bbcd7fc9b2314",
+        "signature": "7c9228f643819791ba8dcb3ea035282999222d3a75f7ec929f67cd269a073f34"
       },
       "../node_modules/@types/node/globals.d.ts": {
         "version": "4d0e3b8334392a2e0adef9caf867118678fb8f38da90d8003184debd62d30f3b",
@@ -621,6 +621,7 @@
         "../src/events.ts",
         "../src/subscribe.ts",
         "../src/unsubscribe.ts",
+        "../src/collections.ts",
         "../src/meta-events.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -1090,6 +1091,7 @@
         "../src/events.ts",
         "../src/subscribe.ts",
         "../src/unsubscribe.ts",
+        "../src/collections.ts",
         "../src/meta-events.ts"
       ],
       "../node_modules/@types/node/globals.d.ts": [
