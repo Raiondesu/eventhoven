@@ -1,10 +1,10 @@
-import { on } from './subscribe';
-import { off } from './unsubscribe';
-import { metaEventMap } from './meta-events';
+import { onAll } from './subscribe';
+import { offAll } from './unsubscribe';
+import { metaEvents } from './meta-events';
 import { TEventMap, TEventHandler } from './events';
 
-const onMeta = on(metaEventMap)('*');
-const offMeta = off(metaEventMap)('*');
+const onMeta = onAll(metaEvents);
+const offMeta = offAll(metaEvents);
 
 const log = (
   map: TEventMap,
@@ -13,7 +13,7 @@ const log = (
 ) => console.log(
   `${
     new Date().toTimeString()
-  } [EVENT "${event}"]: ${
+  } [EVENT "${String(event)}"]: ${
       argsOrHandler
   } from ${map}`
 );
