@@ -6,5 +6,5 @@ export * from './unsubscribe';
 
 export {
   meta,
-  metaEventMap
+  metaEvents
 } from './meta-events';

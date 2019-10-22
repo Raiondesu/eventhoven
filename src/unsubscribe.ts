@@ -1,5 +1,6 @@
 import { TEventMap, THandlerOf } from './events';
 import { meta } from './meta-events';
+import { doForAll } from './util';
 
 export type TUnsubscribe<From> = () => (
   // Lifehack to display the event name
@@ -20,11 +21,16 @@ export const unsubscribe = <M extends TEventMap>(
 ) => <E extends keyof M>(
   event: E
 ): TUnsubscribeHandlers<M, E> => (
-  ...handlers: Array<THandlerOf<M, E>>
+  ...handlers
 ) => handlers.forEach(_ => (
   // Emit meta-event
   meta.unsubscribe(eventMap, event, _),
-  eventMap[event]?.delete(_)
+
+  eventMap[event]?.handlers.delete(_)
 )) as E & void;
 
 export const off = unsubscribe;
+
+export const unsubscribeFromAll = doForAll(unsubscribe);
+
+export const offAll = unsubscribeFromAll;
