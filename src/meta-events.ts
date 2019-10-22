@@ -9,6 +9,7 @@ export const metaEvents = eventMap({
 });
 
 export type TMetaEvents = typeof metaEvents;
+export type TMetaEmitters = THandlerMap<TMetaEvents>;
 
 const emitMeta = emit(metaEvents);
 
@@ -20,4 +21,4 @@ export const meta = mapObject(metaEvents, (eventName) => {
       emitEvent(...args);
     }
   }
-}) as THandlerMap<TMetaEvents>;
+}) as TMetaEmitters;

@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf, THandlerMap } from './events';
-import { meta } from 'meta-events';
+import { meta, TMetaEmitters } from 'meta-events';
 import { ISubscribeOptions } from './subscribe';
 import { mapObject, doForAll, TDoAction } from './util';
 
@@ -11,7 +11,8 @@ import { mapObject, doForAll, TDoAction } from './util';
  * @param eventMap - an event collection to create an emitter for
  */
 export const emit = <M extends TEventMap>(
-  eventMap: M
+  eventMap: M,
+  m: TMetaEmitters = meta
 ) =>
 /**
  * Emitter factory for a specific event collection
@@ -29,7 +30,7 @@ export const emit = <M extends TEventMap>(
   const slicedArgs = arity > 0 ? args.slice(arity) : args;
 
   // Emit meta-event
-  meta.emit(eventMap, event, slicedArgs);
+  m.emit(eventMap, event, slicedArgs);
 
   handlers.forEach((once, handler) => {
     handler(<ISubscribeOptions<M, E>>{ event, once }, ...slicedArgs);

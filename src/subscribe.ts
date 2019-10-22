@@ -1,6 +1,6 @@
 import { TEventMap, THandlerOf } from './events';
 import { unsubscribe, TUnsubscribe } from './unsubscribe';
-import { meta } from './meta-events';
+import { meta, TMetaEmitters } from './meta-events';
 import { doForAll } from './util';
 
 export interface ISubscribeOptions<M extends TEventMap, N extends keyof M> {
@@ -13,16 +13,27 @@ export type TSubscriber<M extends TEventMap, N extends keyof M> = {
   (...handlers: Array<THandlerOf<M, N>>): TUnsubscribe<N>;
 };
 
+export type TSubscriberContext = {
+  unsubscribe: typeof unsubscribe;
+  meta: TMetaEmitters;
+}
+
 /**
  * A subscriber factory
  *
  * @param eventMap - an event collection to subscribe to
- * @param unsubscribeF - a custom unsubscribe handler
+ * @param [unsubscribe] - (optional) a custom unsubscribe handler
+ * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
 export function subscribe<M extends TEventMap>(
-  eventMap: M,
-  unsubscribeF: typeof unsubscribe = unsubscribe
+  eventMap: M, {
+    meta: m,
+    unsubscribe: unsub
+  }: TSubscriberContext = {
+    unsubscribe,
+    meta
+  }
 ) {
   const subscribeHandlers = (event: keyof M, once: boolean): TSubscriber<M, keyof M> => (
     ...handlers: Array<THandlerOf<M>>
@@ -41,12 +52,12 @@ export function subscribe<M extends TEventMap>(
       }
 
       // Emit meta-event
-      meta.subscribe(eventMap, event as keyof TEventMap, handler);
+      m.subscribe(eventMap, event as keyof TEventMap, handler);
 
       eventMap[event].handlers.set(handler, once);
     });
 
-    return () => unsubscribeF(eventMap)(event)
+    return () => unsub(eventMap)(event)
       .apply(null, handlers);
   };
 
