@@ -38,12 +38,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raiondesu-experiments/fp-event-manager.git"
+    "url": "git+https://github.com/raiondesu-experiments/eventhoven.git"
   },
   "author": "raiondesu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/raiondesu-experiments/fp-event-manager/issues"
+    "url": "https://github.com/raiondesu-experiments/eventhoven/issues"
   },
-  "homepage": "https://github.com/raiondesu-experiments/fp-event-manager#readme"
+  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme"
 }
