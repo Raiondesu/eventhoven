@@ -1,4 +1,4 @@
-import { reduceEvents } from './util';
+import { mapObject } from './util';
 
 type TEventHandlerData<Event extends TEventHandler> = {
   arity: number;
@@ -29,9 +29,14 @@ export type TEventOptions = {
   [name in PropertyKey]: TEventHandler;
 }
 
+/**
+ * Creates an event collection based on handler templates
+ *
+ * @param events - an object with default handlers for events
+ */
 export const eventMap = <Events extends TEventOptions>(
   events: Events
-): TEventMap<Events> => reduceEvents(
+): TEventMap<Events> => mapObject(
   events,
   (key, obj) => ({
     arity: obj[key].length,

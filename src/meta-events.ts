@@ -1,6 +1,6 @@
 import { eventMap, TEventMap, TEventHandler, THandlerMap } from './events';
 import { emit } from './emit';
-import { reduceEvents } from './util';
+import { mapObject } from './util';
 
 export const metaEvents = eventMap({
   subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},
@@ -12,7 +12,7 @@ export type TMetaEvents = typeof metaEvents;
 
 const emitMeta = emit(metaEvents);
 
-export const meta = reduceEvents(metaEvents, (eventName) => {
+export const meta = mapObject(metaEvents, (eventName) => {
   const emitEvent = emitMeta(eventName);
 
   return (...args: Parameters<typeof emitEvent>) => {

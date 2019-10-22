@@ -1,6 +1,17 @@
 import { TEventMap } from './events';
 
-export const reduceEvents = <T extends object, R extends Record<keyof T, any>>(
+export type TDoAction<P extends any[] = any[]> = <M extends TEventMap>(
+  eventMap: M
+) => <E extends keyof M>(
+  event: E
+) => (...args: P) => void;
+
+/**
+ * Maps object values by their keys into a new object
+ *
+ * Generaly equivalent to `Array.prototype.map()`
+ */
+export const mapObject = <T extends object, R extends Record<keyof T, any>>(
   obj: T, value: (key: keyof T, obj: T) => R[keyof T], defaultValue: R = {} as R
 ) => (
   <Array<keyof T>>
@@ -11,12 +22,13 @@ export const reduceEvents = <T extends object, R extends Record<keyof T, any>>(
   return newObj;
 }, defaultValue);
 
-export type TDoAction<P extends any[] = any[]> = <M extends TEventMap>(
-  eventMap: M
-) => <E extends keyof M>(
-  event: E
-) => (...args: P) => void;
-
+/**
+ * A `do`-er factory
+ *
+ * Applies a specified action for all events in a collection
+ *
+ * @param action - an action to apply
+ */
 export const doForAll = <A extends TDoAction>(
   action: A
 ) => <M extends TEventMap>(
@@ -27,6 +39,6 @@ export const doForAll = <A extends TDoAction>(
   return (
     ...args: A extends TDoAction<infer P> ? P : any[]
   ) => {
-    reduceEvents(eventMap, (key) => mappedAction(key)(...args));
+    mapObject(eventMap, (key) => mappedAction(key)(...args));
   };
 }

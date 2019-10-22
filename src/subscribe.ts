@@ -13,8 +13,16 @@ export type TSubscriber<M extends TEventMap, N extends keyof M> = {
   (...handlers: Array<THandlerOf<M, N>>): TUnsubscribe<N>;
 };
 
+/**
+ * A subscriber factory
+ *
+ * @param eventMap - an event collection to subscribe to
+ * @param unsubscribeF - a custom unsubscribe handler
+ * @returns a function that subscribes handlers to a given event in a collection
+ */
 export function subscribe<M extends TEventMap>(
-  eventMap: M
+  eventMap: M,
+  unsubscribeF: typeof unsubscribe = unsubscribe
 ) {
   const subscribeHandlers = (event: keyof M, once: boolean): TSubscriber<M, keyof M> => (
     ...handlers: Array<THandlerOf<M>>
@@ -38,7 +46,7 @@ export function subscribe<M extends TEventMap>(
       eventMap[event].handlers.set(handler, once);
     });
 
-    return () => unsubscribe(eventMap)(event)
+    return () => unsubscribeF(eventMap)(event)
       .apply(null, handlers);
   };
 
@@ -59,6 +67,12 @@ export function subscribe<M extends TEventMap>(
 
 export const on = subscribe;
 
+/**
+ * A subscriber factory for all events of a given collection
+ *
+ * @param eventMap - an event collection to subscribe to
+ * @returns a function that subscribes handlers to all events in the given event collection
+ */
 export const subscribeToAll = doForAll(subscribe);
 
 export const onAll = subscribeToAll;
