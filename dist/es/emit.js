@@ -1,5 +1,5 @@
 import { meta } from './meta-events';
-import { mapObject, doForAll } from './util';
+import { doForAll } from './util';
 /**
  * Event-emitter factory creator
  *
@@ -22,12 +22,15 @@ export const emit = (eventMap, m = meta) =>
 (...args) => {
     const { arity, handlers } = eventMap[event];
     const slicedArgs = arity > 0 ? args.slice(arity) : args;
-    // Emit meta-event
-    m.emit(eventMap, event, slicedArgs);
+    const results = [
+        // Emit meta-event
+        m.emit(eventMap, event, slicedArgs)
+    ];
     handlers.forEach((once, handler) => {
-        handler({ event, once }, ...slicedArgs);
+        results.push(Promise.resolve(handler(...slicedArgs)));
         once && handlers.delete(handler);
     });
+    return Promise.all(results).then(_ => void 0);
 };
 /**
  * Emit all events for a given event collection
@@ -37,11 +40,4 @@ export const emit = (eventMap, m = meta) =>
  * @returns a function that emits all events from a collection with given arguments
  */
 export const emitAll = doForAll(emit);
-/**
- * Create a namespaced event emitter collection
- * with each property of the collection corresponding to emitting a particular event
- *
- * @param eventMap - event collection to emit events for
- */
-export const emitCollection = (eventMap) => mapObject(eventMap, emit(eventMap));
 //# sourceMappingURL=emit.js.map

@@ -25,7 +25,7 @@ export function subscribe(eventMap, { meta: m, unsubscribe: unsub } = {
             if (typeof handler !== 'function') {
                 return;
             }
-            // Emit meta-event
+            // Emit meta-event (ignore promise)
             m.subscribe(eventMap, event, handler);
             eventMap[event].handlers.set(handler, once);
         });

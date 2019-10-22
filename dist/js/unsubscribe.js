@@ -10,7 +10,7 @@ export var unsubscribe = function (eventMap, m) {
         return handlers.forEach(function (_) {
             var _a;
             return (
-            // Emit meta-event
+            // Emit meta-event (ignore promise)
             m.unsubscribe(eventMap, event, _), (_a = eventMap[event]) === null || _a === void 0 ? void 0 : _a.handlers.delete(_));
         });
     }; };

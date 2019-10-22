@@ -9,10 +9,11 @@ export const metaEvents = eventMap({
 const emitMeta = emit(metaEvents);
 export const meta = mapObject(metaEvents, (eventName) => {
     const emitEvent = emitMeta(eventName);
-    return (...args) => {
-        if (args[0] !== metaEvents) {
-            emitEvent(...args);
+    return (...args) => new Promise(_ => {
+        if (args[0] === metaEvents) {
+            return _();
         }
-    };
+        return _(emitEvent(...args));
+    });
 });
 //# sourceMappingURL=meta-events.js.map

@@ -15,9 +15,12 @@ export var meta = mapObject(metaEvents, function (eventName) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        if (args[0] !== metaEvents) {
-            emitEvent.apply(void 0, __spread(args));
-        }
+        return new Promise(function (_) {
+            if (args[0] === metaEvents) {
+                return _();
+            }
+            return _(emitEvent.apply(void 0, __spread(args)));
+        });
     };
 });
 //# sourceMappingURL=meta-events.js.map

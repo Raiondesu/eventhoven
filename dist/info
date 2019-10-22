@@ -154,24 +154,28 @@
         "signature": "50746adf330abb40301aa9d87e1ef373ea00e4e3896a8a73e9bbb7043bc34a6a"
       },
       "../src/events.ts": {
-        "version": "aeb93aea87c55d2ef3bc3fa41d75c8cbb6bf3710aa95474cc0a06a962c6b6a5f",
-        "signature": "8f1c0db45a45ffcb20507fb5f3543b63b35b78a2851e579b3d43fe37d67b8de8"
-      },
-      "../src/emit.ts": {
-        "version": "e52daa7ccc38784127c9689c37761b6656c2e7dc9f59466227a6e44111655560",
-        "signature": "65ddfb2537440821ca15a7be0ea7ba8ed29edbb1ade38314f0e680167bd76e40"
+        "version": "77fcc2a2c6ad47f2fef81e46ca0b374963296f1923863f5765002157e7319c83",
+        "signature": "5e95ce05deecf4f5a63896feb946a649a93d95ac4ad1a4407fa94e9dc23feed4"
       },
       "../src/meta-events.ts": {
-        "version": "31997e57971c5c88f3de78a3a9fe26dcbec6b3003dce46456f35621b5cfba7fb",
-        "signature": "59e4bd4a9f1e4598c8224cbf98d29589a054ae257b0a4e79759d99effb371b3b"
+        "version": "14e62001353a1e197e40665d5ea36cc64e27b6af6c50fe0c6af00ef95a934d9b",
+        "signature": "d239244aaceb45a38e94cade648fe33a14c2f4de44427782280850a055026f83"
+      },
+      "../src/emit.ts": {
+        "version": "71a080e2f30c41e2be865e9ee890e91c322125e7f5805a3091fcebb91652061e",
+        "signature": "d4a2e98c4fb3cd7d2b766231f71c32944e6e7353577eff15d528762099b69fce"
       },
       "../src/unsubscribe.ts": {
-        "version": "24b8e52633c99fe1410f52f57ce6c57853fb06cd68fbe8a57fdf81788e31b3ec",
-        "signature": "388db7a00e4d42653f4e5c1df7a7c74003bd4662cdd641a50a411e185d553b73"
+        "version": "1e7d44508cf1c219a2809d9e835ea4209ccf0ca4c305fe875564ff9c7e3a8f96",
+        "signature": "23b1f8df2ce38c1013fd67d8b67a88ca6d5734f4f7dd6fd0b7b993074df6b5fa"
       },
       "../src/subscribe.ts": {
-        "version": "ef48eaf9bd47cc150cd6df19e3ab690ff6ca8a04456f2ef3f62f17c67d99148c",
-        "signature": "50b15154f5a044c757f0aeaf5491a7b194d5e77342be790d8d2287712bff1ed5"
+        "version": "df7026fea37bb5c3cb4507ca5b5be93caefe3cc3bd0a1f207e6a01db2918e8e6",
+        "signature": "d10cce9dd8c326731bc2bab8fa58537b949a46d3d3acbf88e20f848b2d27df95"
+      },
+      "../src/collections.ts": {
+        "version": "9c4ccdbc6f2a37aec9a068e39d1c0a15207eb6f2fb516b55cbdd6375737d651b",
+        "signature": "230f76216f9296f8af879d455c90005b491cce5719bbb64a9dc1d5e590a90c1e"
       },
       "../src/debug.ts": {
         "version": "f1b4ffe1b3fa3df3f5bd19344fe77e9849dd10f13eb1c85329cf57a69021f23c",
@@ -564,17 +568,17 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/emit.ts": [
-        "../src/events.ts",
-        "../src/meta-events.ts",
-        "../src/subscribe.ts",
-        "../src/util.ts",
-        "../node_modules/@types/node/util.d.ts",
-        "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/meta-events.ts": [
         "../src/events.ts",
         "../src/emit.ts",
+        "../src/util.ts",
+        "../src/collections.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/emit.ts": [
+        "../src/events.ts",
+        "../src/meta-events.ts",
         "../src/util.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -591,6 +595,15 @@
         "../src/unsubscribe.ts",
         "../src/meta-events.ts",
         "../src/util.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/collections.ts": [
+        "../src/events.ts",
+        "../src/util.ts",
+        "../src/emit.ts",
+        "../src/subscribe.ts",
+        "../src/unsubscribe.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1051,19 +1064,25 @@
       "../src/util.ts": [
         "../src/events.ts"
       ],
-      "../src/emit.ts": [
-        "../src/events.ts"
-      ],
       "../src/meta-events.ts": [
-        "../src/events.ts"
+        "../src/events.ts",
+        "../src/collections.ts"
+      ],
+      "../src/emit.ts": [
+        "../src/events.ts",
+        "../src/collections.ts"
       ],
       "../src/unsubscribe.ts": [
-        "../src/events.ts"
+        "../src/events.ts",
+        "../src/collections.ts"
       ],
       "../src/subscribe.ts": [
         "../src/events.ts",
         "../src/unsubscribe.ts",
         "../src/meta-events.ts"
+      ],
+      "../src/collections.ts": [
+        "../src/events.ts"
       ],
       "../src/index.ts": [
         "../src/debug.ts",
@@ -1400,10 +1419,11 @@
       "../node_modules/tslib/tslib.d.ts",
       "../src/util.ts",
       "../src/events.ts",
-      "../src/emit.ts",
       "../src/meta-events.ts",
+      "../src/emit.ts",
       "../src/unsubscribe.ts",
       "../src/subscribe.ts",
+      "../src/collections.ts",
       "../src/debug.ts",
       "../src/index.ts",
       "../node_modules/@types/node/globals.d.ts",

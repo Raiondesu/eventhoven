@@ -1,6 +1,6 @@
 import { __read, __spread } from "tslib";
 import { meta } from './meta-events';
-import { mapObject, doForAll } from './util';
+import { doForAll } from './util';
 /**
  * Event-emitter factory creator
  *
@@ -28,12 +28,15 @@ export var emit = function (eventMap, m) {
             }
             var _a = eventMap[event], arity = _a.arity, handlers = _a.handlers;
             var slicedArgs = arity > 0 ? args.slice(arity) : args;
-            // Emit meta-event
-            m.emit(eventMap, event, slicedArgs);
+            var results = [
+                // Emit meta-event
+                m.emit(eventMap, event, slicedArgs)
+            ];
             handlers.forEach(function (once, handler) {
-                handler.apply(void 0, __spread([{ event: event, once: once }], slicedArgs));
+                results.push(Promise.resolve(handler.apply(void 0, __spread(slicedArgs))));
                 once && handlers.delete(handler);
             });
+            return Promise.all(results).then(function (_) { return void 0; });
         };
     };
 };
@@ -45,11 +48,4 @@ export var emit = function (eventMap, m) {
  * @returns a function that emits all events from a collection with given arguments
  */
 export var emitAll = doForAll(emit);
-/**
- * Create a namespaced event emitter collection
- * with each property of the collection corresponding to emitting a particular event
- *
- * @param eventMap - event collection to emit events for
- */
-export var emitCollection = function (eventMap) { return mapObject(eventMap, emit(eventMap)); };
 //# sourceMappingURL=emit.js.map
