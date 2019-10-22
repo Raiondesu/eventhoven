@@ -1,12 +1,26 @@
 {
-  "name": "fp-event-manager",
+  "name": "eventhoven",
   "version": "0.0.0",
   "sideEffects": false,
-  "description": "A functional event manager with both global and local event pools",
-  "main": "index.ts",
-  "dependencies": {
-    "tslib": "^1.10.0"
-  },
+  "description": "Compose strongly-typed events effortlessly 🎵",
+  "main": "dist/js",
+  "module": "dist/es",
+  "keywords": [
+    "events",
+    "event-manager",
+    "compose",
+    "functional",
+    "pure",
+    "side-effect-free",
+    "tree-shakeable",
+    "emitter",
+    "event",
+    "event manager",
+    "typings",
+    "TypeScript",
+    "TS"
+  ],
+  "dependencies": {},
   "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
     "@types/jest": "^24.0.18",
@@ -14,10 +28,13 @@
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.7.0-beta"
+    "typescript": "^3.8.0-dev.20191022"
   },
   "scripts": {
-    "test": "test"
+    "test": "jest",
+    "build:js": "tsc --outDir dist/js -t ES5",
+    "build:es": "tsc --outDir dist/es",
+    "build": "npm run build:js && npm run build:es"
   },
   "repository": {
     "type": "git",
