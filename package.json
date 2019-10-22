@@ -1,6 +1,7 @@
 {
   "name": "fp-event-manager",
   "version": "0.0.0",
+  "sideEffects": false,
   "description": "A functional event manager with both global and local event pools",
   "main": "index.ts",
   "dependencies": {
