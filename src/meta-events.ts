@@ -1,19 +1,23 @@
-import { eventMap, TEventMap, TEventHandler } from './events';
-import { emitCollection } from './emit';
+import { eventMap, TEventMap, TEventHandler, THandlerMap } from './events';
+import { emit } from './emit';
+import { reduceEvents } from './util';
 
-export type TMetaHandlerMap = {
-  subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler): void;
-  unsubscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler): void;
-  emit(eventMap: TEventMap, eventName: keyof TEventMap, args: any[]): void;
-};
+export const metaEvents = eventMap({
+  subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},
+  unsubscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},
+  emit(eventMap: TEventMap, eventName: keyof TEventMap, args: any[]) {},
+});
 
-export const metaEventMap = eventMap<TMetaHandlerMap>(
-  // We have to, unfortunately, duplicate keys from the TMetaHandlerMap type
-  // due to the absence of runtime types in TS
-  'subscribe',
-  'unsubscribe'
-);
+export type TMetaEvents = typeof metaEvents;
 
-export type TMetaEventMap = typeof metaEventMap;
+const emitMeta = emit(metaEvents);
 
-export const meta = emitCollection<TMetaEventMap, TMetaHandlerMap>(metaEventMap);
+export const meta = reduceEvents(metaEvents, (eventName) => {
+  const emitEvent = emitMeta(eventName);
+
+  return (...args: Parameters<typeof emitEvent>) => {
+    if (args[0] !== metaEvents) {
+      emitEvent(...args);
+    }
+  }
+}) as THandlerMap<TMetaEvents>;
