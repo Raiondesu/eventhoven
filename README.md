@@ -100,16 +100,16 @@ const todoEvents = eventMap({
   'text-change'(todo: Todo, newText: string) {},
 });
 
-const onTodoEvent = on(todoEvents);
-const onAddTodo = onTodoEvent('todo-added');
-const unsubFromAddTodo = onAddTodo((todo, todos) => todos.push(todo));
-
-const emitTodoEvent = emit(todoEvents);
-const addTodo = emitTodoEvent('todo-added');
+const unsubFromAddTodo = on(todoEvents)('todo-added')(
+  (todo, todos) => todos.push(todo)
+);
 
 // `addingTodos` is a promise that resolves
 // when all event subscribers are done executing
-const addingTodos = addTodo({ done: false, text: 'new todo' }, todos);
+const addingTodos = emit(todoEvents)('todo-added')(
+  { done: false, text: 'new todo' },
+  todos
+);
 // Now, `todos` contains the new todo
 ```
 
