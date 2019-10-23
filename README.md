@@ -190,6 +190,7 @@ name | type | description
 > Creates an event-map from event signatures
 
 **Parameters**:
+
 name | type | description
 -----|------|---------------
 `events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L25) | a collection of event signatures
