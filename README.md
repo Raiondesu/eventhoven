@@ -15,8 +15,9 @@ In other words, it manages event managers!
 A main list of features includes (but not limited to):
 - Full tree-shaking
 - Functional-style API
+- Multiple event arguments
 - Versatile plugin system (using [meta-events](#meta-events))
-- Fully type-safe - each event remembers its type signature
+- Fully type-safe - each event map remembers its event names and type signature (no need for hacky enums)
 - All functions a curried - makes it easier to use in functionally-structured projects
 - **SOLID**
   - **S**RP - every function does only one thing
@@ -86,6 +87,8 @@ import { eventMap, emit, on, off } from 'eventhoven';
 
 type Todo = { done: boolean; text: string; };
 
+const todos: Todo[] = [];
+
 // Event map declaration
 const todoEvents = eventMap({
   // key - event name,
@@ -97,8 +100,17 @@ const todoEvents = eventMap({
   'text-change'(todo: Todo, newText: string) {},
 });
 
+const onTodoEvent = on(todoEvents);
+const onAddTodo = onTodoEvent('todo-added');
+const unsubFromAddTodo = onAddTodo((todo, todos) => todos.push(todo));
+
 const emitTodoEvent = emit(todoEvents);
 const addTodo = emitTodoEvent('todo-added');
+
+// `addingTodos` is a promise that resolves
+// when all event subscribers are done executing
+const addingTodos = addTodo({ done: false, text: 'new todo' }, todos);
+// Now, `todos` contains the new todo
 ```
 
 ## API
