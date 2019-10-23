@@ -1,7 +1,9 @@
-import { meta } from './meta-events';
-import { doForAll } from './util';
-export var unsubscribe = function (eventMap, m) {
-    if (m === void 0) { m = meta; }
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var meta_events_1 = require("./meta-events");
+var util_1 = require("./util");
+exports.unsubscribe = function (eventMap, m) {
+    if (m === void 0) { m = meta_events_1.meta; }
     return function (event) { return function () {
         var handlers = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -15,7 +17,7 @@ export var unsubscribe = function (eventMap, m) {
         });
     }; };
 };
-export var off = unsubscribe;
-export var unsubscribeFromAll = doForAll(unsubscribe);
-export var offAll = unsubscribeFromAll;
+exports.off = exports.unsubscribe;
+exports.unsubscribeFromAll = util_1.doForAll(exports.unsubscribe);
+exports.offAll = exports.unsubscribeFromAll;
 //# sourceMappingURL=unsubscribe.js.map
