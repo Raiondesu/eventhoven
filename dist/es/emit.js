@@ -21,7 +21,7 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
  */
 (...args) => {
     const { arity, handlers } = eventMap[event];
-    const slicedArgs = arity > 0 ? args.slice(arity) : args;
+    const slicedArgs = arity > 0 ? args.slice(0, arity) : args;
     const results = [
         // Emit meta-event
         metaEmit('emit')(eventMap, event, slicedArgs)
