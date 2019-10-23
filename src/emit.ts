@@ -33,17 +33,20 @@ export const emit = <M extends TEventMap>(
     m.emit(eventMap, event, slicedArgs)
   ];
 
-  handlers.forEach((once, handler) => {
-    results.push(
-      Promise.resolve(
-        handler(...slicedArgs)
-      )
-    );
+  // Mandates non-blocking flow
+  return new Promise(resolve => setTimeout(() => {
+    handlers.forEach((once, handler) => {
+      results.push(
+        Promise.resolve(
+          handler(...slicedArgs)
+        )
+      );
 
-    once && handlers.delete(handler);
-  });
+      once && handlers.delete(handler);
+    });
 
-  return Promise.all(results).then(_ => void 0);
+    resolve(Promise.all(results).then(_ => void 0));
+  }, 0));
 };
 
 /**

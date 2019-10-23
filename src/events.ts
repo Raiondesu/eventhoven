@@ -38,5 +38,5 @@ export const eventMap = <Events extends TEventOptions>(
   (key, obj) => ({
     arity: obj[key].length,
     handlers: new Map([[obj[key], false]]),
-  })
+  }),
 );
