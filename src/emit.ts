@@ -26,7 +26,7 @@ export const emit = <M extends TEventMap>(
  */
 (...args: Parameters<THandlerOf<M, E>>): Promise<void> => {
   const { arity, handlers } = eventMap[event];
-  const slicedArgs = arity > 0 ? args.slice(arity) : args;
+  const slicedArgs = arity > 0 ? args.slice(0, arity) : args;
 
   const results: Promise<void>[] = [
     // Emit meta-event
