@@ -22,8 +22,8 @@ export type THandlerOf<
     ? H
     : TEventHandler;
 
-export type TEventSignatures = {
-  [name in PropertyKey]: TEventHandler;
+export type TEventSignatures<Events extends PropertyKey = PropertyKey> = {
+  [name in Events]: TEventHandler;
 }
 
 /**
