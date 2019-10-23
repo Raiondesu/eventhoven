@@ -166,12 +166,12 @@
         "signature": "89f95a5524e564e28e4915473d7fe13e09833ad17c63658486e2d981411d4aaa"
       },
       "../src/unsubscribe.ts": {
-        "version": "5c871f225be09ef1041717fa1d7ab2b5edeab4efbe0fcb079f7883b080803536",
+        "version": "73746e08fe4568c5b923cb224b48444560ffde579e149195c704e5b72b9ea495",
         "signature": "ee6bb608a5f872f0437217e679bce82dc383ff21b9936a5b6fe5826c35f86b56"
       },
       "../src/subscribe.ts": {
-        "version": "9695214024b467b32c5e760034ff1f0af8c547d547583c817f4b5ffa4d1e0ef2",
-        "signature": "013fbddc9d1939f566f51aa4fd9f7df222027c72efa537740970b11ba012f844"
+        "version": "2306f1f040c20d4582d9a33dd6a8337199e472a695595c54f51d05c1480b3a8b",
+        "signature": "1ae1bc349fc79ef24472c3557c863a8092eadd299629b25100aa4d594a0622e8"
       },
       "../src/collections.ts": {
         "version": "553376b77e6757d692d80832dc41ded3d36a5695f189a3b0375a74b6c17425e1",
