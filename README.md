@@ -18,7 +18,8 @@ A main list of features includes (but not limited to):
 - Multiple event arguments
 - Versatile plugin system (using [meta-events](#meta-events))
 - Fully type-safe - each event map remembers its event names and type signature (no need for hacky enums)
-- All functions a curried - makes it easier to use in functionally-structured projects
+- All functions are curried, which makes them easier to use in functional environment
+  (for example, with [`ramda`](github.com/ramda/ramda) and similar tools)
 - **SOLID**
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
@@ -29,7 +30,7 @@ A main list of features includes (but not limited to):
 - Code-generation-friendly:\
   Due to the SRP, all functions have a very limited number of ways of invocation.\
   This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
-- **DRY** and **KISS**
+- **KISS** and **DRY** ([kinda](https://github.com/raiondesu-experiments/eventhoven/blob/f22bef199e0a053bd62f4c28761c1519f6166a7c/src/collections.ts#L21))
 
 ## Disclaimer
 
@@ -135,7 +136,7 @@ name | type | description
 [`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event map
 [`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#metaevents) | `object` | A meta-event map. Can be used to subscribe to the internal eventhoven's events
-[`meta`](#meta) | `object` | A meta-event emitters collection. An [`emitCollection`](#emitcollection) created for [`metaEvents`](#metaevents)
+[`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emit) function created for [`metaEvents`](#metaevents)
 
 
 ⚠ More coming soon ⚠

@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf } from './events.js';
-import { meta, TMetaEmitters } from './meta-events.js';
+import { emitMeta, TMetaEmit } from './meta-events.js';
 import { doForAll } from './util.js';
 
 export type TUnsubscribe<From> = () => (
@@ -18,7 +18,7 @@ type TUnsubscribeHandlers<M extends TEventMap, From extends keyof M> = (
 
 export const unsubscribe = <M extends TEventMap>(
   eventMap: M,
-  m: TMetaEmitters = meta,
+  m: TMetaEmit = emitMeta,
 ) => <E extends keyof M>(
   event: E
 ): TUnsubscribeHandlers<M, E> => (
@@ -27,14 +27,14 @@ export const unsubscribe = <M extends TEventMap>(
   handlers.length > 0 ? (
     handlers.forEach(h => (
       // Emit meta-event (ignore promise)
-      m.unsubscribe(eventMap, event, h),
+      m('unsubscribe')(eventMap, event, h),
 
       eventMap[event].handlers.delete(h)
     ))
   ) : (
     eventMap[event].handlers.forEach((_, h) => (
       // Emit meta-event (ignore promise)
-      m.unsubscribe(eventMap, event, h)
+      m('unsubscribe')(eventMap, event, h)
     )),
     eventMap[event].handlers.clear()
   )

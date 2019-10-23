@@ -1,6 +1,6 @@
 import { TEventMap, THandlerOf } from './events.js';
 import { unsubscribe, TUnsubscribe } from './unsubscribe.js';
-import { meta, TMetaEmitters } from './meta-events.js';
+import { emitMeta, TMetaEmit } from './meta-events.js';
 import { doForAll } from './util.js';
 
 export interface ISubscribeOptions<M extends TEventMap, N extends keyof M> {
@@ -15,7 +15,7 @@ export type TSubscriber<M extends TEventMap, N extends keyof M> = {
 
 export type TSubscriberContext = {
   unsubscribe: typeof unsubscribe;
-  meta: TMetaEmitters;
+  meta: TMetaEmit;
 }
 
 /**
@@ -32,7 +32,7 @@ export function subscribe<M extends TEventMap>(
     unsubscribe: unsub
   }: TSubscriberContext = {
     unsubscribe,
-    meta
+    meta: emitMeta
   }
 ): {
   <E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
@@ -48,7 +48,7 @@ export function subscribe<M extends TEventMap>(
     return (...handlers: Array<THandlerOf<M>>) => {
       handlers.forEach(handler => {
         // Emit meta-event (ignore promise)
-        m.subscribe(eventMap, event, handler);
+        m('subscribe')(eventMap, event, handler);
 
         eventMap[event].handlers.set(handler, once);
       });

@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf } from './events.js';
-import { meta, TMetaEmitters } from './meta-events.js';
+import { emitMeta, TMetaEmit } from './meta-events.js';
 import { doForAll, TDoAction, mapObject } from './util.js';
 
 /**
@@ -11,7 +11,7 @@ import { doForAll, TDoAction, mapObject } from './util.js';
  */
 export const emit = <M extends TEventMap>(
   eventMap: M,
-  m: TMetaEmitters = meta
+  metaEmit: TMetaEmit = emitMeta
 ) =>
 /**
  * Emitter factory for a specific event collection
@@ -30,7 +30,7 @@ export const emit = <M extends TEventMap>(
 
   const results: Promise<void>[] = [
     // Emit meta-event
-    m.emit(eventMap, event, slicedArgs)
+    metaEmit('emit')(eventMap, event, slicedArgs)
   ];
 
   // Mandates non-blocking flow

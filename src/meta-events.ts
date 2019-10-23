@@ -1,7 +1,5 @@
-import { eventMap, TEventMap, TEventHandler } from './events.js';
+import { eventMap, TEventMap, TEventHandler, THandlerOf } from './events.js';
 import { emit } from './emit.js';
-import { mapObject } from './util.js';
-import { THandlerMap } from './collections.js';
 
 export const metaEvents = eventMap({
   subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},
@@ -10,18 +8,14 @@ export const metaEvents = eventMap({
 });
 
 export type TMetaEvents = typeof metaEvents;
-export type TMetaEmitters = THandlerMap<TMetaEvents>;
+export type TMetaEmit = typeof emitMeta;
 
-const emitMeta = emit(metaEvents);
+export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
+  ...args: Parameters<THandlerOf<TMetaEvents, E>>
+) => new Promise<void>(resolve => {
+  if (args[0] === metaEvents) {
+    return resolve();
+  }
 
-export const meta = mapObject(metaEvents, (eventName) => {
-  const emitEvent = emitMeta(eventName);
-
-  return (...args: Parameters<typeof emitEvent>) => new Promise<void>(_ => {
-    if (args[0] === metaEvents) {
-      return _();
-    }
-
-    return _(emitEvent(...args));
-  });
-}) as TMetaEmitters;
+  resolve(emit(metaEvents)(event)(...args));
+});

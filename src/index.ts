@@ -6,6 +6,6 @@ export * from './unsubscribe.js';
 export * from './collections.js';
 
 export {
-  meta,
+  emitMeta,
   metaEvents
 } from './meta-events.js';
