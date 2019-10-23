@@ -6,6 +6,24 @@
 [![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/vue-simple-suggest "Downloads per month, but who cares?")
 [![size](https://img.shields.io/bundlephobia/minzip/eventhoven@next?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@next "minzipped size")
 
+## Table of Contents
+- [eventhoven](#eventhoven)
+  - [Table of Contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Disclaimer](#disclaimer)
+    - [TypeScript](#typescript)
+    - [Curriyng](#curriyng)
+    - [External state >>> Internal state](#external-state--internal-state)
+    - [OK, but why not %event-manager-package%?](#ok-but-why-not-event-manager-package)
+  - [Installation](#installation)
+    - [Importing](#importing)
+    - [Simple usage examples](#simple-usage-examples)
+  - [API](#api)
+    - [`eventMap`](#eventmap)
+    - [`emit`](#emit)
+    - [`subscribe`](#subscribe)
+    - [`unsubscribe`](#unsubscribe)
+
 ## What is this?
 It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
 
@@ -33,23 +51,56 @@ A main list of features includes (but not limited to):
   This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
 - **KISS** and **DRY** ([kinda](https://github.com/raiondesu-experiments/eventhoven/blob/f22bef199e0a053bd62f4c28761c1519f6166a7c/src/collections.ts#L21))
 
+---
+
 ## Disclaimer
+> and some ground principles
 
-`eventhoven`'s main concern is type-safety at every step, so all the code examples will be written in [typescript](https://www.typescriptlang.org).
+### TypeScript
 
-## Table of Contents
+`eventhoven`'s main concern is type-safety at every step,
+so all the code examples will be written in [typescript](https://www.typescriptlang.org).
 
-- [eventhoven](#eventhoven)
-  - [What is this?](#what-is-this)
-  - [Disclaimer](#disclaimer)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-    - [Importing](#importing)
-    - [Simple usage examples](#simple-usage-examples)
-  - [API](#api)
-    - [`eventMap`](#eventmap)
-    - [`emit`](#emit)
+It was written in a "type-first, implementation-later" way,
+and will be kept that way to ensure that runtime types always match the static ones.
 
+### Curriyng
+
+"Why curry functions?" you may ask. Great question! It has many answers on the web already, but I'd recommend reading [this](https://medium.com/@iquardt/currying-the-underestimated-concept-in-javascript-c95d9a823fc6) and [this](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch04.html).
+
+`eventhoven` uses the concept of currying to elevate the abstraction
+and allow for a much wider and precise usage of it's API in return for sometimes writing `)(` instead of usual `, `,
+which is not too much of a price to pay for this feature.
+
+It also allows `eventhoven` to be used effortlessly with other functional libraries like [`ramda`](https://github.com/ramda/ramda) and many others.
+
+Not all `eventhoven` function are curried. These, which are, however, will have the following disclaimer:
+
+> Note, that the function is [curried](#curriyng), which means that it must be called partially
+
+### External state >>> Internal state
+
+`eventhoven` doesn't store anything internally, it's a completely stateless, pure and side-effect-free library.\
+It only has side-effects from closures on an *external* state that a user provides.\
+So, there it is - no private fields, no hidden implementation details, no complications.\
+This allows for easier testing *and* simpler usage.
+
+Thanks to this rule, `eventhoven` is a higher abstraction above other event-managers. A Higher-Order-Event-Manager, if you like.\
+That is, any other event manager's API can be built on top of what `eventhoven` gives you, providing a nearly endless set of possibilities.
+
+### OK, but why not %event-manager-package%?
+
+`eventhoven` is not in direct comparison to other event managers.
+As stated in the main description - its main purpose is to **compose** events and event managers.
+
+In production, it's a fairly typical scenario that multiple libraries
+with multiple event systems exist and function in the same project at the same time.\
+Front-end libraries do that all the time - `vue`, `react`, `angular` - all have own separate event systems - even from the DOM!
+`eventhoven` aims to provide a connecting bridge for different event managing strategies,
+by **providing instruments** for unifying the event management API.\
+In other words, it allows to **unify** event management.
+
+---
 
 ## Installation
 
@@ -93,7 +144,12 @@ const { emit, on, off } = require('eventhoven/dist/js');
 // Essential imports
 import { eventMap, emit, on, off } from 'eventhoven';
 
+// Event-map declaration
 const emojiEvents = eventMap({
+  // key - event name,
+  // function arguments - event arguments,
+  // function body - default handler for the event
+  // (leave emtpy if you need to just declare the event)
   '👩'(emoji: '👨' | '👩') {},
   '🌈'(emoji: '🦄' | '🌧') {},
   '🎌':(emoji: '👘' | '🍣' | '🚗', amount: number) {},
@@ -140,7 +196,10 @@ const todoEvents = eventMap({
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  'todo-added'(newTodo: Todo, todos: Todo[]) {},
+  'todo-added'(newTodo: Todo, todos: Todo[]) {
+    // typically, a default handler is used
+    // to compose events from other event managers here
+  },
   'done-change'(todo: Todo, newDone: boolean) {},
   'text-change'(todo: Todo, newText: string) {},
 });
@@ -281,12 +340,42 @@ name | type | description
 
 **Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
 
-> ⚠ **DISCLAIMER** ⚠
->
-> Note, that the function is curried, which means that it should be called partially, like this:\
-> ```emit(eventMap)(event)(...args)```\
-> and **not** like this:\
-> ```emit(eventMap, event, ...args)```
+> Note, that the function is [curried](#curriyng), which means that it must be called partially
 
+### `subscribe`
+
+> Creates event subscribers for an event-map
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe events from.
+`event` | `PropertyKey` | An event name to subscribe to for a given event-map (can be a symbol too).
+`...handlers` | `function[]` | Handlers to execute on the event, spread. If emtpy, no subscribing is done.
+
+**Returns**: `() => void` - a function that unsubscribes the handler from the event
+
+**Alias**: `on`
+
+> Note, that the function is [curried](#curriyng), which means that it must be called partially
+
+### `unsubscribe`
+
+> Unsubscribes handlers from events of an event-map
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe handlers from.
+`event` | `PropertyKey` | An event name to unsub from for a given event-map (can be a symbol too).
+`...handlers` | `function[]` | Handlers to unsubscribe from the event, spread. If empty - all currently subbed handlers will be unsubscribed.
+
+**Returns**: `void`
+
+**Alias**: `off`
+
+> Note, that the function is [curried](#curriyng), which means that it must be called partially
 
 ⚠ More coming soon ⚠
