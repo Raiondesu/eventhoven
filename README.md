@@ -53,7 +53,7 @@ A main list of features includes (but not limited to):
 npm i -S eventhoven
 ```
 
-**module**: see [usage](#usage)
+**module**: see [usage](#simple-usage-example)
 
 Currently, only installation through [`npm`](https://www.npmjs.com/package/eventhoven) or `script[type=module]` is supported.\
 No single-file bundles just yet.
