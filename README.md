@@ -129,7 +129,6 @@ name | type | description
 [`unsubscribeFromAll`](#unsubscribefromall) | `function` | Event unsubscriber factory
 [`off`](#unsubscribe) | `function` | Alias for [`unsubscribe`](#unsubscribe)
 [`offAll`](#unsubscribefromall) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromall)
-[`offAll`](#unsubscribefromall) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromall)
 [`emitCollection`](#emitcollection) | `function` | Creates a collection of event-emitters from an event map
 [`subscribeCollection`](#subscribecollection) | `function` | Creates a collection of event-subscribers from an event map
 [`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event map
