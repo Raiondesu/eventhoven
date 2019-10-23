@@ -7,7 +7,7 @@
 [![size](https://img.shields.io/bundlephobia/minzip/eventhoven@next?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@next "minzipped size")
 
 ## What is this?
-It's a simple type-safe event manager library, less than 1KB (gzipped).
+It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -26,99 +26,69 @@ A main list of features includes (but not limited to):
   - **D**IP - API depends only on abstractions
 - **DRY** and **KISS**
 
-## API
+## Table of Contents
 
-### TLDR
+- [eventhoven](#eventhoven)
+  - [What is this?](#what-is-this)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Importing](#importing)
+  - [API](#api)
 
-<details><summary>Click to expand</summary>
 
-```ts
-import {
-  eventMap,
-  emit,
-  subscribe,
-  unsubscribe,
-  emitCollection
-} from 'eventhoven';
+## Installation
 
-// Create event map
-const domEvents = eventMap({
-  // key - event name,
-  // function arguments - event arguments,
-  // function body - default handler for the event
-  // (leave emtpy if you need to just declare the event)
-  keyup(e: KeyboardEvent) {
-    // In this example, the handler dispatches the events
-    window.dispatchEvent(e);
-  },
-  keydown(e: KeyboardEvent) { window.dispatchEvent(e); },
-  click(e: MouseEvent) { window.dispatchEvent(e); },
-  // ..some other events
-});
-
-// Create an event emitter collection
-const dom = emitCollection(domEvents);
-
-// Emits the `click` event from `domEvents`
-dom.click(
-  // Typed arguments here
-  new MouseEvent('click')
-);
-
-dom.click(
-  // TS error here
-  new KeyboardEvent('enter')
-);
-
-// A shorthand for a single emitter
-const emitDom = emit(domEvents);
-
-const emitKeyup = emitDom(
-  // Autocomplete on events here
-  'keyup'
-);
-
-// Type-safe keyup emit
-emitKeyup(new KeyboardEvent('enter'));
-
-// Subscribe and unsubscribe work the same way:
-const clickHandler = (e) => console.log('clicked something!', e);
-
-const onDomEvent = subscribe(domEvents);
-
-const onDomClick = onDomEvent('click');
-const unsubFromDomClick = onDomClick(clickHandler);
-
-dom.click(new MouseEvent('click'));
-// `clickHandler` is invoked here
-
-const offDomEvent = unsubsccribe(domEvents);
-const offDomClick = offDomEvent('click');
-
-offDomClick(clickHandler); // unsubscribed `clickHandler` from the event
-
-// `subscribe` and `unsubscribe` have shorthands:
-import { on, off } from 'eventhoven';
-
-// Meta-events are events that are emitted on internal eventhoven actions
-import { metaEvents, meta } from 'eventhoven';
-
-on(metaEvents)('subscribe')((eventMap, eventName, handler) => console.log(
-  `somebody subscribed to ${eventName} with ${handler}`
-));
-
-// "simulate" subscribtion to an event using a meta-event `subscribe`
-meta.subscribe(dom, 'click', console.log);
-// => somebody subscribed to click with console.log
-
-// Meta-events can be used for plugins, like the `debug` plugin:
-import { debug } from 'eventhoven';
-
-debug(true);
-// Now all emits, subs and unsubs are logged to the console!
-
-debug(false);
-// Now they aren't
+**npm**:
+```bash
+npm i -S eventhoven
 ```
 
-</details>
+**module**: see [usage](#usage)
+
+Currently, only installation through [`npm`](https://www.npmjs.com/package/eventhoven) or `script[type=module]` is supported.\
+No single-file bundles just yet.
+
+### Importing
+
+```ts
+// TS-module (pure typescript),
+// allows compilation settings to be set from the project config
+import { emit, on, off } from 'eventhoven/src';
+
+// ES-module (node, typescript)
+import { emit, on, off } from 'eventhoven';
+
+// ES-module (browser)
+import { emit, on, off } from 'https://unpkg.com/eventhoven/dist/es';
+
+// Classic node commonjs
+const { emit, on, off } = require('eventhoven/dist/js');
+```
+
+## API
+
+General exports are the following:
+
+name | type | description
+-----|------|--------------------
+[`eventMap`](#eventmap) | `function` | Event map factory
+[`emit`](#emit) | `function` | Event emitter factory
+[`subscribe`](#subscribe) | `function` | Event subscriber factory
+[`subscribeToAll`](#subscribetoall) | `function` | Event subscriber factory for all events in a collection
+[`on`](#subscribe) | `function` | Alias for [`subscribe`](#subscribe)
+[`onAll`](#subscribetoall) | `function` | Alias for [`subscribeAll`](#subscribetoall)
+[`unsubscribe`](#unsubscribe) | `function` | Event unsubscriber factory
+[`unsubscribeFromAll`](#unsubscribefromall) | `function` | Event unsubscriber factory
+[`off`](#unsubscribe) | `function` | Alias for [`unsubscribe`](#unsubscribe)
+[`offAll`](#unsubscribefromall) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromall)
+[`offAll`](#unsubscribefromall) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromall)
+[`emitCollection`](#emitcollection) | `function` | Creates a collection of event-emitters from an event map
+[`subscribeCollection`](#subscribecollection) | `function` | Creates a collection of event-subscribers from an event map
+[`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event map
+[`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event map
+[`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
+[`metaEvents`](#metaevents) | `object` | A meta-event map. Can be used to subscribe to the internal eventhoven's events
+[`meta`](#meta) | `object` | A meta-event emitters collection. An [`emitCollection`](#emitcollection) created for [`metaEvents`](#metaevents)
+
+
+⚠ More coming soon ⚠
