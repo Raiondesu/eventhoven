@@ -275,7 +275,7 @@ emit(inputEvents)('mouse-click')
 name | type | description
 -----|------|---------------
 `eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to emit events from
-`event` | `string | number | symbol` | An event name to emit for a given event-map
+`event` | `PropertyKey` | An event name to emit for a given event-map
 `...args` | `any` | Arguments for the specific event, spread
 
 **Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
