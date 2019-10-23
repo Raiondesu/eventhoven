@@ -3,7 +3,8 @@
 > Compose events effortlessly 🎵
 
 [![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page")
-[![npm](https://img.shields.io/npm/dt/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/vue-simple-suggest "Downloads per month, but who cares?")
+[![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/vue-simple-suggest "Downloads per month, but who cares?")
+[![size](https://img.shields.io/bundlephobia/minzip/eventhoven?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@next "minzipped size")
 
 ## What is this?
 It's a simple type-safe event manager library, less than 1KB (gzipped).
