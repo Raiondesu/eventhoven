@@ -4,7 +4,7 @@
 
 [![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page")
 [![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/vue-simple-suggest "Downloads per month, but who cares?")
-[![size](https://img.shields.io/bundlephobia/minzip/eventhoven@next?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@next "minzipped size")
+[![size](https://img.shields.io/bundlephobia/minzip/eventhoven?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@next "minzipped size")
 
 ## Table of Contents
 - [eventhoven](#eventhoven)
