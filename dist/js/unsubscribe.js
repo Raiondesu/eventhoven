@@ -9,12 +9,15 @@ exports.unsubscribe = function (eventMap, m) {
         for (var _i = 0; _i < arguments.length; _i++) {
             handlers[_i] = arguments[_i];
         }
-        return handlers.forEach(function (_) {
+        return (handlers.length > 0 ? (handlers.forEach(function (h) {
             var _a;
             return (
             // Emit meta-event (ignore promise)
-            m.unsubscribe(eventMap, event, _), (_a = eventMap[event]) === null || _a === void 0 ? void 0 : _a.handlers.delete(_));
-        });
+            m.unsubscribe(eventMap, event, h), (_a = eventMap[event]) === null || _a === void 0 ? void 0 : _a.handlers.delete(h));
+        })) : (eventMap[event].handlers.forEach(function (_, h) { return (
+        // Emit meta-event (ignore promise)
+        m.unsubscribe(eventMap, event, h)); }),
+            eventMap[event].handlers.clear()));
     }; };
 };
 exports.off = exports.unsubscribe;

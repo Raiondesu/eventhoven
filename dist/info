@@ -154,7 +154,7 @@
         "signature": "348733042646c29bdfaf4fb867579160efee8f49f7ff4853fcaeac5e802c649d"
       },
       "../src/events.ts": {
-        "version": "da613b654750f354715797e7634c8a5db305e469810ed6ec2d610936e8d93e0c",
+        "version": "bf957b6b7e6d7d033e55a3f6ccbf2a84c0f9a7128f9aa3c07083b8f3b698fc2c",
         "signature": "5e95ce05deecf4f5a63896feb946a649a93d95ac4ad1a4407fa94e9dc23feed4"
       },
       "../src/meta-events.ts": {
@@ -162,11 +162,11 @@
         "signature": "d21a44f939d1b076a489f765bc04cf9f7056880a141e4278805720beb4d737bb"
       },
       "../src/emit.ts": {
-        "version": "da545bb3bbea3b1fa20b89113c277e0919f87bbf6aa5c0283c035083e08d9c4e",
+        "version": "a58d22acead8e8ffe4fe3d4896ecb94897f20a455737092d8ad944182bc8ddc9",
         "signature": "89f95a5524e564e28e4915473d7fe13e09833ad17c63658486e2d981411d4aaa"
       },
       "../src/unsubscribe.ts": {
-        "version": "4eccffb69b5f5bd57d8e346e0c0429646bf4bfdfb03406817ed95c550b6d0fe5",
+        "version": "5c871f225be09ef1041717fa1d7ab2b5edeab4efbe0fcb079f7883b080803536",
         "signature": "ee6bb608a5f872f0437217e679bce82dc383ff21b9936a5b6fe5826c35f86b56"
       },
       "../src/subscribe.ts": {

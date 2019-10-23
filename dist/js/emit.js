@@ -34,11 +34,14 @@ exports.emit = function (eventMap, m) {
                 // Emit meta-event
                 m.emit(eventMap, event, slicedArgs)
             ];
-            handlers.forEach(function (once, handler) {
-                results.push(Promise.resolve(handler.apply(void 0, tslib_1.__spread(slicedArgs))));
-                once && handlers.delete(handler);
-            });
-            return Promise.all(results).then(function (_) { return void 0; });
+            // Mandates non-blocking flow
+            return new Promise(function (resolve) { return setTimeout(function () {
+                handlers.forEach(function (once, handler) {
+                    results.push(Promise.resolve(handler.apply(void 0, tslib_1.__spread(slicedArgs))));
+                    once && handlers.delete(handler);
+                });
+                resolve(Promise.all(results).then(function (_) { return void 0; }));
+            }, 0); });
         };
     };
 };

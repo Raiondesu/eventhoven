@@ -24,14 +24,14 @@ export const unsubscribe = <M extends TEventMap>(
 ): TUnsubscribeHandlers<M, E> => (
   ...handlers
 ) => (
-  handlers.length > 0
-  ? handlers.forEach(h => (
-    // Emit meta-event (ignore promise)
-    m.unsubscribe(eventMap, event, h),
+  handlers.length > 0 ? (
+    handlers.forEach(h => (
+      // Emit meta-event (ignore promise)
+      m.unsubscribe(eventMap, event, h),
 
-    eventMap[event]?.handlers.delete(h)
-  ))
-  : (
+      eventMap[event]?.handlers.delete(h)
+    ))
+  ) : (
     eventMap[event].handlers.forEach((_, h) => (
       // Emit meta-event (ignore promise)
       m.unsubscribe(eventMap, event, h)

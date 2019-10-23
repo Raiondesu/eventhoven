@@ -26,11 +26,14 @@ export const emit = (eventMap, m = meta) =>
         // Emit meta-event
         m.emit(eventMap, event, slicedArgs)
     ];
-    handlers.forEach((once, handler) => {
-        results.push(Promise.resolve(handler(...slicedArgs)));
-        once && handlers.delete(handler);
-    });
-    return Promise.all(results).then(_ => void 0);
+    // Mandates non-blocking flow
+    return new Promise(resolve => setTimeout(() => {
+        handlers.forEach((once, handler) => {
+            results.push(Promise.resolve(handler(...slicedArgs)));
+            once && handlers.delete(handler);
+        });
+        resolve(Promise.all(results).then(_ => void 0));
+    }, 0));
 };
 /**
  * Emit all events for a given event collection
