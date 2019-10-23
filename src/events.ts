@@ -5,7 +5,7 @@ type TEventHandlerData<Event extends TEventHandler> = {
   handlers: Map<Event, boolean>;
 };
 
-export type TEventMap<Events extends TEventOptions = TEventOptions> = {
+export type TEventMap<Events extends TEventSignatures = TEventSignatures> = {
   readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
 };
 
@@ -22,7 +22,7 @@ export type THandlerOf<
     ? H
     : TEventHandler;
 
-export type TEventOptions = {
+export type TEventSignatures = {
   [name in PropertyKey]: TEventHandler;
 }
 
@@ -31,7 +31,7 @@ export type TEventOptions = {
  *
  * @param events - an object with default handlers for events
  */
-export const eventMap = <Events extends TEventOptions>(
+export const eventMap = <Events extends TEventSignatures>(
   events: Events
 ): TEventMap<Events> => mapObject(
   events,
