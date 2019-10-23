@@ -158,20 +158,20 @@
         "signature": "5e95ce05deecf4f5a63896feb946a649a93d95ac4ad1a4407fa94e9dc23feed4"
       },
       "../src/meta-events.ts": {
-        "version": "2d188af8054b0dfcbdc3b387fdcda774e7cf093e4c03b475724c4c92f78f6809",
-        "signature": "d21a44f939d1b076a489f765bc04cf9f7056880a141e4278805720beb4d737bb"
+        "version": "9893a9761ab7df415f2a94ae653a8be5766eeaaa7311d1817658a7d14dbb27a0",
+        "signature": "d54fbb9d5b1506277f7810af3cba91bb5863f777c60e40e9769cb73cc3901000"
       },
       "../src/emit.ts": {
-        "version": "a58d22acead8e8ffe4fe3d4896ecb94897f20a455737092d8ad944182bc8ddc9",
-        "signature": "89f95a5524e564e28e4915473d7fe13e09833ad17c63658486e2d981411d4aaa"
+        "version": "9b24f6b9895f87b1d2fec8d54c0f4ddb55ea93b268290ceec423e47dc2ffc228",
+        "signature": "a4d40a6db689a7b656978ae055952dde598a17714c3870d21dfb04b9fd6eaf9f"
       },
       "../src/unsubscribe.ts": {
-        "version": "73746e08fe4568c5b923cb224b48444560ffde579e149195c704e5b72b9ea495",
-        "signature": "ee6bb608a5f872f0437217e679bce82dc383ff21b9936a5b6fe5826c35f86b56"
+        "version": "3a21eb5d429ccfe53bf2f0d92e33f05354f414c7fea2a37ec4120270d197f930",
+        "signature": "d23dde0b94727759a17b68ce548c8e6ab6a5c7943ece15489624f67d08db8464"
       },
       "../src/subscribe.ts": {
-        "version": "2306f1f040c20d4582d9a33dd6a8337199e472a695595c54f51d05c1480b3a8b",
-        "signature": "1ae1bc349fc79ef24472c3557c863a8092eadd299629b25100aa4d594a0622e8"
+        "version": "8de157995db9f280c7e583596683739d7eb041ffa7a256db6f7d2befd55c11c7",
+        "signature": "57cecfb32f744d9abef70887cdb70960edeaf72b2e26b538324ceab76e7e5e56"
       },
       "../src/collections.ts": {
         "version": "553376b77e6757d692d80832dc41ded3d36a5695f189a3b0375a74b6c17425e1",
@@ -182,8 +182,8 @@
         "signature": "6e21d1d849995fd99c269d78fa56f7027cc374e168c01798a5236ac983d6501e"
       },
       "../src/index.ts": {
-        "version": "6527adff0f378bebcdd4e086abf3fec63819dee10987c6133d318a0150840943",
-        "signature": "dc7c3d22bd34c2d9280a93f86f1e2f21ab6fee4582da392674daf12b454edbcb"
+        "version": "68a0bf778f22bf6af37065438e1f0add84c27045b4dd50d7bf74584d2b89c317",
+        "signature": "b0fc00325ed0a0fec70970b00cfab4c10f88709e0d1a1f0416cdc779629ef138"
       },
       "../node_modules/@types/node/globals.d.ts": {
         "version": "4d0e3b8334392a2e0adef9caf867118678fb8f38da90d8003184debd62d30f3b",
@@ -571,8 +571,6 @@
       "../src/meta-events.ts": [
         "../src/events.ts",
         "../src/emit.ts",
-        "../src/util.ts",
-        "../src/collections.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
@@ -1066,16 +1064,13 @@
         "../src/events.ts"
       ],
       "../src/meta-events.ts": [
-        "../src/events.ts",
-        "../src/collections.ts"
+        "../src/events.ts"
       ],
       "../src/emit.ts": [
-        "../src/events.ts",
-        "../src/collections.ts"
+        "../src/events.ts"
       ],
       "../src/unsubscribe.ts": [
-        "../src/events.ts",
-        "../src/collections.ts"
+        "../src/events.ts"
       ],
       "../src/subscribe.ts": [
         "../src/events.ts",

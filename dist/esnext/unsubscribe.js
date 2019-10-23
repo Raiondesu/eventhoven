@@ -1,11 +1,11 @@
-import { meta } from './meta-events.js';
+import { emitMeta } from './meta-events.js';
 import { doForAll } from './util.js';
-export const unsubscribe = (eventMap, m = meta) => (event) => (...handlers) => (handlers.length > 0 ? (handlers.forEach(h => (
+export const unsubscribe = (eventMap, m = emitMeta) => (event) => (...handlers) => (handlers.length > 0 ? (handlers.forEach(h => (
 // Emit meta-event (ignore promise)
-m.unsubscribe(eventMap, event, h),
+m('unsubscribe')(eventMap, event, h),
     eventMap[event].handlers.delete(h)))) : (eventMap[event].handlers.forEach((_, h) => (
 // Emit meta-event (ignore promise)
-m.unsubscribe(eventMap, event, h))),
+m('unsubscribe')(eventMap, event, h))),
     eventMap[event].handlers.clear()));
 export const off = unsubscribe;
 export const unsubscribeFromAll = doForAll(unsubscribe);

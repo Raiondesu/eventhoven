@@ -1,5 +1,5 @@
 import { __read, __spread } from "tslib";
-import { meta } from './meta-events.js';
+import { emitMeta } from './meta-events.js';
 import { doForAll } from './util.js';
 /**
  * Event-emitter factory creator
@@ -8,8 +8,8 @@ import { doForAll } from './util.js';
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export var emit = function (eventMap, m) {
-    if (m === void 0) { m = meta; }
+export var emit = function (eventMap, metaEmit) {
+    if (metaEmit === void 0) { metaEmit = emitMeta; }
     /**
      * Emitter factory for a specific event collection
      *
@@ -30,7 +30,7 @@ export var emit = function (eventMap, m) {
             var slicedArgs = arity > 0 ? args.slice(arity) : args;
             var results = [
                 // Emit meta-event
-                m.emit(eventMap, event, slicedArgs)
+                metaEmit('emit')(eventMap, event, slicedArgs)
             ];
             // Mandates non-blocking flow
             return new Promise(function (resolve) { return setTimeout(function () {

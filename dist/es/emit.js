@@ -1,4 +1,4 @@
-import { meta } from './meta-events.js';
+import { emitMeta } from './meta-events.js';
 import { doForAll } from './util.js';
 /**
  * Event-emitter factory creator
@@ -7,7 +7,7 @@ import { doForAll } from './util.js';
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export const emit = (eventMap, m = meta) => 
+export const emit = (eventMap, metaEmit = emitMeta) => 
 /**
  * Emitter factory for a specific event collection
  *
@@ -24,7 +24,7 @@ export const emit = (eventMap, m = meta) =>
     const slicedArgs = arity > 0 ? args.slice(arity) : args;
     const results = [
         // Emit meta-event
-        m.emit(eventMap, event, slicedArgs)
+        metaEmit('emit')(eventMap, event, slicedArgs)
     ];
     // Mandates non-blocking flow
     return new Promise(resolve => setTimeout(() => {

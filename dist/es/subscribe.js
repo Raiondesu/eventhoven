@@ -1,5 +1,5 @@
 import { unsubscribe } from './unsubscribe.js';
-import { meta } from './meta-events.js';
+import { emitMeta } from './meta-events.js';
 import { doForAll } from './util.js';
 /**
  * A subscriber factory
@@ -11,7 +11,7 @@ import { doForAll } from './util.js';
  */
 export function subscribe(eventMap, { meta: m, unsubscribe: unsub } = {
     unsubscribe,
-    meta
+    meta: emitMeta
 }) {
     return (eventOrOpts, onceArg = true) => {
         const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
@@ -19,7 +19,7 @@ export function subscribe(eventMap, { meta: m, unsubscribe: unsub } = {
         return (...handlers) => {
             handlers.forEach(handler => {
                 // Emit meta-event (ignore promise)
-                m.subscribe(eventMap, event, handler);
+                m('subscribe')(eventMap, event, handler);
                 eventMap[event].handlers.set(handler, once);
             });
             return () => unsub(eventMap)(event)
