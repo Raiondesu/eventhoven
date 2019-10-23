@@ -17,6 +17,7 @@ A main list of features includes (but not limited to):
 - Functional-style API
 - Versatile plugin system (using [meta-events](#meta-events))
 - Fully type-safe - each event remembers its type signature
+- All functions a curried - makes it easier to use in functionally-structured projects
 - **SOLID**
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
@@ -24,15 +25,24 @@ A main list of features includes (but not limited to):
     as long as they adhere to the same API
   - **I**SP - all data types are the least specific versions of them
   - **D**IP - API depends only on abstractions
+- Code-generation-friendly:\
+  Due to the SRP, all functions have a very limited number of ways of invocation.\
+  This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
 - **DRY** and **KISS**
+
+## Disclaimer
+
+`eventhoven`'s main concern is type-safety at every step, so all the code examples will be written in [typescript](https://www.typescriptlang.org).
 
 ## Table of Contents
 
 - [eventhoven](#eventhoven)
   - [What is this?](#what-is-this)
+  - [Disclaimer](#disclaimer)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
     - [Importing](#importing)
+    - [Simple usage example](#simple-usage-example)
   - [API](#api)
 
 
@@ -63,6 +73,29 @@ import { emit, on, off } from 'https://unpkg.com/eventhoven/dist/es';
 
 // Classic node commonjs
 const { emit, on, off } = require('eventhoven/dist/js');
+```
+
+### Simple usage example
+
+```ts
+// Essential imports
+import { eventMap, emit, on, off } from 'eventhoven';
+
+type Todo = { done: boolean; text: string; };
+
+// Event map declaration
+const todoEvents = eventMap({
+  // key - event name,
+  // function arguments - event arguments,
+  // function body - default handler for the event
+  // (leave emtpy if you need to just declare the event)
+  'todo-added'(newTodo: Todo, todos: Todo[]) {},
+  'done-change'(todo: Todo, newDone: boolean) {},
+  'text-change'(todo: Todo, newText: string) {},
+});
+
+const emitTodoEvent = emit(todoEvents);
+const addTodo = emitTodoEvent('todo-added');
 ```
 
 ## API
