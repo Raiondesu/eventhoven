@@ -18,7 +18,7 @@ A main list of features includes (but not limited to):
 - Multiple event arguments
 - Event names can also be symbols (private events)
 - Versatile plugin system (using [meta-events](#meta-events))
-- Fully type-safe - each event map remembers its event names and type signature (no need for hacky enums)
+- Fully type-safe - each event-map remembers its event names and type signature (no need for hacky enums)
 - All functions are curried and point-free, which makes them easier to use in functional environment
   (for example, with [`ramda`](github.com/ramda/ramda) and similar tools)
 - **SOLID**
@@ -134,7 +134,7 @@ type Todo = { done: boolean; text: string; };
 
 const todos: Todo[] = [];
 
-// Event map declaration
+// Event-map declaration
 const todoEvents = eventMap({
   // key - event name,
   // function arguments - event arguments,
@@ -159,13 +159,15 @@ const addingTodos = emit(todoEvents)('todo-added')(
 ```
 </details>
 
+---
+
 ## API
 
 General exports are the following:
 
 name | type | description
 -----|------|--------------------
-[`eventMap`](#eventmap) | `function` | Event map factory
+[`eventMap`](#eventmap) | `function` | Event-map factory
 [`emit`](#emit) | `function` | Event emitter factory
 [`subscribe`](#subscribe) | `function` | Event subscriber factory
 [`subscribeToAll`](#subscribetoall) | `function` | Event subscriber factory for all events in a collection
@@ -175,12 +177,12 @@ name | type | description
 [`unsubscribeFromAll`](#unsubscribefromall) | `function` | Event unsubscriber factory
 [`off`](#unsubscribe) | `function` | Alias for [`unsubscribe`](#unsubscribe)
 [`offAll`](#unsubscribefromall) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromall)
-[`emitCollection`](#emitcollection) | `function` | Creates a collection of event-emitters from an event map
-[`subscribeCollection`](#subscribecollection) | `function` | Creates a collection of event-subscribers from an event map
-[`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event map
-[`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event map
+[`emitCollection`](#emitcollection) | `function` | Creates a collection of event-emitters from an event-map
+[`subscribeCollection`](#subscribecollection) | `function` | Creates a collection of event-subscribers from an event-map
+[`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event-map
+[`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event-map
 [`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
-[`metaEvents`](#metaevents) | `object` | A meta-event map. Can be used to subscribe to the internal eventhoven's events
+[`metaEvents`](#metaevents) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 [`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emit) function created for [`metaEvents`](#metaevents)
 
 
@@ -197,7 +199,7 @@ name | type | description
 This function is the main "entry point" to the whole event management pipeline.
 It constructs a base storage for events and their handlers, which is then used by all of the other functions.
 
-In other words, to start working with events in `eventhoven` you start by creating an event map:
+In other words, to start working with events in `eventhoven` you start by creating an event-map:
 ```ts
 import { eventMap } from 'eventhoven';
 
@@ -226,7 +228,7 @@ const keyboardEvents = {
 
     // Collection of the event handlers
     handlers: new Map([
-      // Notice the default event handler from the event map
+      // Notice the default event handler from the event-map
       (e: KeyboardEvent) => {},
 
       // Do we execute this event handler only once?
@@ -240,7 +242,7 @@ const keyboardEvents = {
   keypress: {
     arity: 2,
     handlers: new Map([
-      // Notice the default event handler from the event map
+      // Notice the default event handler from the event-map
       (e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
       false
     ])
@@ -249,11 +251,26 @@ const keyboardEvents = {
 ```
 </details>
 
+It's also possible to add new events to the event-map at runtime (by creating a new event-map 😁):
+
+```ts
+const inputEvents = {
+  ...keyboardEvents,
+  ...eventMap({
+    'mouse-click'(e: MouseEvent) {},
+  }),
+}
+
+// Still have type inference here!
+emit(inputEvents)('mouse-click')
+```
+
 ### `emit`
 
 > Creates event emitters for an event-map
 
 **Parameters**:
+
 name | type | description
 -----|------|---------------
 `eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to emit events from
