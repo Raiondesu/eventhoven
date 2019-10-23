@@ -74,7 +74,7 @@ which is not too much of a price to pay for this feature.
 
 It also allows `eventhoven` to be used effortlessly with other functional libraries like [`ramda`](https://github.com/ramda/ramda) and many others.
 
-Not all `eventhoven` function are curried. These, which are, however, will have the following disclaimer:
+Not all `eventhoven` function are curried. Those, which are, however, will have the following disclaimer:
 
 > Note, that the function is [curried](#curriyng), which means that it must be called partially
 
