@@ -379,11 +379,11 @@
       }
     },
     "options": {
-      "target": 2,
+      "target": 99,
       "moduleResolution": 2,
       "module": 99,
       "resolveJsonModule": true,
-      "outDir": "./es",
+      "outDir": "./esnext",
       "allowJs": true,
       "downlevelIteration": true,
       "importHelpers": true,

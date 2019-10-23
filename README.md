@@ -68,6 +68,9 @@ import { emit, on, off } from 'eventhoven/src';
 // ES-module (node, typescript)
 import { emit, on, off } from 'eventhoven';
 
+// ESNext (no polyfills for esnext)
+import { emit, on, off } from 'eventhoven/dist/esnext';
+
 // ES-module (browser)
 import { emit, on, off } from 'https://unpkg.com/eventhoven/dist/es';
 

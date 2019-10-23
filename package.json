@@ -35,8 +35,9 @@
   "scripts": {
     "test": "jest",
     "build:js": "tsc --outDir dist/js -t ES5 --module commonjs",
-    "build:es": "tsc --outDir dist/es",
-    "build": "npm run build:js && npm run build:es"
+    "build:es": "tsc --outDir dist/es -t ES2015",
+    "build:next": "tsc --outDir dist/esnext",
+    "build": "npm run build:js && npm run build:es && npm run build:next"
   },
   "repository": {
     "type": "git",
