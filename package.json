@@ -1,6 +1,6 @@
 {
   "name": "eventhoven",
-  "version": "0.0.1",
+  "version": "0.1.0-rc.13",
   "sideEffects": false,
   "description": "Compose strongly-typed events effortlessly 🎵",
   "main": "dist/js",
@@ -18,6 +18,8 @@
     "event manager",
     "typings",
     "TypeScript",
+    "Node",
+    "Browser",
     "TS"
   ],
   "dependencies": {},
@@ -33,17 +35,24 @@
   "scripts": {
     "test": "jest",
     "build:js": "tsc --outDir dist/js -t ES5",
-    "build:es": "tsc --outDir dist/es",
-    "build": "npm run build:js && npm run build:es"
+    "build:es": "tsc --outDir dist/es -t ES2015",
+    "build:next": "tsc --outDir dist/esnext",
+    "build": "npm run build:js && npm run build:es && npm run build:next",
+    "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
+    "preversion": "npm run build && npm run commit-build",
+    "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
+    "patch": "npm version patch && npm publish && git push",
+    "minor": "npm version minor && npm publish && git push",
+    "major": "npm version major && npm publish && git push"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raiondesu-experiments/fp-event-manager.git"
+    "url": "git+https://github.com/raiondesu-experiments/eventhoven.git"
   },
   "author": "raiondesu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/raiondesu-experiments/fp-event-manager/issues"
+    "url": "https://github.com/raiondesu-experiments/eventhoven/issues"
   },
-  "homepage": "https://github.com/raiondesu-experiments/fp-event-manager#readme"
+  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme"
 }

@@ -150,36 +150,40 @@
         "signature": "4984b48a97160eac5282ffeae690315420a626de83ccf6045c36d934c5c957c0"
       },
       "../src/util.ts": {
-        "version": "0f6a5bb17f01927915d77ec92e2571cbc0eddb1f1691459ed36f12e1f99767a0",
-        "signature": "50746adf330abb40301aa9d87e1ef373ea00e4e3896a8a73e9bbb7043bc34a6a"
+        "version": "629b3e6a11674ad73980d44db3e3d2a88ee5b2d48301c34f1b7a228b5d3005eb",
+        "signature": "68024743dacdf905e5d49102be79a3900487dd3440cbea592db29f9e591e6844"
       },
       "../src/events.ts": {
-        "version": "aeb93aea87c55d2ef3bc3fa41d75c8cbb6bf3710aa95474cc0a06a962c6b6a5f",
-        "signature": "8f1c0db45a45ffcb20507fb5f3543b63b35b78a2851e579b3d43fe37d67b8de8"
-      },
-      "../src/emit.ts": {
-        "version": "e52daa7ccc38784127c9689c37761b6656c2e7dc9f59466227a6e44111655560",
-        "signature": "65ddfb2537440821ca15a7be0ea7ba8ed29edbb1ade38314f0e680167bd76e40"
+        "version": "748b62b74c357e8796bd91edc4ee10b5262e100a086208c1a994ae34ddc49ce0",
+        "signature": "e8a17c22d98d5ad1ac9e293b9cfdd7aaf3f433c9e203f43b29057dec9e31d949"
       },
       "../src/meta-events.ts": {
-        "version": "31997e57971c5c88f3de78a3a9fe26dcbec6b3003dce46456f35621b5cfba7fb",
-        "signature": "59e4bd4a9f1e4598c8224cbf98d29589a054ae257b0a4e79759d99effb371b3b"
+        "version": "9893a9761ab7df415f2a94ae653a8be5766eeaaa7311d1817658a7d14dbb27a0",
+        "signature": "3908e97223bd8fb76743f0292b13fd5215950b5a71c7c925dbe9524377b85894"
+      },
+      "../src/emit.ts": {
+        "version": "5bab4a3dbf96f91b174fa71bd6f4622ffb9559d7b5c53d264134b56dd5ca2ca0",
+        "signature": "24840c7fff1ac7acd198535807bf77a2ef173cf511107d605bec8e92bfe1910a"
       },
       "../src/unsubscribe.ts": {
-        "version": "24b8e52633c99fe1410f52f57ce6c57853fb06cd68fbe8a57fdf81788e31b3ec",
-        "signature": "388db7a00e4d42653f4e5c1df7a7c74003bd4662cdd641a50a411e185d553b73"
+        "version": "3a21eb5d429ccfe53bf2f0d92e33f05354f414c7fea2a37ec4120270d197f930",
+        "signature": "845878b82d69d110a9395e07effb03e91efed15741cb3384ea93aadd8d198437"
       },
       "../src/subscribe.ts": {
-        "version": "ef48eaf9bd47cc150cd6df19e3ab690ff6ca8a04456f2ef3f62f17c67d99148c",
-        "signature": "50b15154f5a044c757f0aeaf5491a7b194d5e77342be790d8d2287712bff1ed5"
+        "version": "8de157995db9f280c7e583596683739d7eb041ffa7a256db6f7d2befd55c11c7",
+        "signature": "61e9e353348294554538c15067a2e91ee67ba41179189b212b77eeff8b8d6fa6"
+      },
+      "../src/collections.ts": {
+        "version": "553376b77e6757d692d80832dc41ded3d36a5695f189a3b0375a74b6c17425e1",
+        "signature": "bc6e8dbdf0833ae386f5e2247f487c9d677d25e8bc613c3bfd3e14ae3f877de9"
       },
       "../src/debug.ts": {
-        "version": "f1b4ffe1b3fa3df3f5bd19344fe77e9849dd10f13eb1c85329cf57a69021f23c",
+        "version": "4c9c8aac796bec63faee626cc3588ebbd2d16b6258e7bc2bc636b0f054a54dbb",
         "signature": "6e21d1d849995fd99c269d78fa56f7027cc374e168c01798a5236ac983d6501e"
       },
       "../src/index.ts": {
-        "version": "049ff720109dd39abd9aa20c726b7ee28d720e15faba257135e8adeb749fa484",
-        "signature": "21e3564e469d5c0fcdab7e698b52af2c7ce1c5f70d0ad4a9b572c9eecd517831"
+        "version": "68a0bf778f22bf6af37065438e1f0add84c27045b4dd50d7bf74584d2b89c317",
+        "signature": "b0fc00325ed0a0fec70970b00cfab4c10f88709e0d1a1f0416cdc779629ef138"
       },
       "../node_modules/@types/node/globals.d.ts": {
         "version": "4d0e3b8334392a2e0adef9caf867118678fb8f38da90d8003184debd62d30f3b",
@@ -375,11 +379,11 @@
       }
     },
     "options": {
-      "target": 2,
+      "target": 99,
       "moduleResolution": 2,
       "module": 99,
       "resolveJsonModule": true,
-      "outDir": "./es",
+      "outDir": "./esnext",
       "allowJs": true,
       "downlevelIteration": true,
       "importHelpers": true,
@@ -564,17 +568,15 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/emit.ts": [
-        "../src/events.ts",
-        "../src/meta-events.ts",
-        "../src/subscribe.ts",
-        "../src/util.ts",
-        "../node_modules/@types/node/util.d.ts",
-        "../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/meta-events.ts": [
         "../src/events.ts",
         "../src/emit.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/emit.ts": [
+        "../src/events.ts",
+        "../src/meta-events.ts",
         "../src/util.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -594,6 +596,15 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../src/collections.ts": [
+        "../src/events.ts",
+        "../src/util.ts",
+        "../src/emit.ts",
+        "../src/subscribe.ts",
+        "../src/unsubscribe.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../src/debug.ts": [
         "../src/subscribe.ts",
         "../src/unsubscribe.ts",
@@ -608,6 +619,7 @@
         "../src/events.ts",
         "../src/subscribe.ts",
         "../src/unsubscribe.ts",
+        "../src/collections.ts",
         "../src/meta-events.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
@@ -1051,10 +1063,10 @@
       "../src/util.ts": [
         "../src/events.ts"
       ],
-      "../src/emit.ts": [
+      "../src/meta-events.ts": [
         "../src/events.ts"
       ],
-      "../src/meta-events.ts": [
+      "../src/emit.ts": [
         "../src/events.ts"
       ],
       "../src/unsubscribe.ts": [
@@ -1065,12 +1077,16 @@
         "../src/unsubscribe.ts",
         "../src/meta-events.ts"
       ],
+      "../src/collections.ts": [
+        "../src/events.ts"
+      ],
       "../src/index.ts": [
         "../src/debug.ts",
         "../src/emit.ts",
         "../src/events.ts",
         "../src/subscribe.ts",
         "../src/unsubscribe.ts",
+        "../src/collections.ts",
         "../src/meta-events.ts"
       ],
       "../node_modules/@types/node/globals.d.ts": [
@@ -1400,10 +1416,11 @@
       "../node_modules/tslib/tslib.d.ts",
       "../src/util.ts",
       "../src/events.ts",
-      "../src/emit.ts",
       "../src/meta-events.ts",
+      "../src/emit.ts",
       "../src/unsubscribe.ts",
       "../src/subscribe.ts",
+      "../src/collections.ts",
       "../src/debug.ts",
       "../src/index.ts",
       "../node_modules/@types/node/globals.d.ts",

@@ -1,6 +1,6 @@
-import { unsubscribe } from './unsubscribe';
-import { meta } from './meta-events';
-import { doForAll } from './util';
+import { unsubscribe } from './unsubscribe.js';
+import { emitMeta } from './meta-events.js';
+import { doForAll } from './util.js';
 /**
  * A subscriber factory
  *
@@ -12,38 +12,26 @@ import { doForAll } from './util';
 export function subscribe(eventMap, _a) {
     var _b = _a === void 0 ? {
         unsubscribe: unsubscribe,
-        meta: meta
+        meta: emitMeta
     } : _a, m = _b.meta, unsub = _b.unsubscribe;
-    var subscribeHandlers = function (event, once) { return function () {
-        var handlers = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            handlers[_i] = arguments[_i];
-        }
-        if (!eventMap[event]) {
-            // Soft handle type mismatch
-            eventMap[event] = {
-                arity: 0,
-                handlers: new Map(),
-            };
-        }
-        handlers.forEach(function (handler) {
-            if (typeof handler !== 'function') {
-                return;
-            }
-            // Emit meta-event
-            m.subscribe(eventMap, event, handler);
-            eventMap[event].handlers.set(handler, once);
-        });
-        return function () { return unsub(eventMap)(event)
-            .apply(null, handlers); };
-    }; };
-    function subscribeTo(eventOrOpts, onceArg) {
+    return function (eventOrOpts, onceArg) {
         if (onceArg === void 0) { onceArg = true; }
         var event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
         var once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
-        return subscribeHandlers(event, once);
-    }
-    return subscribeTo;
+        return function () {
+            var handlers = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                handlers[_i] = arguments[_i];
+            }
+            handlers.forEach(function (handler) {
+                // Emit meta-event (ignore promise)
+                m('subscribe')(eventMap, event, handler);
+                eventMap[event].handlers.set(handler, once);
+            });
+            return function () { return unsub(eventMap)(event)
+                .apply(null, handlers); };
+        };
+    };
 }
 export var on = subscribe;
 /**

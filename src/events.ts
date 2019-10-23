@@ -1,15 +1,16 @@
-import { mapObject } from './util';
+import { mapObject } from './util.js';
 
 type TEventHandlerData<Event extends TEventHandler> = {
   arity: number;
   handlers: Map<Event, boolean>;
 };
 
-export type TEventMap<Events extends TEventOptions = TEventOptions> = {
+export type TEventMap<Events extends TEventSignatures = TEventSignatures> = {
   readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
 };
 
-export type TEventHandler = (...args: any[]) => void;
+export type TEventHandler = (...args: any[]) => void | Promise<void>;
+export type TEventHandlerFrom<H extends TEventHandler> = (...args: Parameters<H>) => Promise<void>;
 
 export type THandlerOf<
   M extends TEventMap,
@@ -21,11 +22,7 @@ export type THandlerOf<
     ? H
     : TEventHandler;
 
-export type THandlerMap<M extends TEventMap> = {
-  [event in keyof M]: THandlerOf<M, event>;
-};
-
-export type TEventOptions = {
+export type TEventSignatures = {
   [name in PropertyKey]: TEventHandler;
 }
 
@@ -34,12 +31,12 @@ export type TEventOptions = {
  *
  * @param events - an object with default handlers for events
  */
-export const eventMap = <Events extends TEventOptions>(
+export const eventMap = <Events extends TEventSignatures>(
   events: Events
 ): TEventMap<Events> => mapObject(
   events,
   (key, obj) => ({
     arity: obj[key].length,
     handlers: new Map([[obj[key], false]]),
-  })
+  }),
 );

@@ -1,7 +1,6 @@
-import { TEventMap, THandlerOf, THandlerMap } from './events';
-import { meta, TMetaEmitters } from './meta-events';
-import { ISubscribeOptions } from './subscribe';
-import { mapObject, doForAll, TDoAction } from './util';
+import { TEventMap, THandlerOf } from './events.js';
+import { emitMeta, TMetaEmit } from './meta-events.js';
+import { doForAll, TDoAction, mapObject } from './util.js';
 
 /**
  * Event-emitter factory creator
@@ -12,7 +11,7 @@ import { mapObject, doForAll, TDoAction } from './util';
  */
 export const emit = <M extends TEventMap>(
   eventMap: M,
-  m: TMetaEmitters = meta
+  metaEmit: TMetaEmit = emitMeta
 ) =>
 /**
  * Emitter factory for a specific event collection
@@ -25,18 +24,29 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: Parameters<THandlerOf<M, E>>) => {
+(...args: Parameters<THandlerOf<M, E>>): Promise<void> => {
   const { arity, handlers } = eventMap[event];
-  const slicedArgs = arity > 0 ? args.slice(arity) : args;
+  const slicedArgs = arity > 0 ? args.slice(0, arity) : args;
 
-  // Emit meta-event
-  m.emit(eventMap, event, slicedArgs);
+  const results: Promise<void>[] = [
+    // Emit meta-event
+    metaEmit('emit')(eventMap, event, slicedArgs)
+  ];
 
-  handlers.forEach((once, handler) => {
-    handler(<ISubscribeOptions<M, E>>{ event, once }, ...slicedArgs);
+  // Mandates non-blocking flow
+  return new Promise(resolve => setTimeout(() => {
+    handlers.forEach((once, handler) => {
+      results.push(
+        Promise.resolve(
+          handler(...slicedArgs)
+        )
+      );
 
-    once && handlers.delete(handler);
-  });
+      once && handlers.delete(handler);
+    });
+
+    resolve(Promise.all(results).then(_ => void 0));
+  }, 0));
 };
 
 /**
@@ -47,13 +57,3 @@ export const emit = <M extends TEventMap>(
  * @returns a function that emits all events from a collection with given arguments
  */
 export const emitAll = doForAll(emit as TDoAction);
-
-/**
- * Create a namespaced event emitter collection
- * with each property of the collection corresponding to emitting a particular event
- *
- * @param eventMap - event collection to emit events for
- */
-export const emitCollection = <M extends TEventMap, R = THandlerMap<M>>(
-  eventMap: M
-): R => mapObject(eventMap, emit(eventMap));

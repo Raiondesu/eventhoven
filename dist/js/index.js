@@ -1,7 +1,8 @@
-export * from './debug';
-export * from './emit';
-export * from './events';
-export * from './subscribe';
-export * from './unsubscribe';
-export { meta, metaEvents } from './meta-events';
+export * from './debug.js';
+export * from './emit.js';
+export * from './events.js';
+export * from './subscribe.js';
+export * from './unsubscribe.js';
+export * from './collections.js';
+export { emitMeta, metaEvents } from './meta-events.js';
 //# sourceMappingURL=index.js.map

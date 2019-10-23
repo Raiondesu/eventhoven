@@ -1,6 +1,6 @@
-import { onAll } from './subscribe';
-import { offAll } from './unsubscribe';
-import { metaEvents } from './meta-events';
+import { onAll } from './subscribe.js';
+import { offAll } from './unsubscribe.js';
+import { metaEvents } from './meta-events.js';
 var onMeta = onAll(metaEvents);
 var offMeta = offAll(metaEvents);
 var log = function (map, event, argsOrHandler) { return console.log(new Date().toTimeString() + " [EVENT \"" + String(event) + "\"]: " + argsOrHandler + " from " + map); };

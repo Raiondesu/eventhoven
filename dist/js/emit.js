@@ -1,6 +1,6 @@
 import { __read, __spread } from "tslib";
-import { meta } from './meta-events';
-import { mapObject, doForAll } from './util';
+import { emitMeta } from './meta-events.js';
+import { doForAll } from './util.js';
 /**
  * Event-emitter factory creator
  *
@@ -8,8 +8,8 @@ import { mapObject, doForAll } from './util';
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export var emit = function (eventMap, m) {
-    if (m === void 0) { m = meta; }
+export var emit = function (eventMap, metaEmit) {
+    if (metaEmit === void 0) { metaEmit = emitMeta; }
     /**
      * Emitter factory for a specific event collection
      *
@@ -27,13 +27,19 @@ export var emit = function (eventMap, m) {
                 args[_i] = arguments[_i];
             }
             var _a = eventMap[event], arity = _a.arity, handlers = _a.handlers;
-            var slicedArgs = arity > 0 ? args.slice(arity) : args;
-            // Emit meta-event
-            m.emit(eventMap, event, slicedArgs);
-            handlers.forEach(function (once, handler) {
-                handler.apply(void 0, __spread([{ event: event, once: once }], slicedArgs));
-                once && handlers.delete(handler);
-            });
+            var slicedArgs = arity > 0 ? args.slice(0, arity) : args;
+            var results = [
+                // Emit meta-event
+                metaEmit('emit')(eventMap, event, slicedArgs)
+            ];
+            // Mandates non-blocking flow
+            return new Promise(function (resolve) { return setTimeout(function () {
+                handlers.forEach(function (once, handler) {
+                    results.push(Promise.resolve(handler.apply(void 0, __spread(slicedArgs))));
+                    once && handlers.delete(handler);
+                });
+                resolve(Promise.all(results).then(function (_) { return void 0; }));
+            }, 0); });
         };
     };
 };
@@ -45,11 +51,4 @@ export var emit = function (eventMap, m) {
  * @returns a function that emits all events from a collection with given arguments
  */
 export var emitAll = doForAll(emit);
-/**
- * Create a namespaced event emitter collection
- * with each property of the collection corresponding to emitting a particular event
- *
- * @param eventMap - event collection to emit events for
- */
-export var emitCollection = function (eventMap) { return mapObject(eventMap, emit(eventMap)); };
 //# sourceMappingURL=emit.js.map
