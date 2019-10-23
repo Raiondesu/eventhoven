@@ -100,6 +100,8 @@ Front-end libraries do that all the time - `vue`, `react`, `angular` - all have 
 by **providing instruments** for unifying the event management API.\
 In other words, it allows to **unify** event management.
 
+It just so happens that it can do event management very efficiently too. 😉
+
 ---
 
 ## Installation
