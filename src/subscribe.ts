@@ -34,46 +34,29 @@ export function subscribe<M extends TEventMap>(
     unsubscribe,
     meta
   }
-) {
-  const subscribeHandlers = (event: keyof M, once: boolean): TSubscriber<M, keyof M> => (
-    ...handlers: Array<THandlerOf<M>>
-  ) => {
-    if (!eventMap[event]) {
-      // Soft handle type mismatch
-      eventMap[event] = <M[keyof M]> {
-        arity: 0,
-        handlers: new Map(),
-      };
-    }
-
-    handlers.forEach(handler => {
-      if (typeof handler !== 'function') {
-        return;
-      }
-
-      // Emit meta-event (ignore promise)
-      m.subscribe(eventMap, event as keyof TEventMap, handler);
-
-      eventMap[event].handlers.set(handler, once);
-    });
-
-    return () => unsub(eventMap)(event)
-      .apply(null, handlers);
-  };
-
-  function subscribeTo<E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
-  function subscribeTo<S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
-  function subscribeTo(
+): {
+  <E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
+  <S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
+} {
+  return (
     eventOrOpts: keyof M | ISubscribeOptions<M, keyof M>,
     onceArg: boolean = true
-  ) {
+  ): TSubscriber<M, keyof M> => {
     const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
     const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
 
-    return subscribeHandlers(event, once);
-  }
+    return (...handlers: Array<THandlerOf<M>>) => {
+      handlers.forEach(handler => {
+        // Emit meta-event (ignore promise)
+        m.subscribe(eventMap, event, handler);
 
-  return subscribeTo;
+        eventMap[event].handlers.set(handler, once);
+      });
+
+      return () => unsub(eventMap)(event)
+        .apply(null, handlers);
+    };
+  }
 }
 
 export const on = subscribe;
