@@ -16,9 +16,10 @@ A main list of features includes (but not limited to):
 - Full tree-shaking
 - Functional-style API
 - Multiple event arguments
+- Event names can also be symbols (private events)
 - Versatile plugin system (using [meta-events](#meta-events))
 - Fully type-safe - each event map remembers its event names and type signature (no need for hacky enums)
-- All functions are curried, which makes them easier to use in functional environment
+- All functions are curried and point-free, which makes them easier to use in functional environment
   (for example, with [`ramda`](github.com/ramda/ramda) and similar tools)
 - **SOLID**
   - **S**RP - every function does only one thing
@@ -44,8 +45,10 @@ A main list of features includes (but not limited to):
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
     - [Importing](#importing)
-    - [Simple usage example](#simple-usage-example)
+    - [Simple usage examples](#simple-usage-examples)
   - [API](#api)
+    - [`eventMap`](#eventmap)
+    - [`emit`](#emit)
 
 
 ## Installation
@@ -55,7 +58,7 @@ A main list of features includes (but not limited to):
 npm i -S eventhoven
 ```
 
-**module**: see [usage](#simple-usage-example)
+**module**: see [importing](#importing)
 
 Currently, only installation through [`npm`](https://www.npmjs.com/package/eventhoven) or `script[type=module]` is supported.\
 No single-file bundles just yet.
@@ -80,10 +83,51 @@ import { emit, on, off } from 'https://unpkg.com/eventhoven/dist/es';
 const { emit, on, off } = require('eventhoven/dist/js');
 ```
 
-### Simple usage example
+### Simple usage examples
+
+
+<details>
+<summary><b>Example 1</b></summary>
 
 ```ts
 // Essential imports
+import { eventMap, emit, on, off } from 'eventhoven';
+
+const emojiEvents = eventMap({
+  '👩'(emoji: '👨' | '👩') {},
+  '🌈'(emoji: '🦄' | '🌧') {},
+  '🎌':(emoji: '👘' | '🍣' | '🚗', amount: number) {},
+});
+
+on(emojiEvents)('🎌')(
+  (emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from japan!`)
+);
+
+on(emojiEvents)('🎌')(
+  // Returning promises is also allowed (example API from http://www.sushicount.com/api)
+  (emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
+    .then(_ => _.json())
+    .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} of ${emoji}-s loaded from sushicount!`))
+);
+
+// It's possible to await execution of all event handlers too
+await emit(emojiEvents)(
+  // Autocomplete for event names here!
+  '🎌'
+)(
+  // Autocomplete for arguments here!
+  '🍣', 10
+);
+// Console output:
+// => Yay!, 10 🍣-s from japan!
+// => Yay!, 11 🍣-s loaded from sushicount!
+```
+</details>
+
+<details>
+<summary><b>Example 2</b></summary>
+
+```ts
 import { eventMap, emit, on, off } from 'eventhoven';
 
 type Todo = { done: boolean; text: string; };
@@ -113,6 +157,7 @@ const addingTodos = emit(todoEvents)('todo-added')(
 );
 // Now, `todos` contains the new todo
 ```
+</details>
 
 ## API
 
@@ -137,6 +182,92 @@ name | type | description
 [`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#metaevents) | `object` | A meta-event map. Can be used to subscribe to the internal eventhoven's events
 [`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emit) function created for [`metaEvents`](#metaevents)
+
+
+### `eventMap`
+> Creates an event-map from event signatures
+
+**Parameters**:
+name | type | description
+-----|------|---------------
+`events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L25) | a collection of event signatures
+
+**Returns**: [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8)
+
+This function is the main "entry point" to the whole event management pipeline.
+It constructs a base storage for events and their handlers, which is then used by all of the other functions.
+
+In other words, to start working with events in `eventhoven` you start by creating an event map:
+```ts
+import { eventMap } from 'eventhoven';
+
+// `keyboardEvents` should now be used for all event interactions
+const keyboardEvents = eventMap({
+  keyup(e: KeyboardEvent) {},
+  keydown(e: KeyboardEvent) {},
+  keypress(e: KeyboardEvent, modifier?: string) {
+    // This is a default handler for the event, it's always executed
+    console.log('modifier:', modifier);
+  },
+});
+```
+
+In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount of arguments for a given event.
+
+<details>
+<summary>Here, `keyboardEvents`</summary> is equal to the following object:
+
+```ts
+const keyboardEvents = {
+  // Name of the event
+  keyup: {
+    // Amount of arguments for the event handlers
+    arity: 1,
+
+    // Collection of the event handlers
+    handlers: new Map([
+      // Notice the default event handler from the event map
+      (e: KeyboardEvent) => {},
+
+      // Do we execute this event handler only once?
+      false
+    ])
+  },
+  keydown: {
+    arity: 1,
+    handlers: new Map([(e: KeyboardEvent) => {}, false])
+  },
+  keypress: {
+    arity: 2,
+    handlers: new Map([
+      // Notice the default event handler from the event map
+      (e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
+      false
+    ])
+  },
+}
+```
+</details>
+
+### `emit`
+
+> Creates event emitters for an event-map
+
+**Parameters**:
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to emit events from
+`event` | `string | number | symbol` | An event name to emit for a given event-map
+`...args` | `any` | Arguments for the specific event, spread
+
+**Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
+
+> ⚠ **DISCLAIMER** ⚠
+>
+> Note, that the function is curried, which means that it should be called partially, like this:\
+> ```emit(eventMap)(event)(...args)```\
+> and **not** like this:\
+> ```emit(eventMap, event, ...args)```
 
 
 ⚠ More coming soon ⚠
