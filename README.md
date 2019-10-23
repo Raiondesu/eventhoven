@@ -209,7 +209,8 @@ const keyboardEvents = eventMap({
   keyup(e: KeyboardEvent) {},
   keydown(e: KeyboardEvent) {},
   keypress(e: KeyboardEvent, modifier?: string) {
-    // This is a default handler for the event, it's always executed
+    // This is a default handler for the event,
+    // it's always executed when the event is invoked
     console.log('modifier:', modifier);
   },
 });
