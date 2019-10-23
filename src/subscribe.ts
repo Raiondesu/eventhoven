@@ -1,7 +1,7 @@
-import { TEventMap, THandlerOf } from './events';
-import { unsubscribe, TUnsubscribe } from './unsubscribe';
-import { meta, TMetaEmitters } from './meta-events';
-import { doForAll } from './util';
+import { TEventMap, THandlerOf } from './events.js';
+import { unsubscribe, TUnsubscribe } from './unsubscribe.js';
+import { meta, TMetaEmitters } from './meta-events.js';
+import { doForAll } from './util.js';
 
 export interface ISubscribeOptions<M extends TEventMap, N extends keyof M> {
   event: N;

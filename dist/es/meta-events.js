@@ -1,6 +1,6 @@
-import { eventMap } from './events';
-import { emit } from './emit';
-import { mapObject } from './util';
+import { eventMap } from './events.js';
+import { emit } from './emit.js';
+import { mapObject } from './util.js';
 export const metaEvents = eventMap({
     subscribe(eventMap, eventName, handler) { },
     unsubscribe(eventMap, eventName, handler) { },

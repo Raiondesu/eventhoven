@@ -1,6 +1,6 @@
-import { unsubscribe } from './unsubscribe';
-import { meta } from './meta-events';
-import { doForAll } from './util';
+import { unsubscribe } from './unsubscribe.js';
+import { meta } from './meta-events.js';
+import { doForAll } from './util.js';
 /**
  * A subscriber factory
  *

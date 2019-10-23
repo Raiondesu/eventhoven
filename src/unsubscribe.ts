@@ -1,6 +1,6 @@
-import { TEventMap, THandlerOf } from './events';
-import { meta, TMetaEmitters } from './meta-events';
-import { doForAll } from './util';
+import { TEventMap, THandlerOf } from './events.js';
+import { meta, TMetaEmitters } from './meta-events.js';
+import { doForAll } from './util.js';
 
 export type TUnsubscribe<From> = () => (
   // Lifehack to display the event name

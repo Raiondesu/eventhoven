@@ -1,7 +1,7 @@
-import { eventMap, TEventMap, TEventHandler } from './events';
-import { emit } from './emit';
-import { mapObject } from './util';
-import { THandlerMap } from './collections';
+import { eventMap, TEventMap, TEventHandler } from './events.js';
+import { emit } from './emit.js';
+import { mapObject } from './util.js';
+import { THandlerMap } from './collections.js';
 
 export const metaEvents = eventMap({
   subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},

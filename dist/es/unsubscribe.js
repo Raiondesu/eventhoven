@@ -1,5 +1,5 @@
-import { meta } from './meta-events';
-import { doForAll } from './util';
+import { meta } from './meta-events.js';
+import { doForAll } from './util.js';
 export const unsubscribe = (eventMap, m = meta) => (event) => (...handlers) => handlers.forEach(_ => {
     var _a;
     return (

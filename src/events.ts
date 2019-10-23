@@ -1,4 +1,4 @@
-import { mapObject } from './util';
+import { mapObject } from './util.js';
 
 type TEventHandlerData<Event extends TEventHandler> = {
   arity: number;

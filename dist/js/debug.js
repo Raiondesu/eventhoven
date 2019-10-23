@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var subscribe_1 = require("./subscribe");
-var unsubscribe_1 = require("./unsubscribe");
-var meta_events_1 = require("./meta-events");
-var onMeta = subscribe_1.onAll(meta_events_1.metaEvents);
-var offMeta = unsubscribe_1.offAll(meta_events_1.metaEvents);
+var subscribe_js_1 = require("./subscribe.js");
+var unsubscribe_js_1 = require("./unsubscribe.js");
+var meta_events_js_1 = require("./meta-events.js");
+var onMeta = subscribe_js_1.onAll(meta_events_js_1.metaEvents);
+var offMeta = unsubscribe_js_1.offAll(meta_events_js_1.metaEvents);
 var log = function (map, event, argsOrHandler) { return console.log(new Date().toTimeString() + " [EVENT \"" + String(event) + "\"]: " + argsOrHandler + " from " + map); };
 /**
  * Enable or disable the debug mode.

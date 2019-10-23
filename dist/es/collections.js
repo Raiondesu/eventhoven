@@ -1,7 +1,7 @@
-import { mapObject } from './util';
-import { emit } from './emit';
-import { subscribe } from './subscribe';
-import { unsubscribe } from './unsubscribe';
+import { mapObject } from './util.js';
+import { emit } from './emit.js';
+import { subscribe } from './subscribe.js';
+import { unsubscribe } from './unsubscribe.js';
 // TODO: reduce code duplication in this module!
 /**
  * Create a namespaced event emitter collection

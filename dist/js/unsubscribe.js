@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var meta_events_1 = require("./meta-events");
-var util_1 = require("./util");
+var meta_events_js_1 = require("./meta-events.js");
+var util_js_1 = require("./util.js");
 exports.unsubscribe = function (eventMap, m) {
-    if (m === void 0) { m = meta_events_1.meta; }
+    if (m === void 0) { m = meta_events_js_1.meta; }
     return function (event) { return function () {
         var handlers = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -18,6 +18,6 @@ exports.unsubscribe = function (eventMap, m) {
     }; };
 };
 exports.off = exports.unsubscribe;
-exports.unsubscribeFromAll = util_1.doForAll(exports.unsubscribe);
+exports.unsubscribeFromAll = util_js_1.doForAll(exports.unsubscribe);
 exports.offAll = exports.unsubscribeFromAll;
 //# sourceMappingURL=unsubscribe.js.map

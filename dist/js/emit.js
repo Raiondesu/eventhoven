@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var meta_events_1 = require("./meta-events");
-var util_1 = require("./util");
+var meta_events_js_1 = require("./meta-events.js");
+var util_js_1 = require("./util.js");
 /**
  * Event-emitter factory creator
  *
@@ -11,7 +11,7 @@ var util_1 = require("./util");
  * @param eventMap - an event collection to create an emitter for
  */
 exports.emit = function (eventMap, m) {
-    if (m === void 0) { m = meta_events_1.meta; }
+    if (m === void 0) { m = meta_events_js_1.meta; }
     /**
      * Emitter factory for a specific event collection
      *
@@ -49,5 +49,5 @@ exports.emit = function (eventMap, m) {
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-exports.emitAll = util_1.doForAll(exports.emit);
+exports.emitAll = util_js_1.doForAll(exports.emit);
 //# sourceMappingURL=emit.js.map
