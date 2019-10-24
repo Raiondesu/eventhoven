@@ -12,7 +12,7 @@
   - [What is this?](#what-is-this)
   - [Disclaimer](#disclaimer)
     - [TypeScript](#typescript)
-    - [Curriyng](#curriyng)
+    - [Currying](#currying)
     - [External state >>> Internal state](#external-state--internal-state)
     - [OK, but why not %event-manager-package%?](#ok-but-why-not-event-manager-package)
   - [Installation](#installation)
@@ -64,7 +64,7 @@ so all the code examples will be written in [typescript](https://www.typescriptl
 It was written in a "type-first, implementation-later" way,
 and will be kept that way to ensure that runtime types always match the static ones.
 
-### Curriyng
+### Currying
 
 "Why curry functions?" you may ask. Great question! It has many answers on the web already, but I'd recommend reading [this](https://medium.com/@iquardt/currying-the-underestimated-concept-in-javascript-c95d9a823fc6) and [this](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch04.html).
 
@@ -76,7 +76,7 @@ It also allows `eventhoven` to be used effortlessly with other functional librar
 
 Not all `eventhoven` function are curried. Those, which are, however, will have the following disclaimer:
 
-> Note, that the function is [curried](#curriyng), which means that it must be called partially
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ### External state >>> Internal state
 
@@ -342,7 +342,7 @@ name | type | description
 
 **Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
 
-> Note, that the function is [curried](#curriyng), which means that it must be called partially
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ### `subscribe`
 
@@ -360,7 +360,7 @@ name | type | description
 
 **Alias**: `on`
 
-> Note, that the function is [curried](#curriyng), which means that it must be called partially
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ### `unsubscribe`
 
@@ -378,6 +378,6 @@ name | type | description
 
 **Alias**: `off`
 
-> Note, that the function is [curried](#curriyng), which means that it must be called partially
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ⚠ More coming soon ⚠
