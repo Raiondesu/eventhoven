@@ -1,6 +1,6 @@
 import { TEventMap, THandlerOf } from './events.js';
 import { emitMeta, TMetaEmit } from './meta-events.js';
-import { doForAll, TDoAction, mapObject } from './util.js';
+import { doForAll, TDoAction } from './util.js';
 
 /**
  * Event-emitter factory creator

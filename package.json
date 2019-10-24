@@ -24,7 +24,7 @@
   ],
   "dependencies": {},
   "peerDependencies": {
-    "tslib": "^1.0.0"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
@@ -37,7 +37,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build:js": "tsc --outDir dist/js -t ES5",
+    "build:js": "tsc --outDir dist/js -t ES5 --module commonjs",
     "build:es": "tsc --outDir dist/es -t ES2015",
     "build:next": "tsc --outDir dist/esnext",
     "build": "npm run build:js && npm run build:es && npm run build:next",
