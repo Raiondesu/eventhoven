@@ -50,7 +50,7 @@ A main list of features includes (but not limited to):
 - Code-generation-friendly:\
   Due to the SRP, all functions have a very limited number of ways of invocation.\
   This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
-- **KISS** and **DRY** ([kinda](https://github.com/raiondesu-experiments/eventhoven/blob/f22bef199e0a053bd62f4c28761c1519f6166a7c/src/collections.ts#L21))
+- **KISS** and **DRY**
 
 ---
 

@@ -1,5 +1,5 @@
 import { TEventMap, TEventHandlerFrom, THandlerOf } from './events.js';
-import { mapObject } from './util.js';
+import { mapObject, TDoAction } from './util.js';
 import { emit } from './emit.js';
 import { subscribe } from './subscribe.js';
 import { unsubscribe } from './unsubscribe.js';
@@ -16,9 +16,18 @@ export type TEventCollection<M extends TEventMap> = {
   emit: THandlerMap<M>;
   subscribe: THandlersMap<M>;
   unsubscribe: THandlersMap<M>;
-}
+};
 
-// TODO: reduce code duplication in this module!
+const createCollection = <A extends TDoAction>(
+  action: A
+) => <M extends TEventMap>(
+  eventMap: M
+) => mapObject(
+  eventMap,
+  action(eventMap)
+);
+
+// TODO - remove type-casting
 
 /**
  * Create a namespaced event emitter collection
@@ -26,9 +35,9 @@ export type TEventCollection<M extends TEventMap> = {
  *
  * @param eventMap - event collection to emit events for
  */
-export const emitCollection = <M extends TEventMap, R = THandlerMap<M>>(
-  eventMap: M
-): R => mapObject(eventMap, emit(eventMap));
+export const emitCollection = <{
+  <M extends TEventMap>(eventMap: M): THandlerMap<M>;
+}> createCollection(emit as TDoAction<any[]>);
 
 /**
  * Create a namespaced event subscriber collection
@@ -36,9 +45,9 @@ export const emitCollection = <M extends TEventMap, R = THandlerMap<M>>(
  *
  * @param eventMap - event collection to subscribe handlers for
  */
-export const subscribeCollection = <M extends TEventMap, R = THandlersMap<M>>(
-  eventMap: M
-): R => mapObject(eventMap, subscribe(eventMap));
+export const subscribeCollection = <{
+  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
+}> createCollection(subscribe);
 
 /**
  * Create a namespaced event unsubscriber collection
@@ -46,9 +55,9 @@ export const subscribeCollection = <M extends TEventMap, R = THandlersMap<M>>(
  *
  * @param eventMap - event collection to unsubscribe handlers from
  */
-export const unsubscribeCollection = <M extends TEventMap, R = THandlersMap<M>>(
-  eventMap: M
-): R => mapObject(eventMap, unsubscribe(eventMap));
+export const unsubscribeCollection = <{
+  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
+}> createCollection(unsubscribe);
 
 /**
  * Creates an OOP-style event collection
@@ -59,6 +68,6 @@ export const eventCollection = <M extends TEventMap>(
   eventMap: M
 ): TEventCollection<M> => ({
   emit: emitCollection(eventMap),
-  subscribe: mapObject(eventMap, subscribe(eventMap)),
+  subscribe: subscribeCollection(eventMap),
   unsubscribe: unsubscribeCollection(eventMap),
 });

@@ -1,10 +1,10 @@
 import { TEventMap } from './events.js';
 
-export type TDoAction<P extends any[] = any[]> = <M extends TEventMap>(
+export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
   eventMap: M
 ) => <E extends keyof M>(
   event: E
-) => (...args: P) => void;
+) => (...args: P) => R;
 
 /**
  * Maps object values by their keys into a new object
