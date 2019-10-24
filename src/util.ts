@@ -39,6 +39,6 @@ export const doForAll = <A extends TDoAction>(
   return (
     ...args: A extends TDoAction<infer P> ? P : any[]
   ) => {
-    mapObject(eventMap, (key) => mappedAction(key)(...args));
+    mapObject(eventMap, (key) => mappedAction(key).apply(null, args));
   };
 }

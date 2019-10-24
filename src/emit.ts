@@ -38,7 +38,7 @@ export const emit = <M extends TEventMap>(
     handlers.forEach((once, handler) => {
       results.push(
         Promise.resolve(
-          handler(...slicedArgs)
+          handler.apply(null, slicedArgs)
         )
       );
 

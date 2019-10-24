@@ -17,5 +17,5 @@ export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
     return resolve();
   }
 
-  resolve(emit(metaEvents)(event)(...args));
+  resolve(emit(metaEvents)(event).apply(null, args));
 });
