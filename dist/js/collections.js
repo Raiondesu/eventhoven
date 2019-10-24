@@ -2,28 +2,29 @@ import { mapObject } from './util.js';
 import { emit } from './emit.js';
 import { subscribe } from './subscribe.js';
 import { unsubscribe } from './unsubscribe.js';
-// TODO: reduce code duplication in this module!
+var createCollection = function (action) { return function (eventMap) { return mapObject(eventMap, action(eventMap)); }; };
+// TODO - remove type-casting
 /**
  * Create a namespaced event emitter collection
  * with each property of the collection corresponding to emitting a particular event
  *
  * @param eventMap - event collection to emit events for
  */
-export var emitCollection = function (eventMap) { return mapObject(eventMap, emit(eventMap)); };
+export var emitCollection = createCollection(emit);
 /**
  * Create a namespaced event subscriber collection
  * with each property of the collection corresponding to subscribing to a particular event
  *
  * @param eventMap - event collection to subscribe handlers for
  */
-export var subscribeCollection = function (eventMap) { return mapObject(eventMap, subscribe(eventMap)); };
+export var subscribeCollection = createCollection(subscribe);
 /**
  * Create a namespaced event unsubscriber collection
  * with each property of the collection corresponding to unsubscribing from a particular event
  *
  * @param eventMap - event collection to unsubscribe handlers from
  */
-export var unsubscribeCollection = function (eventMap) { return mapObject(eventMap, unsubscribe(eventMap)); };
+export var unsubscribeCollection = createCollection(unsubscribe);
 /**
  * Creates an OOP-style event collection
  *
@@ -31,7 +32,7 @@ export var unsubscribeCollection = function (eventMap) { return mapObject(eventM
  */
 export var eventCollection = function (eventMap) { return ({
     emit: emitCollection(eventMap),
-    subscribe: mapObject(eventMap, subscribe(eventMap)),
+    subscribe: subscribeCollection(eventMap),
     unsubscribe: unsubscribeCollection(eventMap),
 }); };
 //# sourceMappingURL=collections.js.map
