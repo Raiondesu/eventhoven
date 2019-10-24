@@ -134,6 +134,7 @@ import { emit, on, off } from 'eventhoven/dist/esnext';
 import { emit, on, off } from 'https://unpkg.com/eventhoven/dist/es';
 
 // Classic node commonjs
+// Note, that is also comes with es5 polyfills and requires a peer of tslib
 const { emit, on, off } = require('eventhoven/dist/js');
 ```
 
