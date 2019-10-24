@@ -1,40 +1,23 @@
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-var __spread = (this && this.__spread) || function () {
-    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
-    return ar;
-};
-import { eventMap } from './events.js';
-import { emit } from './emit.js';
-export var metaEvents = eventMap({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+var events_js_1 = require("./events.js");
+var emit_js_1 = require("./emit.js");
+exports.metaEvents = events_js_1.eventMap({
     subscribe: function (eventMap, eventName, handler) { },
     unsubscribe: function (eventMap, eventName, handler) { },
     emit: function (eventMap, eventName, args) { },
 });
-export var emitMeta = function (event) { return function () {
+exports.emitMeta = function (event) { return function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
     return new Promise(function (resolve) {
-        if (args[0] === metaEvents) {
+        if (args[0] === exports.metaEvents) {
             return resolve();
         }
-        resolve(emit(metaEvents)(event).apply(void 0, __spread(args)));
+        resolve(emit_js_1.emit(exports.metaEvents)(event).apply(void 0, tslib_1.__spread(args)));
     });
 }; };
 //# sourceMappingURL=meta-events.js.map

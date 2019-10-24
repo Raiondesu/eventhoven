@@ -1,6 +1,8 @@
-import { unsubscribe } from './unsubscribe.js';
-import { emitMeta } from './meta-events.js';
-import { doForAll } from './util.js';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var unsubscribe_js_1 = require("./unsubscribe.js");
+var meta_events_js_1 = require("./meta-events.js");
+var util_js_1 = require("./util.js");
 /**
  * A subscriber factory
  *
@@ -9,10 +11,10 @@ import { doForAll } from './util.js';
  * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-export function subscribe(eventMap, _a) {
+function subscribe(eventMap, _a) {
     var _b = _a === void 0 ? {
-        unsubscribe: unsubscribe,
-        meta: emitMeta
+        unsubscribe: unsubscribe_js_1.unsubscribe,
+        meta: meta_events_js_1.emitMeta
     } : _a, m = _b.meta, unsub = _b.unsubscribe;
     return function (eventOrOpts, onceArg) {
         if (onceArg === void 0) { onceArg = true; }
@@ -33,13 +35,14 @@ export function subscribe(eventMap, _a) {
         };
     };
 }
-export var on = subscribe;
+exports.subscribe = subscribe;
+exports.on = subscribe;
 /**
  * A subscriber factory for all events of a given collection
  *
  * @param eventMap - an event collection to subscribe to
  * @returns a function that subscribes handlers to all events in the given event collection
  */
-export var subscribeToAll = doForAll(subscribe);
-export var onAll = subscribeToAll;
+exports.subscribeToAll = util_js_1.doForAll(subscribe);
+exports.onAll = exports.subscribeToAll;
 //# sourceMappingURL=subscribe.js.map

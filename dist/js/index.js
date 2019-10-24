@@ -1,9 +1,14 @@
-export * from './unsubscribe.js';
-export * from './collections.js';
-export * from './subscribe.js';
-export * from './events.js';
-export * from './debug.js';
-export * from './emit.js';
-export * from './wait.js';
-export { emitMeta, metaEvents } from './meta-events.js';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
+tslib_1.__exportStar(require("./unsubscribe.js"), exports);
+tslib_1.__exportStar(require("./collections.js"), exports);
+tslib_1.__exportStar(require("./subscribe.js"), exports);
+tslib_1.__exportStar(require("./events.js"), exports);
+tslib_1.__exportStar(require("./debug.js"), exports);
+tslib_1.__exportStar(require("./emit.js"), exports);
+tslib_1.__exportStar(require("./wait.js"), exports);
+var meta_events_js_1 = require("./meta-events.js");
+exports.emitMeta = meta_events_js_1.emitMeta;
+exports.metaEvents = meta_events_js_1.metaEvents;
 //# sourceMappingURL=index.js.map
