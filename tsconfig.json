@@ -17,7 +17,6 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noImplicitAny": false,
-    "tsBuildInfoFile": "./dist/info",
     "baseUrl": "./src",
     "lib": [
       "esnext"
