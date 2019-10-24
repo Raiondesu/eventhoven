@@ -41,6 +41,8 @@
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
     "preversion": "npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
+    "preminor": "npm version preminor --preid=rc && npm publish --tag next && git push",
+    "premajor": "npm version premajor --preid=rc && npm publish --tag next && git push",
     "patch": "npm version patch && npm publish && git push",
     "minor": "npm version minor && npm publish && git push",
     "major": "npm version major && npm publish && git push"
