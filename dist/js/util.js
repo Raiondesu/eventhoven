@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = require("tslib");
 /**
  * Maps object values by their keys into a new object
  *
@@ -27,7 +26,7 @@ exports.doForAll = function (action) { return function (eventMap) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        exports.mapObject(eventMap, function (key) { return mappedAction(key).apply(void 0, tslib_1.__spread(args)); });
+        exports.mapObject(eventMap, function (key) { return mappedAction(key).apply(null, args); });
     };
 }; };
 //# sourceMappingURL=util.js.map

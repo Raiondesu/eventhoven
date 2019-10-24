@@ -17,7 +17,7 @@ export const mapObject = (obj, value, defaultValue = {}) => Object.keys(obj).red
 export const doForAll = (action) => (eventMap) => {
     const mappedAction = action(eventMap);
     return (...args) => {
-        mapObject(eventMap, (key) => mappedAction(key)(...args));
+        mapObject(eventMap, (key) => mappedAction(key).apply(null, args));
     };
 };
 //# sourceMappingURL=util.js.map

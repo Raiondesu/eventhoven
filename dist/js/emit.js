@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = require("tslib");
 var meta_events_js_1 = require("./meta-events.js");
 var util_js_1 = require("./util.js");
 /**
@@ -37,7 +36,7 @@ exports.emit = function (eventMap, metaEmit) {
             // Mandates non-blocking flow
             return new Promise(function (resolve) { return setTimeout(function () {
                 handlers.forEach(function (once, handler) {
-                    results.push(Promise.resolve(handler.apply(void 0, tslib_1.__spread(slicedArgs))));
+                    results.push(Promise.resolve(handler.apply(null, slicedArgs)));
                     once && handlers.delete(handler);
                 });
                 resolve(Promise.all(results).then(function (_) { return void 0; }));

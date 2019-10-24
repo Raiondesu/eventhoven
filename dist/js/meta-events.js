@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = require("tslib");
 var events_js_1 = require("./events.js");
 var emit_js_1 = require("./emit.js");
 exports.metaEvents = events_js_1.eventMap({
@@ -17,7 +16,7 @@ exports.emitMeta = function (event) { return function () {
         if (args[0] === exports.metaEvents) {
             return resolve();
         }
-        resolve(emit_js_1.emit(exports.metaEvents)(event).apply(void 0, tslib_1.__spread(args)));
+        resolve(emit_js_1.emit(exports.metaEvents)(event).apply(null, args));
     });
 }; };
 //# sourceMappingURL=meta-events.js.map
