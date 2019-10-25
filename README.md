@@ -29,6 +29,7 @@
     - [`wait`](#wait)
     - [`harmonicWait`](#harmonicwait)
     - [`debug`](#debug)
+    - [Collections](#collections)
     - [Plugin API](#plugin-api)
   - [Contribute](#contribute)
 
@@ -563,7 +564,28 @@ emit(emojiEvents)('🎌')('🍣', 10);
 // 12:59:05 [EVENT EMIT 🎌]: 🍣, 10
 ```
 
-⚠ More coming soon ⚠
+---
+
+### Collections
+
+`eventhoven` provides a way to group your event-managing needs using `collections`.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+
+**Return**: A map of event names to the action for that event name.
+
+Currently available `collections` are:
+
+name | action | description
+-----|--------|------------------
+`emitCollection` | [`emit`](#emit) | Creates a an object, where each property is a function that emits a prescribed event
+`subscribeCollection` | [`subscribe`](#subscribe) | Creates a an object, where each property is a function that subscribes to a prescribed event
+`unsubscribeCollection` | [`unsubscribe`](#unsubscribe) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
+`eventCollection` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
 
 ---
 
