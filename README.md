@@ -535,6 +535,14 @@ console.log(e);
 
 Sets a debug mode.
 
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`enabled` | `boolean` | Whether to enable the debug mode or disable it.
+
+**Returns**: `void`
+
 When debug mode is enabled, all emits, subscribes and unsubscribes are logged to the console
 in a following format:
 
@@ -546,6 +554,8 @@ and `{event-handler-or-params}` is the handler for the event (when subscribing o
 
 Example:
 ```ts
+debug(true);
+
 emit(emojiEvents)('🎌')('🍣', 10);
 
 // logs:
