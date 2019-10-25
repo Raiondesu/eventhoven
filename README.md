@@ -29,6 +29,7 @@
     - [`wait`](#wait)
     - [`harmonicWait`](#harmonicwait)
     - [`debug`](#debug)
+    - [Plugin API](#plugin-api)
   - [Contribute](#contribute)
 
 ## What is this?
@@ -563,6 +564,25 @@ emit(emojiEvents)('🎌')('🍣', 10);
 ```
 
 ⚠ More coming soon ⚠
+
+---
+
+### Plugin API
+
+It's also possible to write custom plugins for `eventhoven` thanks to meta-events!
+
+Meta-events is a simple [`event-map`](#eventmap) with events for internal `eventhoven` actions, like [`emit`](#emit).\
+One can subscribe to these events to execute some actions or emit these events to emulate them for the `eventhoven`.
+
+The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/debug.ts) plugin.\
+It can be used as an example for writing your own plugins for `eventhoven`!
+
+Current list of all meta-events is as follows:
+ name  | emitted when
+-------|------------------
+`emit` | Any event is emitted, except itself.
+`subscribe` | Any event is subscribed to, except itself.
+`unsubscribe` | Any event is unsubscribed from, except itself.
 
 ---
 
