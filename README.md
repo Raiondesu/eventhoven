@@ -28,6 +28,7 @@
     - [`unsubscribeFromAll`](#unsubscribefromall)
     - [`wait`](#wait)
     - [`harmonicWait`](#harmonicwait)
+    - [`debug`](#debug)
 
 ## What is this?
 It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
@@ -527,7 +528,28 @@ console.log(e);
 ```
 </details>
 
+---
 
+### `debug`
+
+Sets a debug mode.
+
+When debug mode is enabled, all emits, subscribes and unsubscribes are logged to the console
+in a following format:
+
+```
+HH:MM:SS [EVENT {event-name}]: {event-handler-or-params}
+```
+where `{event-name}` is the name of the event\
+and `{event-handler-or-params}` is the handler for the event (when subscribing or unsubscribing) or its params (when emitting).
+
+Example:
+```ts
+emit(emojiEvents)('🎌')('🍣', 10);
+
+// logs:
+// 12:59:05 [EVENT EMIT 🎌]: 🍣, 10
+```
 
 ⚠ More coming soon ⚠
 
