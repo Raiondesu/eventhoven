@@ -49,6 +49,10 @@ export const emit = <M extends TEventMap>(
   }, 0));
 };
 
+export type TEventParamsMap<M extends TEventMap> = {
+  [name in keyof M]: Parameters<THandlerOf<M, name>>
+};
+
 /**
  * Emit all events for a given event collection
  *
@@ -58,9 +62,9 @@ export const emit = <M extends TEventMap>(
  */
 export const emitAll = <M extends TEventMap>(
   eventMap: M
-) => (eventArgs: {
-  [name in keyof M]: Parameters<THandlerOf<M, name>>
-}) => mapObject<M, Record<keyof M, Promise<void>>>(
+) => (
+  eventArgs: TEventParamsMap<M>
+) => mapObject<M, Record<keyof M, Promise<void>>>(
   eventMap,
   (name) => emit(eventMap)(name)
     .apply(null, eventArgs[name])
