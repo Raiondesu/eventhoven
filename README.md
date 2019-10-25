@@ -24,6 +24,7 @@
     - [`subscribe`](#subscribe)
     - [`unsubscribe`](#unsubscribe)
     - [`wait`](#wait)
+    - [`harmonicWait`](#harmonicwait)
 
 ## What is this?
 It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
@@ -416,7 +417,7 @@ name | type | description
 **Returns**: `Promise<Array<unknown>> (contextual)` - a promise with array of parameters passed to the event.
 
 <details>
-<summary>Simple example:</summary>
+<summary>Simple example</summary>
 
 ```ts
 import { wait } from 'eventhoven';
@@ -430,6 +431,45 @@ console.log(e);
 // => KeyboardEvent {}
 ```
 </details>
+
+---
+
+### `harmonicWait`
+
+Same as [`wait`](#wait), but returns a promise factory instead of a plain promise.
+
+Useful due to having the same signature as [`emit`](#emit), [`subscribe`](#subscribe) and [`unsubscribe`](#unsubscribe),
+which allows for an easier composition of waiters.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
+
+**Returns**: `() => Promise<Array<unknown>> (contextual)` - a promise factory with array of parameters passed to the event.
+
+<details>
+<summary>Simple example</summary>
+
+```ts
+import { wait } from 'eventhoven';
+
+// Function that initiates a waiter
+const waitForKeydown = wait(keyboardEvents)('keydown');
+
+//... some time later in async context
+
+// Resolves upon the first 'keydown' event emit
+// since the call of the `waitForKeydown`
+const [e] = await waitForKeydown();
+console.log(e);
+// => KeyboardEvent {}
+```
+</details>
+
+
 
 ⚠ More coming soon ⚠
 
