@@ -16,7 +16,7 @@ exports.emitMeta = function (event) { return function () {
         if (args[0] === exports.metaEvents) {
             return resolve();
         }
-        resolve(emit_js_1.emit(exports.metaEvents)(event).apply(null, args));
+        return resolve(emit_js_1.emit(exports.metaEvents)(event).apply(null, args));
     });
 }; };
 //# sourceMappingURL=meta-events.js.map
