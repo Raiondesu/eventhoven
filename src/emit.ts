@@ -56,4 +56,12 @@ export const emit = <M extends TEventMap>(
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-export const emitAll = doForAll(emit as TDoAction);
+export const emitAll = <{
+  <M extends TEventMap>(eventMap: M): {
+    (...args: Parameters<THandlerOf<M>>): void;
+  }
+}> doForAll(
+  // This type cast is impossible to remove
+  // until TS introduces HKT - https://github.com/microsoft/TypeScript/issues/1213
+  emit as TDoAction<any[]>
+);

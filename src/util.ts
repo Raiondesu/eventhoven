@@ -1,6 +1,6 @@
 import { TEventMap } from './events.js';
 
-export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
+export type TDoAction<P extends any[], R = void> = <M extends TEventMap>(
   eventMap: M
 ) => <E extends keyof M>(
   event: E
@@ -29,7 +29,7 @@ export const mapObject = <T extends object, R extends Record<keyof T, any>>(
  *
  * @param action - an action to apply
  */
-export const doForAll = <A extends TDoAction>(
+export const doForAll = <A extends TDoAction<any[]>>(
   action: A
 ) => <M extends TEventMap>(
   eventMap: M
