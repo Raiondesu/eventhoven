@@ -247,6 +247,7 @@ name | type | description
 [`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event-map
 [`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event-map
 [`wait`](#wait) | `function` | Waits for an event to be executed
+[`harmonicWait`](#harmonicwait) | `function` | Same as [`wait`](#wait) but has an arity of 3, just as all the other event-handling functions
 [`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#metaevents) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 [`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emit) function created for [`metaEvents`](#metaevents)
@@ -254,7 +255,8 @@ name | type | description
 ---
 
 ### `eventMap`
-> Creates an event-map from event signatures
+
+Creates an event-map from event signatures.
 
 **Parameters**:
 
@@ -338,7 +340,9 @@ emit(inputEvents)('mouse-click')
 
 ### `emit`
 
-> Creates event emitters for an event-map
+Creates event emitters for an event-map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 **Parameters**:
 
@@ -350,13 +354,12 @@ name | type | description
 
 **Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
 
-> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ---
 
 ### `subscribe`
 
-> Creates event subscribers for an event-map
+Creates event subscribers for an event-map.
 
 **Parameters**:
 
@@ -370,13 +373,13 @@ name | type | description
 
 **Alias**: `on`
 
-> Note, that the function is [curried](#currying), which means that it must be called partially
-
 ---
 
 ### `unsubscribe`
 
-> Unsubscribes handlers from events of an event-map
+Unsubscribes handlers from events of an event-map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 **Parameters**:
 
@@ -396,7 +399,9 @@ name | type | description
 
 ### `wait`
 
-> Allows to wait for an event without the need for callbacks
+Allows to wait for an event without the need for callbacks.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 Basically, promise-style `subscribe` with the `once` flag.\
 It is a way to block execution flow until some event occurs.
@@ -425,8 +430,6 @@ console.log(e);
 // => KeyboardEvent {}
 ```
 </details>
-
-> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ⚠ More coming soon ⚠
 
