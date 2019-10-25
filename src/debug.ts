@@ -1,21 +1,25 @@
-import { onAll } from './subscribe.js';
-import { offAll } from './unsubscribe.js';
-import { metaEvents } from './meta-events.js';
+import { metaEvents, TMetaEvents } from './meta-events.js';
 import { TEventMap, TEventHandler } from './events.js';
+import { subscribeCollection, unsubscribeCollection } from './collections.js';
+import { mapObject } from './util.js';
 
-const onMeta = onAll(metaEvents);
-const offMeta = offAll(metaEvents);
+const metaSub = subscribeCollection(metaEvents);
+const metaUnsub = unsubscribeCollection(metaEvents);
 
 const log = (
-  map: TEventMap,
+  type: keyof TMetaEvents
+) => (
+  _map: TMetaEvents,
   event: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   `${
     new Date().toLocaleTimeString()
-  } [EVENT "${String(event)}"]: ${
-      argsOrHandler
-  } from ${map}`
+  } [EVENT ${type.toUpperCase()} "${String(event)}"]: ${
+    Array.isArray(argsOrHandler)
+      ? argsOrHandler.join(', ')
+      : argsOrHandler
+  }`
 );
 
 /**
@@ -27,6 +31,11 @@ const log = (
  * @param {boolean} enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = (enable: boolean) => (
-  enable ? onMeta : offMeta
-)(log);
+export const debug = (enable: boolean) => {
+  mapObject(
+    metaEvents,
+    (name) => (enable ? metaSub : metaUnsub)[
+      name
+    ](log(name))
+  );
+};
