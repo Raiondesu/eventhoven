@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var subscribe_js_1 = require("./subscribe.js");
-var unsubscribe_js_1 = require("./unsubscribe.js");
 var meta_events_js_1 = require("./meta-events.js");
-var onMeta = subscribe_js_1.onAll(meta_events_js_1.metaEvents);
-var offMeta = unsubscribe_js_1.offAll(meta_events_js_1.metaEvents);
-var log = function (map, event, argsOrHandler) { return console.log(new Date().toTimeString() + " [EVENT \"" + String(event) + "\"]: " + argsOrHandler + " from " + map); };
+var collections_js_1 = require("./collections.js");
+var util_js_1 = require("./util.js");
+var metaSub = collections_js_1.subscribeCollection(meta_events_js_1.metaEvents);
+var metaUnsub = collections_js_1.unsubscribeCollection(meta_events_js_1.metaEvents);
+var log = function (type) { return function (_map, event, argsOrHandler) { return console.log(new Date().toLocaleTimeString() + " [EVENT " + type.toUpperCase() + " \"" + String(event) + "\"]: " + (Array.isArray(argsOrHandler)
+    ? argsOrHandler.join(', ')
+    : argsOrHandler)); }; };
 /**
  * Enable or disable the debug mode.
  *
@@ -15,5 +17,7 @@ var log = function (map, event, argsOrHandler) { return console.log(new Date().t
  * @param {boolean} enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-exports.debug = function (enable) { return (enable ? onMeta : offMeta)(log); };
+exports.debug = function (enable) {
+    util_js_1.mapObject(meta_events_js_1.metaEvents, function (name) { return (enable ? metaSub : metaUnsub)[name](log(name)); });
+};
 //# sourceMappingURL=debug.js.map

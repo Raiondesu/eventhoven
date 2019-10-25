@@ -1,5 +1,5 @@
 import { emitMeta } from './meta-events.js';
-import { doForAll } from './util.js';
+import { mapObject } from './util.js';
 /**
  * Event-emitter factory creator
  *
@@ -42,5 +42,6 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-export const emitAll = doForAll(emit);
+export const emitAll = (eventMap) => (eventArgs) => mapObject(eventMap, (name) => emit(eventMap)(name)
+    .apply(null, eventArgs[name]));
 //# sourceMappingURL=emit.js.map

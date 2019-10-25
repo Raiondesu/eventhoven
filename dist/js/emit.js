@@ -51,5 +51,6 @@ exports.emit = function (eventMap, metaEmit) {
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-exports.emitAll = util_js_1.doForAll(exports.emit);
+exports.emitAll = function (eventMap) { return function (eventArgs) { return util_js_1.mapObject(eventMap, function (name) { return exports.emit(eventMap)(name)
+    .apply(null, eventArgs[name]); }); }; };
 //# sourceMappingURL=emit.js.map

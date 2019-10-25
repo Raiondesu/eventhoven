@@ -1,9 +1,11 @@
-import { onAll } from './subscribe.js';
-import { offAll } from './unsubscribe.js';
 import { metaEvents } from './meta-events.js';
-const onMeta = onAll(metaEvents);
-const offMeta = offAll(metaEvents);
-const log = (map, event, argsOrHandler) => console.log(`${new Date().toTimeString()} [EVENT "${String(event)}"]: ${argsOrHandler} from ${map}`);
+import { subscribeCollection, unsubscribeCollection } from './collections.js';
+import { mapObject } from './util.js';
+const metaSub = subscribeCollection(metaEvents);
+const metaUnsub = unsubscribeCollection(metaEvents);
+const log = (type) => (_map, event, argsOrHandler) => console.log(`${new Date().toLocaleTimeString()} [EVENT ${type.toUpperCase()} "${String(event)}"]: ${Array.isArray(argsOrHandler)
+    ? argsOrHandler.join(', ')
+    : argsOrHandler}`);
 /**
  * Enable or disable the debug mode.
  *
@@ -13,5 +15,7 @@ const log = (map, event, argsOrHandler) => console.log(`${new Date().toTimeStrin
  * @param {boolean} enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = (enable) => (enable ? onMeta : offMeta)(log);
+export const debug = (enable) => {
+    mapObject(metaEvents, (name) => (enable ? metaSub : metaUnsub)[name](log(name)));
+};
 //# sourceMappingURL=debug.js.map
