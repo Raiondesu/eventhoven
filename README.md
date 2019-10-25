@@ -21,8 +21,11 @@
   - [API](#api)
     - [`eventMap`](#eventmap)
     - [`emit`](#emit)
+    - [`emitAll`](#emitall)
     - [`subscribe`](#subscribe)
+    - [`subscribeToAll`](#subscribetoall)
     - [`unsubscribe`](#unsubscribe)
+    - [`unsubscribeFromAll`](#unsubscribefromall)
     - [`wait`](#wait)
     - [`harmonicWait`](#harmonicwait)
 
@@ -238,7 +241,7 @@ name | type | description
 [`subscribe`](#subscribe) | `function` | Event subscriber factory
 [`subscribeToAll`](#subscribetoall) | `function` | Event subscriber factory for all events in a collection
 [`on`](#subscribe) | `function` | Alias for [`subscribe`](#subscribe)
-[`onAll`](#subscribetoall) | `function` | Alias for [`subscribeAll`](#subscribetoall)
+[`onAll`](#subscribetoall) | `function` | Alias for [`subscribeToAll`](#subscribetoall)
 [`unsubscribe`](#unsubscribe) | `function` | Event unsubscriber factory
 [`unsubscribeFromAll`](#unsubscribefromall) | `function` | Event unsubscriber factory
 [`off`](#unsubscribe) | `function` | Alias for [`unsubscribe`](#unsubscribe)
@@ -355,12 +358,11 @@ name | type | description
 
 **Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
 
-
 ---
 
-### `subscribe`
+### `emitAll`
 
-Creates event subscribers for an event-map.
+Emits **all** events in an event map.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
@@ -368,13 +370,49 @@ Creates event subscribers for an event-map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
+`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/emit.ts#L52) | Parameters for all events in an event map.
+
+**Returns**: `Record<keyof M, Promise<void>>` - a map for all events' emits promises (each will resolve upon all event handlers' resolution).
+
+
+---
+
+### `subscribe`
+
+Creates event subscribers for an event in an event-map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to get events from.
 `event` | `PropertyKey` | An event name to subscribe to for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to execute on the event, spread. If emtpy, no subscribing is done.
 
 **Returns**: `() => void` - a function that unsubscribes the handler from the event
 
 **Alias**: `on`
+
+
+### `subscribeToAll`
+
+Subscribes handler(s) to **all** events in an event map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
+`...handlers` | `function[]` | Handlers to execute on the events, spread. If emtpy, no subscribing is done.
+
+**Returns**: `void`
+
+**Alias**: `onAll`
 
 ---
 
@@ -395,6 +433,24 @@ name | type | description
 **Returns**: `void`
 
 **Alias**: `off`
+
+
+### `unsubscribeFromAll`
+
+Unsubscribes handler(s) from **all** events in an event map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe from.
+`...handlers` | `function[]` | Handlers to unsubscribe from the events, spread. If empty - all currently subbed handlers will be unsubscribed.
+
+**Returns**: `void`
+
+**Alias**: `offAll`
 
 ---
 
