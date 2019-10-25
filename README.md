@@ -601,6 +601,7 @@ The simplest possible plugin is already written for you - the [`debug`](https://
 It can be used as an example for writing your own plugins for `eventhoven`!
 
 Current list of all meta-events is as follows:
+
  name  | emitted when
 -------|------------------
 `emit` | Any event is emitted, except itself.
