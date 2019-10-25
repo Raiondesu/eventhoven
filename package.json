@@ -1,6 +1,6 @@
 {
   "name": "eventhoven",
-  "version": "0.2.1",
+  "version": "0.3.0-rc.9",
   "sideEffects": false,
   "description": "Compose strongly-typed events effortlessly 🎵",
   "main": "dist/js",
@@ -34,13 +34,16 @@
   },
   "scripts": {
     "test": "jest",
-    "build:js": "tsc --outDir dist/js -t ES5",
+    "build:js": "tsc --outDir dist/js -t ES5 --module commonjs",
     "build:es": "tsc --outDir dist/es -t ES2015",
     "build:next": "tsc --outDir dist/esnext",
     "build": "npm run build:js && npm run build:es && npm run build:next",
+    "dev": "tsc --noEmit -w",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
     "preversion": "npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
+    "preminor": "npm version preminor --preid=rc && npm publish --tag next && git push",
+    "premajor": "npm version premajor --preid=rc && npm publish --tag next && git push",
     "patch": "npm version patch && npm publish && git push",
     "minor": "npm version minor && npm publish && git push",
     "major": "npm version major && npm publish && git push"

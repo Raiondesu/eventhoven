@@ -42,6 +42,11 @@ export const unsubscribe = <M extends TEventMap>(
 
 export const off = unsubscribe;
 
-export const unsubscribeFromAll = doForAll(unsubscribe);
+export const unsubscribeFromAll = <{
+  <M extends TEventMap>(eventMap: M): {
+    (handler: THandlerOf<M>): void;
+    (...handlers: THandlerOf<M>[]): void;
+  }
+}> doForAll(unsubscribe);
 
 export const offAll = unsubscribeFromAll;

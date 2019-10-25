@@ -1,5 +1,5 @@
 import { emitMeta } from './meta-events.js';
-import { doForAll } from './util.js';
+import { mapObject } from './util.js';
 /**
  * Event-emitter factory creator
  *
@@ -29,7 +29,7 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
     // Mandates non-blocking flow
     return new Promise(resolve => setTimeout(() => {
         handlers.forEach((once, handler) => {
-            results.push(Promise.resolve(handler(...slicedArgs)));
+            results.push(Promise.resolve(handler.apply(null, slicedArgs)));
             once && handlers.delete(handler);
         });
         resolve(Promise.all(results).then(_ => void 0));
@@ -42,5 +42,6 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-export const emitAll = doForAll(emit);
+export const emitAll = (eventMap) => (eventArgs) => mapObject(eventMap, (name) => emit(eventMap)(name)
+    .apply(null, eventArgs[name]));
 //# sourceMappingURL=emit.js.map

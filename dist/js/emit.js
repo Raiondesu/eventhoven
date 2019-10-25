@@ -1,6 +1,7 @@
-import { __read, __spread } from "tslib";
-import { emitMeta } from './meta-events.js';
-import { doForAll } from './util.js';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var meta_events_js_1 = require("./meta-events.js");
+var util_js_1 = require("./util.js");
 /**
  * Event-emitter factory creator
  *
@@ -8,8 +9,8 @@ import { doForAll } from './util.js';
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export var emit = function (eventMap, metaEmit) {
-    if (metaEmit === void 0) { metaEmit = emitMeta; }
+exports.emit = function (eventMap, metaEmit) {
+    if (metaEmit === void 0) { metaEmit = meta_events_js_1.emitMeta; }
     /**
      * Emitter factory for a specific event collection
      *
@@ -35,7 +36,7 @@ export var emit = function (eventMap, metaEmit) {
             // Mandates non-blocking flow
             return new Promise(function (resolve) { return setTimeout(function () {
                 handlers.forEach(function (once, handler) {
-                    results.push(Promise.resolve(handler.apply(void 0, __spread(slicedArgs))));
+                    results.push(Promise.resolve(handler.apply(null, slicedArgs)));
                     once && handlers.delete(handler);
                 });
                 resolve(Promise.all(results).then(function (_) { return void 0; }));
@@ -50,5 +51,6 @@ export var emit = function (eventMap, metaEmit) {
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-export var emitAll = doForAll(emit);
+exports.emitAll = function (eventMap) { return function (eventArgs) { return util_js_1.mapObject(eventMap, function (name) { return exports.emit(eventMap)(name)
+    .apply(null, eventArgs[name]); }); }; };
 //# sourceMappingURL=emit.js.map

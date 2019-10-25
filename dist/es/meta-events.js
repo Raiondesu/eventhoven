@@ -9,6 +9,6 @@ export const emitMeta = (event) => (...args) => new Promise(resolve => {
     if (args[0] === metaEvents) {
         return resolve();
     }
-    resolve(emit(metaEvents)(event)(...args));
+    return resolve(emit(metaEvents)(event).apply(null, args));
 });
 //# sourceMappingURL=meta-events.js.map

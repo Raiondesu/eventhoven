@@ -67,6 +67,11 @@ export const on = subscribe;
  * @param eventMap - an event collection to subscribe to
  * @returns a function that subscribes handlers to all events in the given event collection
  */
-export const subscribeToAll = doForAll(subscribe);
+export const subscribeToAll = <{
+  <M extends TEventMap>(eventMap: M): {
+    (handler: THandlerOf<M>): void;
+    (...handlers: THandlerOf<M>[]): void;
+  }
+}> doForAll(subscribe);
 
 export const onAll = subscribeToAll;

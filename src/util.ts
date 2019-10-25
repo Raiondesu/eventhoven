@@ -1,10 +1,10 @@
 import { TEventMap } from './events.js';
 
-export type TDoAction<P extends any[] = any[]> = <M extends TEventMap>(
+export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
   eventMap: M
 ) => <E extends keyof M>(
   event: E
-) => (...args: P) => void;
+) => (...args: P) => R;
 
 /**
  * Maps object values by their keys into a new object
@@ -29,7 +29,7 @@ export const mapObject = <T extends object, R extends Record<keyof T, any>>(
  *
  * @param action - an action to apply
  */
-export const doForAll = <A extends TDoAction>(
+export const doForAll = <A extends TDoAction<any[]>>(
   action: A
 ) => <M extends TEventMap>(
   eventMap: M
@@ -39,6 +39,6 @@ export const doForAll = <A extends TDoAction>(
   return (
     ...args: A extends TDoAction<infer P> ? P : any[]
   ) => {
-    mapObject(eventMap, (key) => mappedAction(key)(...args));
+    mapObject(eventMap, (key) => mappedAction(key).apply(null, args));
   };
 }

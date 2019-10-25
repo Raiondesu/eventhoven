@@ -38,7 +38,7 @@ export const emit = <M extends TEventMap>(
     handlers.forEach((once, handler) => {
       results.push(
         Promise.resolve(
-          handler(...slicedArgs)
+          handler.apply(null, slicedArgs)
         )
       );
 
@@ -49,6 +49,10 @@ export const emit = <M extends TEventMap>(
   }, 0));
 };
 
+export type TEventParamsMap<M extends TEventMap> = {
+  [name in keyof M]: Parameters<THandlerOf<M, name>>
+};
+
 /**
  * Emit all events for a given event collection
  *
@@ -56,4 +60,12 @@ export const emit = <M extends TEventMap>(
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-export const emitAll = doForAll(emit as TDoAction);
+export const emitAll = <M extends TEventMap>(
+  eventMap: M
+) => (
+  eventArgs: TEventParamsMap<M>
+) => mapObject<M, Record<keyof M, Promise<void>>>(
+  eventMap,
+  (name) => emit(eventMap)(name)
+    .apply(null, eventArgs[name])
+);

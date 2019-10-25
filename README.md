@@ -21,8 +21,17 @@
   - [API](#api)
     - [`eventMap`](#eventmap)
     - [`emit`](#emit)
+    - [`emitAll`](#emitall)
     - [`subscribe`](#subscribe)
+    - [`subscribeToAll`](#subscribetoall)
     - [`unsubscribe`](#unsubscribe)
+    - [`unsubscribeFromAll`](#unsubscribefromall)
+    - [`wait`](#wait)
+    - [`harmonicWait`](#harmonicwait)
+    - [`debug`](#debug)
+    - [Collections](#collections)
+    - [Plugin API](#plugin-api)
+  - [Contribute](#contribute)
 
 ## What is this?
 It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
@@ -49,7 +58,10 @@ A main list of features includes (but not limited to):
 - Code-generation-friendly:\
   Due to the SRP, all functions have a very limited number of ways of invocation.\
   This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
-- **KISS** and **DRY** ([kinda](https://github.com/raiondesu-experiments/eventhoven/blob/f22bef199e0a053bd62f4c28761c1519f6166a7c/src/collections.ts#L21))
+- **KISS** and **DRY**
+
+Something's missing or found a bug?\
+Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
 
 ---
 
@@ -233,7 +245,7 @@ name | type | description
 [`subscribe`](#subscribe) | `function` | Event subscriber factory
 [`subscribeToAll`](#subscribetoall) | `function` | Event subscriber factory for all events in a collection
 [`on`](#subscribe) | `function` | Alias for [`subscribe`](#subscribe)
-[`onAll`](#subscribetoall) | `function` | Alias for [`subscribeAll`](#subscribetoall)
+[`onAll`](#subscribetoall) | `function` | Alias for [`subscribeToAll`](#subscribetoall)
 [`unsubscribe`](#unsubscribe) | `function` | Event unsubscriber factory
 [`unsubscribeFromAll`](#unsubscribefromall) | `function` | Event unsubscriber factory
 [`off`](#unsubscribe) | `function` | Alias for [`unsubscribe`](#unsubscribe)
@@ -242,13 +254,17 @@ name | type | description
 [`subscribeCollection`](#subscribecollection) | `function` | Creates a collection of event-subscribers from an event-map
 [`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event-map
 [`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event-map
+[`wait`](#wait) | `function` | Waits for an event to be executed
+[`harmonicWait`](#harmonicwait) | `function` | Same as [`wait`](#wait) but has an arity of 3, just as all the other event-handling functions
 [`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#metaevents) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 [`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emit) function created for [`metaEvents`](#metaevents)
 
+---
 
 ### `eventMap`
-> Creates an event-map from event signatures
+
+Creates an event-map from event signatures.
 
 **Parameters**:
 
@@ -328,9 +344,13 @@ const inputEvents = {
 emit(inputEvents)('mouse-click')
 ```
 
+---
+
 ### `emit`
 
-> Creates event emitters for an event-map
+Creates event emitters for an event-map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 **Parameters**:
 
@@ -342,17 +362,37 @@ name | type | description
 
 **Returns**: `Promise<void>` - a promise that is resolved when all event handlers have finished their execution
 
+---
+
+### `emitAll`
+
+Emits **all** events in an event map.
+
 > Note, that the function is [curried](#currying), which means that it must be called partially
-
-### `subscribe`
-
-> Creates event subscribers for an event-map
 
 **Parameters**:
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
+`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/emit.ts#L52) | Parameters for all events in an event map.
+
+**Returns**: `Record<keyof M, Promise<void>>` - a map for all events' emits promises (each will resolve upon all event handlers' resolution).
+
+
+---
+
+### `subscribe`
+
+Creates event subscribers for an event in an event-map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to get events from.
 `event` | `PropertyKey` | An event name to subscribe to for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to execute on the event, spread. If emtpy, no subscribing is done.
 
@@ -360,11 +400,31 @@ name | type | description
 
 **Alias**: `on`
 
+
+### `subscribeToAll`
+
+Subscribes handler(s) to **all** events in an event map.
+
 > Note, that the function is [curried](#currying), which means that it must be called partially
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
+`...handlers` | `function[]` | Handlers to execute on the events, spread. If emtpy, no subscribing is done.
+
+**Returns**: `void`
+
+**Alias**: `onAll`
+
+---
 
 ### `unsubscribe`
 
-> Unsubscribes handlers from events of an event-map
+Unsubscribes handlers from events of an event-map.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 **Parameters**:
 
@@ -378,6 +438,207 @@ name | type | description
 
 **Alias**: `off`
 
+
+### `unsubscribeFromAll`
+
+Unsubscribes handler(s) from **all** events in an event map.
+
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
-⚠ More coming soon ⚠
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe from.
+`...handlers` | `function[]` | Handlers to unsubscribe from the events, spread. If empty - all currently subbed handlers will be unsubscribed.
+
+**Returns**: `void`
+
+**Alias**: `offAll`
+
+---
+
+### `wait`
+
+Allows to wait for an event without the need for callbacks.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
+Basically, promise-style `subscribe` with the `once` flag.\
+It is a way to block execution flow until some event occurs.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
+
+**Returns**: `Promise<Array<unknown>> (contextual)` - a promise with array of parameters passed to the event.
+
+<details>
+<summary>Simple example</summary>
+
+```ts
+import { wait } from 'eventhoven';
+
+const keydown = wait(keyboardEvents)('keydown');
+
+//... some time later in async context
+
+const [e] = await keydown; // Resolves upon the first 'keydown' event emit
+console.log(e);
+// => KeyboardEvent {}
+```
+</details>
+
+---
+
+### `harmonicWait`
+
+Same as [`wait`](#wait), but returns a promise factory instead of a plain promise.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
+Useful due to having the same signature as [`emit`](#emit), [`subscribe`](#subscribe) and [`unsubscribe`](#unsubscribe),
+which allows for an easier composition of waiters.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
+
+**Returns**: `() => Promise<Array<unknown>> (contextual)` - a promise factory with array of parameters passed to the event.
+
+<details>
+<summary>Simple example</summary>
+
+```ts
+import { wait } from 'eventhoven';
+
+// Function that initiates a waiter
+const waitForKeydown = wait(keyboardEvents)('keydown');
+
+//... some time later in async context
+
+// Resolves upon the first 'keydown' event emit
+// since the call of the `waitForKeydown`
+const [e] = await waitForKeydown();
+console.log(e);
+// => KeyboardEvent {}
+```
+</details>
+
+---
+
+### `debug`
+
+Sets a debug mode.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`enabled` | `boolean` | Whether to enable the debug mode or disable it.
+
+**Returns**: `void`
+
+When debug mode is enabled, all emits, subscribes and unsubscribes are logged to the console
+in a following format:
+
+```
+HH:MM:SS [EVENT {event-name}]: {event-handler-or-params}
+```
+where `{event-name}` is the name of the event\
+and `{event-handler-or-params}` is the handler for the event (when subscribing or unsubscribing) or its params (when emitting).
+
+Example:
+```ts
+debug(true);
+
+emit(emojiEvents)('🎌')('🍣', 10);
+
+// logs:
+// 12:59:05 [EVENT EMIT 🎌]: 🍣, 10
+```
+
+---
+
+### Collections
+
+`eventhoven` provides a way to group your event-managing needs using `collections`.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+
+**Return**: A map of event names to the action for that event name.
+
+Currently available `collections` are:
+
+name | action | description
+-----|--------|------------------
+`emitCollection` | [`emit`](#emit) | Creates a an object, where each property is a function that emits a prescribed event
+`subscribeCollection` | [`subscribe`](#subscribe) | Creates a an object, where each property is a function that subscribes to a prescribed event
+`unsubscribeCollection` | [`unsubscribe`](#unsubscribe) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
+`eventCollection` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
+
+---
+
+### Plugin API
+
+It's also possible to write custom plugins for `eventhoven` thanks to meta-events!
+
+Meta-events is a simple [`event-map`](#eventmap) with events for internal `eventhoven` actions, like [`emit`](#emit).\
+One can subscribe to these events to execute some actions or emit these events to emulate them for the `eventhoven`.
+
+The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/debug.ts) plugin.\
+It can be used as an example for writing your own plugins for `eventhoven`!
+
+Current list of all meta-events is as follows:
+ name  | emitted when
+-------|------------------
+`emit` | Any event is emitted, except itself.
+`subscribe` | Any event is subscribed to, except itself.
+`unsubscribe` | Any event is unsubscribed from, except itself.
+
+Simple example:
+
+```ts
+import { metaEvents, on } from 'eventhoven';
+
+on(metaEvents)('emit')(
+  (eventMap, eventName, eventArgs) => console.log(`This handler will be executed when ANY event is emitted!`)
+);
+```
+
+---
+
+## Contribute
+
+First, fork the repo and clone it:
+```
+git clone https://github.com/%your-github-username%/eventhoven.git
+```
+
+Then:
+```
+npm install
+```
+
+Then:
+```
+npm run dev
+```
+
+Then propose a PR!\
+I'll be happy to review it!
+
+---
+
+Something's missing or found a bug?\
+Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
