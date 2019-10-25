@@ -542,11 +542,12 @@ Sets a debug mode.
 name | type | description
 -----|------|---------------
 `enabled` | `boolean` | Whether to enable the debug mode or disable it.
+`logEvent` | `function` (optional) | A custom logging function.
 
 **Returns**: `void`
 
 When debug mode is enabled, all emits, subscribes and unsubscribes are logged to the console
-in a following format:
+in a following format (default):
 
 ```
 HH:MM:SS [EVENT {event-name}]: {event-handler-or-params}
