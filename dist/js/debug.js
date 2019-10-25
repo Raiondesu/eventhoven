@@ -17,7 +17,8 @@ var log = function (type) { return function (_map, event, argsOrHandler) { retur
  * @param {boolean} enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-exports.debug = function (enable) {
-    util_js_1.mapObject(meta_events_js_1.metaEvents, function (name) { return (enable ? metaSub : metaUnsub)[name](log(name)); });
+exports.debug = function (enable, logEvent) {
+    if (logEvent === void 0) { logEvent = log; }
+    util_js_1.mapObject(meta_events_js_1.metaEvents, function (name) { return (enable ? metaSub : metaUnsub)[name](logEvent(name)); });
 };
 //# sourceMappingURL=debug.js.map

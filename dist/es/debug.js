@@ -15,7 +15,7 @@ const log = (type) => (_map, event, argsOrHandler) => console.log(`${new Date().
  * @param {boolean} enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = (enable) => {
-    mapObject(metaEvents, (name) => (enable ? metaSub : metaUnsub)[name](log(name)));
+export const debug = (enable, logEvent = log) => {
+    mapObject(metaEvents, (name) => (enable ? metaSub : metaUnsub)[name](logEvent(name)));
 };
 //# sourceMappingURL=debug.js.map
