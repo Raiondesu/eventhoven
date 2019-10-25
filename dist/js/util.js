@@ -7,10 +7,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 exports.mapObject = function (obj, value, defaultValue) {
     if (defaultValue === void 0) { defaultValue = {}; }
-    return Object.keys(obj).reduce(function (newObj, key) {
-        newObj[key] = value(key, obj);
-        return newObj;
-    }, defaultValue);
+    return Object.keys(obj).reduce(function (newObj, key) { return ((newObj[key] = value(key, obj)),
+        newObj); }, defaultValue);
 };
 /**
  * A `do`-er factory
@@ -19,14 +17,11 @@ exports.mapObject = function (obj, value, defaultValue) {
  *
  * @param action - an action to apply
  */
-exports.doForAll = function (action) { return function (eventMap) {
-    var mappedAction = action(eventMap);
-    return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        exports.mapObject(eventMap, function (key) { return mappedAction(key).apply(null, args); });
-    };
-}; };
+exports.doForAll = function (action) { return function (eventMap) { return function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    exports.mapObject(eventMap, function (key) { return action(eventMap)(key).apply(null, args); });
+}; }; };
 //# sourceMappingURL=util.js.map

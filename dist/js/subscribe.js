@@ -11,7 +11,7 @@ var util_js_1 = require("./util.js");
  * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-function subscribe(eventMap, _a) {
+exports.subscribe = function (eventMap, _a) {
     var _b = _a === void 0 ? {
         unsubscribe: unsubscribe_js_1.unsubscribe,
         meta: meta_events_js_1.emitMeta
@@ -34,15 +34,14 @@ function subscribe(eventMap, _a) {
                 .apply(null, handlers); };
         };
     };
-}
-exports.subscribe = subscribe;
-exports.on = subscribe;
+};
+exports.on = exports.subscribe;
 /**
  * A subscriber factory for all events of a given collection
  *
  * @param eventMap - an event collection to subscribe to
  * @returns a function that subscribes handlers to all events in the given event collection
  */
-exports.subscribeToAll = util_js_1.doForAll(subscribe);
+exports.subscribeToAll = util_js_1.doForAll(exports.subscribe);
 exports.onAll = exports.subscribeToAll;
 //# sourceMappingURL=subscribe.js.map

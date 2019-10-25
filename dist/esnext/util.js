@@ -3,10 +3,8 @@
  *
  * Generaly equivalent to `Array.prototype.map()`
  */
-export const mapObject = (obj, value, defaultValue = {}) => Object.keys(obj).reduce((newObj, key) => {
-    newObj[key] = value(key, obj);
-    return newObj;
-}, defaultValue);
+export const mapObject = (obj, value, defaultValue = {}) => Object.keys(obj).reduce((newObj, key) => ((newObj[key] = value(key, obj)),
+    newObj), defaultValue);
 /**
  * A `do`-er factory
  *
@@ -14,10 +12,7 @@ export const mapObject = (obj, value, defaultValue = {}) => Object.keys(obj).red
  *
  * @param action - an action to apply
  */
-export const doForAll = (action) => (eventMap) => {
-    const mappedAction = action(eventMap);
-    return (...args) => {
-        mapObject(eventMap, (key) => mappedAction(key).apply(null, args));
-    };
+export const doForAll = (action) => (eventMap) => (...args) => {
+    mapObject(eventMap, (key) => action(eventMap)(key).apply(null, args));
 };
 //# sourceMappingURL=util.js.map
