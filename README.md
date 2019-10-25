@@ -362,6 +362,8 @@ name | type | description
 
 Creates event subscribers for an event-map.
 
+> Note, that the function is [curried](#currying), which means that it must be called partially
+
 **Parameters**:
 
 name | type | description
@@ -393,8 +395,6 @@ name | type | description
 **Returns**: `void`
 
 **Alias**: `off`
-
-> Note, that the function is [curried](#currying), which means that it must be called partially
 
 ---
 
@@ -437,6 +437,8 @@ console.log(e);
 ### `harmonicWait`
 
 Same as [`wait`](#wait), but returns a promise factory instead of a plain promise.
+
+> Note, that the function is [curried](#currying), which means that it must be called partially
 
 Useful due to having the same signature as [`emit`](#emit), [`subscribe`](#subscribe) and [`unsubscribe`](#unsubscribe),
 which allows for an easier composition of waiters.
