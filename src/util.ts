@@ -1,6 +1,6 @@
 import { TEventMap } from './events.js';
 
-export type TDoAction<P extends any[], R = void> = <M extends TEventMap>(
+export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
   eventMap: M
 ) => <E extends keyof M>(
   event: E
