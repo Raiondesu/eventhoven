@@ -16,11 +16,10 @@ export const mapObject = <T extends object, R extends Record<keyof T, any>>(
 ) => (
   <Array<keyof T>>
   Object.keys(obj)
-).reduce((newObj, key) => {
-  newObj[key] = value(key, obj);
-
-  return newObj;
-}, defaultValue);
+).reduce((newObj, key) => (
+  (newObj[key] = value(key, obj)),
+  newObj
+), defaultValue);
 
 /**
  * A `do`-er factory
@@ -33,12 +32,8 @@ export const doForAll = <A extends TDoAction<any[]>>(
   action: A
 ) => <M extends TEventMap>(
   eventMap: M
+) => (
+  ...args: A extends TDoAction<infer P> ? P : any[]
 ) => {
-  const mappedAction = action(eventMap);
-
-  return (
-    ...args: A extends TDoAction<infer P> ? P : any[]
-  ) => {
-    mapObject(eventMap, (key) => mappedAction(key).apply(null, args));
-  };
-}
+  mapObject(eventMap, (key) => action(eventMap)(key).apply(null, args));
+};

@@ -26,7 +26,7 @@ export type TSubscriberContext = {
  * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-export function subscribe<M extends TEventMap>(
+export const subscribe = <M extends TEventMap>(
   eventMap: M, {
     meta: m,
     unsubscribe: unsub
@@ -37,27 +37,25 @@ export function subscribe<M extends TEventMap>(
 ): {
   <E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
   <S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
-} {
-  return (
-    eventOrOpts: keyof M | ISubscribeOptions<M, keyof M>,
-    onceArg: boolean = true
-  ): TSubscriber<M, keyof M> => {
-    const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
-    const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
+} => (
+  eventOrOpts: keyof M | ISubscribeOptions<M, keyof M>,
+  onceArg: boolean = true
+): TSubscriber<M, keyof M> => {
+  const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
+  const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
 
-    return (...handlers: Array<THandlerOf<M>>) => {
-      handlers.forEach(handler => {
-        // Emit meta-event (ignore promise)
-        m('subscribe')(eventMap, event, handler);
+  return (...handlers: Array<THandlerOf<M>>) => {
+    handlers.forEach(handler => {
+      // Emit meta-event (ignore promise)
+      m('subscribe')(eventMap, event, handler);
 
-        eventMap[event].handlers.set(handler, once);
-      });
+      eventMap[event].handlers.set(handler, once);
+    });
 
-      return () => unsub(eventMap)(event)
-        .apply(null, handlers);
-    };
-  }
-}
+    return () => unsub(eventMap)(event)
+      .apply(null, handlers);
+  };
+};
 
 export const on = subscribe;
 

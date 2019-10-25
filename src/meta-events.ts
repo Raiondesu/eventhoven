@@ -13,9 +13,7 @@ export type TMetaEmit = typeof emitMeta;
 export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
   ...args: Parameters<THandlerOf<TMetaEvents, E>>
 ) => new Promise<void>(resolve => {
-  if (args[0] === metaEvents) {
-    return resolve();
+  if (args[0] !== metaEvents) {
+    resolve(emit(metaEvents)(event).apply(null, args));
   }
-
-  return resolve(emit(metaEvents)(event).apply(null, args));
 });
