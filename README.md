@@ -29,6 +29,7 @@
     - [`wait`](#wait)
     - [`harmonicWait`](#harmonicwait)
     - [`debug`](#debug)
+  - [Contribute](#contribute)
 
 ## What is this?
 It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
@@ -552,6 +553,30 @@ emit(emojiEvents)('🎌')('🍣', 10);
 ```
 
 ⚠ More coming soon ⚠
+
+---
+
+## Contribute
+
+First, fork the repo and clone it:
+```
+git clone https://github.com/%your-github-username%/eventhoven.git
+```
+
+Then:
+```
+npm install
+```
+
+Then:
+```
+npm run dev
+```
+
+Then propose a PR!\
+I'll be happy to review it!
+
+---
 
 Something's missing or found a bug?\
 Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
