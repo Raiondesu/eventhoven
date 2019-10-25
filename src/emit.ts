@@ -1,6 +1,6 @@
 import { TEventMap, THandlerOf } from './events.js';
 import { emitMeta, TMetaEmit } from './meta-events.js';
-import { doForAll, TDoAction } from './util.js';
+import { doForAll, TDoAction, mapObject } from './util.js';
 
 /**
  * Event-emitter factory creator
@@ -56,12 +56,12 @@ export const emit = <M extends TEventMap>(
  *
  * @returns a function that emits all events from a collection with given arguments
  */
-export const emitAll = <{
-  <M extends TEventMap>(eventMap: M): {
-    (...args: Parameters<THandlerOf<M>>): void;
-  }
-}> doForAll(
-  // This type cast is impossible to remove
-  // until TS introduces HKT - https://github.com/microsoft/TypeScript/issues/1213
-  emit as TDoAction<any[]>
+export const emitAll = <M extends TEventMap>(
+  eventMap: M
+) => (eventArgs: {
+  [name in keyof M]: Parameters<THandlerOf<M, name>>
+}) => mapObject<M, Record<keyof M, Promise<void>>>(
+  eventMap,
+  (name) => emit(eventMap)(name)
+    .apply(null, eventArgs[name])
 );
