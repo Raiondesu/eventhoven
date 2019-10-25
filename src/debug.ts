@@ -12,7 +12,7 @@ const log = (
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   `${
-    new Date().toTimeString()
+    new Date().toLocaleTimeString()
   } [EVENT "${String(event)}"]: ${
       argsOrHandler
   } from ${map}`
