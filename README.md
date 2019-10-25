@@ -52,6 +52,9 @@ A main list of features includes (but not limited to):
   This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
 - **KISS** and **DRY**
 
+Something's missing or found a bug?\
+Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
+
 ---
 
 ## Disclaimer
@@ -426,3 +429,6 @@ console.log(e);
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
 ⚠ More coming soon ⚠
+
+Something's missing or found a bug?\
+Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
