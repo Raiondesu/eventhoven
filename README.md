@@ -606,6 +606,16 @@ Current list of all meta-events is as follows:
 `subscribe` | Any event is subscribed to, except itself.
 `unsubscribe` | Any event is unsubscribed from, except itself.
 
+Simple example:
+
+```ts
+import { metaEvents, on } from 'eventhoven';
+
+on(metaEvents)('emit')(
+  (eventMap, eventName, eventArgs) => console.log(`This handler will be executed when ANY event is emitted!`)
+);
+```
+
 ---
 
 ## Contribute
