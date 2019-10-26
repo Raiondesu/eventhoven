@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf } from './events';
-import { emitMeta, TMetaEmit } from './meta-events';
+import { emitMeta } from './meta-events';
 import { mapObject, TLastParams } from './util';
 
 // Redeclare setTimeout to be both node and browser types (instead of overloads)
@@ -16,8 +16,7 @@ declare const setTimeout:
  * @param eventMap - an event collection to create an emitter for
  */
 export const emit = <M extends TEventMap>(
-  eventMap: M,
-  metaEmit: TMetaEmit = emitMeta
+  eventMap: M
 ) =>
 /**
  * Emitter factory for a specific event collection
@@ -35,7 +34,7 @@ export const emit = <M extends TEventMap>(
 
   const results: Array<Promise<void> | void> = [
     // Emit meta-event
-    metaEmit('emit')(eventMap, event, args)
+    emitMeta('emit')(eventMap, event, args)
   ];
 
   // Mandates non-blocking flow

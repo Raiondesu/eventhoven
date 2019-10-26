@@ -1,5 +1,5 @@
-import { TEventMap, THandlerOf, TContextHandler } from './events';
-import { emitMeta, TMetaEmit } from './meta-events';
+import { TEventMap, THandlerOf } from './events';
+import { emitMeta } from './meta-events';
 import { doForAll } from './util';
 
 export type TUnsubscribe<From> = () => (
@@ -17,8 +17,7 @@ type TUnsubscribeHandlers<M extends TEventMap, From extends keyof M> = (
 );
 
 export const unsubscribe = <M extends TEventMap>(
-  eventMap: M,
-  m: TMetaEmit = emitMeta
+  eventMap: M
 ) => <E extends keyof M>(
   event: E
 ): TUnsubscribeHandlers<M, E> => (
@@ -27,14 +26,14 @@ export const unsubscribe = <M extends TEventMap>(
   handlers.length > 0 ? (
     handlers.forEach(h => (
       // Emit meta-event (ignore promise)
-      m('unsubscribe')(eventMap, event, h),
+      emitMeta('unsubscribe')(eventMap, event, h),
 
       eventMap[event].delete(h)
     ))
   ) : (
     eventMap[event].forEach((_, h) => (
       // Emit meta-event (ignore promise)
-      m('unsubscribe')(eventMap, event, h)
+      emitMeta('unsubscribe')(eventMap, event, h)
     )),
     eventMap[event].clear()
   )
