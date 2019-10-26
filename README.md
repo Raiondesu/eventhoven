@@ -2,15 +2,19 @@
 
 > Compose events effortlessly 🎵
 
+[![travis](https://img.shields.io/travis/com/raiondesu-experiments/eventhoven?style=flat-square)](https://travis-ci.com/raiondesu-experiments/eventhoven "Latest Travis CI build")
 [![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page")
 [![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "Downloads per month, but who cares?")
 [![size](https://img.shields.io/bundlephobia/minzip/eventhoven?style=flat-square)](https://bundlephobia.com/result?p=eventhoven "minzipped size")
+[![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
+[![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
 ## Table of Contents
 - [eventhoven](#eventhoven)
   - [Table of Contents](#table-of-contents)
   - [What is this?](#what-is-this)
   - [Disclaimer](#disclaimer)
+    - [SemVer](#semver)
     - [TypeScript](#typescript)
     - [Currying](#currying)
     - [External state >>> Internal state](#external-state--internal-state)
@@ -20,6 +24,7 @@
     - [Simple usage examples](#simple-usage-examples)
   - [API](#api)
     - [`eventMap`](#eventmap)
+      - [Event context](#event-context)
     - [`emit`](#emit)
     - [`emitAll`](#emitall)
     - [`subscribe`](#subscribe)
@@ -34,7 +39,7 @@
   - [Contribute](#contribute)
 
 ## What is this?
-It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped).
+It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -51,8 +56,7 @@ A main list of features includes (but not limited to):
 - **SOLID**
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
-  - **L**SP - all funcions are easily substitutable using dependency injection
-    as long as they adhere to the same API
+  - **L**SP - all funcions are easily substitutable as long as they adhere to the same API
   - **I**SP - all data types are the least specific versions of them
   - **D**IP - API depends only on abstractions
 - Code-generation-friendly:\
@@ -67,6 +71,11 @@ Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhov
 
 ## Disclaimer
 > and some ground principles
+
+### SemVer
+
+This project will utilize SemVer after a 1.0.0 release!\
+Until then - breaking changes are possilbe during minor updates!
 
 ### TypeScript
 
@@ -150,7 +159,6 @@ const { emit, on, off } = require('eventhoven/dist/js');
 
 ### Simple usage examples
 
-
 <details>
 <summary><b>Example 1</b></summary>
 
@@ -164,9 +172,9 @@ const emojiEvents = eventMap({
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  '👩'(emoji: '👨' | '👩') {},
-  '🌈'(emoji: '🦄' | '🌧') {},
-  '🎌':(emoji: '👘' | '🍣' | '🚗', amount: number) {},
+  '👩'(ctx, emoji: '👨' | '👩') {},
+  '🌈'(ctx, emoji: '🦄' | '🌧') {},
+  '🎌'(ctx, emoji: '👘' | '🍣' | '🚗', amount: number) {},
 });
 
 on(emojiEvents)('🎌')(
@@ -175,7 +183,7 @@ on(emojiEvents)('🎌')(
 
 on(emojiEvents)('🎌')(
   // Returning promises is also allowed (example API from http://www.sushicount.com/api)
-  (emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
+  (ctx, emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
     .then(_ => _.json())
     .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} of ${emoji}-s loaded from sushicount!`))
 );
@@ -207,19 +215,20 @@ const todos: Todo[] = [];
 // Event-map declaration
 const todoEvents = eventMap({
   // key - event name,
+  // first argument (ctx) - event contxext
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  'todo-added'(newTodo: Todo, todos: Todo[]) {
+  'todo-added'(ctx, newTodo: Todo, todos: Todo[]) {
     // typically, a default handler is used
     // to compose events from other event managers here
   },
-  'done-change'(todo: Todo, newDone: boolean) {},
-  'text-change'(todo: Todo, newText: string) {},
+  'done-change'(ctx, todo: Todo, newDone: boolean) {},
+  'text-change'(ctx, todo: Todo, newText: string) {},
 });
 
 const unsubFromAddTodo = on(todoEvents)('todo-added')(
-  (todo, todos) => todos.push(todo)
+  (ctx, todo, todos) => todos.push(todo)
 );
 
 // `addingTodos` is a promise that resolves
@@ -283,9 +292,9 @@ import { eventMap } from 'eventhoven';
 
 // `keyboardEvents` should now be used for all event interactions
 const keyboardEvents = eventMap({
-  keyup(e: KeyboardEvent) {},
-  keydown(e: KeyboardEvent) {},
-  keypress(e: KeyboardEvent, modifier?: string) {
+  keyup(ctx, e: KeyboardEvent) {},
+  keydown(ctx, e: KeyboardEvent) {},
+  keypress(ctx, e: KeyboardEvent, modifier?: string) {
     // This is a default handler for the event,
     // it's always executed when the event is invoked
     console.log('modifier:', modifier);
@@ -296,36 +305,57 @@ const keyboardEvents = eventMap({
 In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount of arguments for a given event.
 
 <details>
-<summary>Here, `keyboardEvents`</summary> is equal to the following object:
+<summary>
+The decision to use plain functions as event signatures comes down to 3 advantages
+</summary>
+
+1. It's easier to make type inference that way.\
+   Since a handler and the event signature are both functions,\
+   there's no need to convert types from event signature to event handler.
+
+2. It allows to compose event managers easier.\
+   Having an event signature be a default event handler\
+   allows to emit other managers' event directly in the event declaration, for example.
+
+   Also, it is a common practice to add a default handler for the event\
+   right after its declaration, which produces lines like this:
+   ```ts
+    import { Manager } from 'some-event-manager';
+
+    const manager = new Manager([ 'event' ]);
+    // Boilerplate code:
+    manager.on('event', () => console.log('I want to debug all invocations of this event!'));
+   ```
+   `eventhoven` allows to never have to do that.
+
+3. It allows code analysis tools detect which events are never being emitted.\
+   Since the event signatures are executable pieces of code, which are **always** executed on their respective events,\
+   code analysis tools (code coverages, testing frameworks) can detect and count the amount of executions\
+   of these signatures. And this amount is equivalent to the amount of emits of a particular event.\
+   This allows, in turn, to always know which events are never emitted and should be deleted from the event-map.
+
+
+Here, `keyboardEvents` is equal to the following object:
 
 ```ts
 const keyboardEvents = {
   // Name of the event
-  keyup: {
-    // Amount of arguments for the event handlers
-    arity: 1,
-
+  keyup:
     // Collection of the event handlers
-    handlers: new Map([
+    new Map([
       // Notice the default event handler from the event-map
-      (e: KeyboardEvent) => {},
+      (ctx, e: KeyboardEvent) => {},
 
       // Do we execute this event handler only once?
       false
-    ])
-  },
-  keydown: {
-    arity: 1,
-    handlers: new Map([(e: KeyboardEvent) => {}, false])
-  },
-  keypress: {
-    arity: 2,
-    handlers: new Map([
-      // Notice the default event handler from the event-map
-      (e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
-      false
-    ])
-  },
+    ]),
+  keydown: new Map([(ctx, e: KeyboardEvent) => {}, false]),
+  keypress: new Map([
+    // Notice the default event handler from the event-map
+    // It's even the same function reference!
+    (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
+    false
+  ]),
 }
 ```
 </details>
@@ -336,13 +366,23 @@ It's also possible to add new events to the event-map at runtime (by creating a 
 const inputEvents = {
   ...keyboardEvents,
   ...eventMap({
-    'mouse-click'(e: MouseEvent) {},
+    'mouse-click'(ctx, e: MouseEvent) {},
   }),
 }
 
 // Still have type inference here!
 emit(inputEvents)('mouse-click')
 ```
+
+#### Event context
+
+You've probably noticed by now, that all event handlers have a first `ctx` parameter.
+
+This is the event context, and it is an object of the following signature:
+key | type | description
+----|------|-----------------
+`event` | `PropertyKey` | An event that triggered this handler.
+`once` | `boolean` | Whether the handler is "once", menaing it will unsibscribe immediately after invocation.
 
 ---
 
@@ -486,7 +526,7 @@ const keydown = wait(keyboardEvents)('keydown');
 
 //... some time later in async context
 
-const [e] = await keydown; // Resolves upon the first 'keydown' event emit
+const [_ctx, e] = await keydown; // Resolves upon the first 'keydown' event emit
 console.log(e);
 // => KeyboardEvent {}
 ```
@@ -516,16 +556,16 @@ name | type | description
 <summary>Simple example</summary>
 
 ```ts
-import { wait } from 'eventhoven';
+import { harmonicWait } from 'eventhoven';
 
 // Function that initiates a waiter
-const waitForKeydown = wait(keyboardEvents)('keydown');
+const waitForKeydown = harmonicWait(keyboardEvents)('keydown');
 
 //... some time later in async context
 
 // Resolves upon the first 'keydown' event emit
 // since the call of the `waitForKeydown`
-const [e] = await waitForKeydown();
+const [_ctx, e] = await waitForKeydown();
 console.log(e);
 // => KeyboardEvent {}
 ```
@@ -537,12 +577,12 @@ console.log(e);
 
 Sets a debug mode.
 
-**Parameters**:
+**options** (object):
 
 name | type | description
 -----|------|---------------
 `enabled` | `boolean` | Whether to enable the debug mode or disable it.
-`logEvent` <sup>v0.4.0</sup> | `function` (optional) | A custom logging function.
+`log` <sup>v0.4.0</sup> | `function` (optional) | A custom logging function.
 
 **Returns**: `void`
 
@@ -557,7 +597,7 @@ and `{event-handler-or-params}` is the handler for the event (when subscribing o
 
 Example:
 ```ts
-debug(true);
+debug({ enable: true });
 
 emit(emojiEvents)('🎌')('🍣', 10);
 
@@ -565,6 +605,16 @@ emit(emojiEvents)('🎌')('🍣', 10);
 // 12:59:05 [EVENT EMIT 🎌]: 🍣, 10
 ```
 
+If you want coloring or some other features - pass a custom logging function:
+```ts
+// Let's say we want warnings instead of logs...
+const customLog = (type) => (...args) => console.warn(type, ...args);
+
+debug({
+  enable: true,
+  log: customLog
+});
+```
 ---
 
 ### Collections
@@ -614,7 +664,9 @@ Simple example:
 import { metaEvents, on } from 'eventhoven';
 
 on(metaEvents)('emit')(
-  (eventMap, eventName, eventArgs) => console.log(`This handler will be executed when ANY event is emitted!`)
+  (ctx, eventMap, eventName, eventArgs) => console.log(
+    `This handler will be executed when ANY event is emitted, for example ${eventName}!`
+  )
 );
 ```
 

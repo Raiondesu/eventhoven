@@ -2,13 +2,15 @@
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "allowJs": true,
     "downlevelIteration": true,
     "sourceMap": true,
     "strict": true,
+    "removeComments": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "alwaysStrict": true,
@@ -17,14 +19,20 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noImplicitAny": false,
-    "baseUrl": "./src",
     "lib": [
-      "esnext"
+      "esnext",
+      "dom"
     ],
     "types": [
-      "@types/node",
       "@types/jest",
-    ]
+      "@types/node"
+    ],
+    "plugins": [
+			{
+				"transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",
+				"after": true,
+			}
+		]
   },
   "include": [
     "./src"

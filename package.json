@@ -1,6 +1,6 @@
 {
   "name": "eventhoven",
-  "version": "0.5.1",
+  "version": "0.6.0-rc.7",
   "sideEffects": false,
   "description": "Compose strongly-typed events effortlessly 🎵",
   "main": "dist/js",
@@ -26,21 +26,27 @@
   "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
     "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.12",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/node": "^12.11.7",
+    "@zoltu/typescript-transformer-append-js-extension": "^1.0.1",
+    "coveralls": "^3.0.7",
     "jest": "^24.9.0",
+    "lodash.clonedeep": "^4.5.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
+    "ttypescript": "^1.5.7",
     "typescript": "^3.8.0-dev.20191022"
   },
   "scripts": {
-    "test": "jest",
-    "build:js": "tsc --outDir dist/js -t ES5 --module commonjs",
-    "build:es": "tsc --outDir dist/es -t ES2015",
-    "build:next": "tsc --outDir dist/esnext",
+    "test": "jest -i",
+    "build:js": "ttsc --outDir dist/js -t ES5",
+    "build:es": "ttsc --outDir dist/es -t ES2015 --module esnext",
+    "build:next": "ttsc --outDir dist/esnext --module esnext",
     "build": "npm run build:js && npm run build:es && npm run build:next",
     "dev": "tsc --noEmit -w",
+    "coverage": "cat ./coverage/lcov.info | coveralls",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
-    "preversion": "npm run build && npm run commit-build",
+    "preversion": "npm t && npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
     "pre-minor": "npm version preminor --preid=rc && npm publish --tag next && git push",
     "pre-major": "npm version premajor --preid=rc && npm publish --tag next && git push",
@@ -57,5 +63,27 @@
   "bugs": {
     "url": "https://github.com/raiondesu-experiments/eventhoven/issues"
   },
-  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme"
+  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme",
+  "jest": {
+    "preset": "ts-jest",
+    "verbose": true,
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests?/",
+      "/dist/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "collectCoverage": true
+  }
 }

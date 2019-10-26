@@ -1,8 +1,8 @@
-import { TEventMap, TEventHandlerFrom, THandlerOf } from './events.js';
-import { mapObject, TDoAction } from './util.js';
-import { emit } from './emit.js';
-import { subscribe } from './subscribe.js';
-import { unsubscribe } from './unsubscribe.js';
+import { TEventMap, TEventHandlerFrom, THandlerOf } from './events';
+import { mapObject, TDoAction } from './util';
+import { emit } from './emit';
+import { subscribe } from './subscribe';
+import { unsubscribe } from './unsubscribe';
 
 export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;
@@ -18,7 +18,7 @@ export type TEventCollection<M extends TEventMap> = {
   unsubscribe: THandlersMap<M>;
 };
 
-const createCollection = <A extends TDoAction>(
+export const createCollection = <A extends TDoAction>(
   action: A
 ) => <M extends TEventMap>(
   eventMap: M
@@ -37,7 +37,11 @@ const createCollection = <A extends TDoAction>(
  */
 export const emitCollection = <{
   <M extends TEventMap>(eventMap: M): THandlerMap<M>;
-}> createCollection(emit as TDoAction<any[]>);
+}> createCollection(emit as TDoAction);
+
+type THandlersMapper = {
+  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
+};
 
 /**
  * Create a namespaced event subscriber collection
@@ -45,9 +49,7 @@ export const emitCollection = <{
  *
  * @param eventMap - event collection to subscribe handlers for
  */
-export const subscribeCollection = <{
-  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
-}> createCollection(subscribe);
+export const subscribeCollection = <THandlersMapper> createCollection(subscribe);
 
 /**
  * Create a namespaced event unsubscriber collection
@@ -55,9 +57,7 @@ export const subscribeCollection = <{
  *
  * @param eventMap - event collection to unsubscribe handlers from
  */
-export const unsubscribeCollection = <{
-  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
-}> createCollection(unsubscribe);
+export const unsubscribeCollection = <THandlersMapper> createCollection(unsubscribe);
 
 /**
  * Creates an OOP-style event collection

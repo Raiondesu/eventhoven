@@ -1,21 +1,23 @@
-import { metaEvents, TMetaEvents } from './meta-events.js';
-import { TEventMap, TEventHandler } from './events.js';
-import { subscribeCollection, unsubscribeCollection } from './collections.js';
-import { mapObject } from './util.js';
+import { metaEvents, TMetaEvents } from './meta-events';
+import { TEventMap, TEventHandler } from './events';
+import { ISubscribeOptions, onAll } from './subscribe';
+import { offAll } from './unsubscribe';
 
-const metaSub = subscribeCollection(metaEvents);
-const metaUnsub = unsubscribeCollection(metaEvents);
+const onMeta = onAll(metaEvents);
+const offMeta = offAll(metaEvents);
 
+/**
+ * Default logging function
+ */
 const log = (
-  type: keyof TMetaEvents,
-) => (
-  _map: TMetaEvents,
-  event: keyof TEventMap,
+  { event }: ISubscribeOptions<TMetaEvents, keyof TMetaEvents>,
+  _map: TEventMap,
+  eventName: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   `${
-    new Date().toLocaleTimeString()
-  } [EVENT ${type.toUpperCase()} "${String(event)}"]: ${
+    new Date().toISOString().match(/T(.*?)Z/)![1]
+  } [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${
     Array.isArray(argsOrHandler)
       ? argsOrHandler.join(', ')
       : argsOrHandler
@@ -23,6 +25,10 @@ const log = (
 );
 
 export type TLogHandler = typeof log;
+export interface IDebugOptions {
+  enable: boolean;
+  log?: TLogHandler;
+}
 
 /**
  * Enable or disable the debug mode.
@@ -30,14 +36,9 @@ export type TLogHandler = typeof log;
  * When debug mode is enabled - every event is logged to the console
  * with a timestamp and other information.
  *
- * @param {boolean} enable - whether to enable the debug mode
+ * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = (enable: boolean, logEvent: TLogHandler = log) => {
-  mapObject(
-    metaEvents,
-    (name) => (enable ? metaSub : metaUnsub)[
-      name
-    ](logEvent(name))
-  );
-};
+export const debug = ({ enable, log: logEvent }: IDebugOptions) => (
+  enable ? onMeta : offMeta
+)(logEvent || log);
