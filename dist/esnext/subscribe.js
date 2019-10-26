@@ -1,4 +1,4 @@
-import { off } from "./unsubscribe.js";
+import { unsubscribe } from "./unsubscribe.js";
 import { emitMeta } from "./meta-events.js";
 import { doForAll } from "./util.js";
 export const subscribe = (eventMap) => (eventOrOpts, onceArg = false) => {
@@ -7,7 +7,7 @@ export const subscribe = (eventMap) => (eventOrOpts, onceArg = false) => {
         emitMeta('subscribe')(eventMap, event, handler);
         eventMap[event].set(handler, eventOrOpts.once || onceArg);
     }),
-        () => off(eventMap)(event)
+        () => unsubscribe(eventMap)(event)
             .apply(null, handlers));
 };
 export const on = subscribe;
