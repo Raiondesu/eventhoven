@@ -11,8 +11,10 @@ export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>
  *
  * Generaly equivalent to `Array.prototype.map()`
  */
-export const mapObject = <T extends object, R extends Record<keyof T, any>>(
-  obj: T, value: (key: keyof T, obj: T) => R[keyof T], defaultValue: R = {} as R
+export const mapObject = <T extends object, R>(
+  obj: T,
+  value: (key: keyof T, obj: T) => R,
+  defaultValue = <Record<keyof T, R>> {}
 ) => (
   <Array<keyof T>>
   Object.keys(obj)

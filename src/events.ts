@@ -36,7 +36,7 @@ export const eventMap = <Events extends TEventSignatures>(
 ): TEventMap<Events> => mapObject(
   events,
   (key, obj) => ({
-    arity: obj[key].length,
-    handlers: new Map([[obj[key], false]]),
+    arity: obj[key].length, // TODO: remove type-cast
+    handlers: new Map([[obj[key] as any, false]]),
   })
 );

@@ -64,7 +64,7 @@ export const emitAll = <M extends TEventMap>(
   eventMap: M
 ) => (
   eventArgs: TEventParamsMap<M>
-) => mapObject<M, Record<keyof M, Promise<void>>>(
+) => mapObject<M, Promise<void>>(
   eventMap,
   (name) => emit(eventMap)(name)
     .apply(null, eventArgs[name])
