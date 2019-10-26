@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for unsubscribe.ts</title>
+    <title>Code coverage report for debug.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="index.html">All files</a> unsubscribe.ts
+      <a href="index.html">All files</a> debug.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>11/11</span>
+        <span class='fraction'>9/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/11</span>
+        <span class='fraction'>8/8</span>
       </div>
     </div>
     <p class="quiet">
@@ -90,46 +90,13 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,69 +106,78 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { TEventMap, THandlerOf, TContextHandler } from './events';
-import { emitMeta, TMetaEmit } from './meta-events';
-import { doForAll } from './util';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { metaEvents, TMetaEvents } from './meta-events';
+import { TEventMap, TEventHandler } from './events';
+import { ISubscribeOptions, onAll } from './subscribe';
+import { offAll } from './unsubscribe';
 &nbsp;
-export type TUnsubscribe&lt;From&gt; = () =&gt; (
-  // Lifehack to display the event name
-  // on the unsubscribe function
-  From &amp; void
+const onMeta = onAll(metaEvents);
+const offMeta = offAll(metaEvents);
+&nbsp;
+/**
+ * Default logging function
+ */
+export const log = (
+  { event }: ISubscribeOptions&lt;TMetaEvents, keyof TMetaEvents&gt;,
+  _map: TEventMap,
+  eventName: keyof TEventMap,
+  argsOrHandler: any[] | TEventHandler
+) =&gt; console.log(
+  `${
+    new Date().toISOString().match(/T(.*?)Z/)![1]
+  } [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${
+    Array.isArray(argsOrHandler)
+      ? argsOrHandler.join(', ')
+      : argsOrHandler
+  }`
 );
 &nbsp;
-type TUnsubscribeHandlers&lt;M extends TEventMap, From extends keyof M&gt; = (
-  ...handlers: Array&lt;THandlerOf&lt;M, From&gt;&gt;
-) =&gt; (
-  // Lifehack to display the event name
-  // on the unsubscribe function
-  From &amp; void
-);
+export type TLogHandler = typeof log;
+export interface IDebugOptions {
+  enable: boolean;
+  log?: TLogHandler;
+}
 &nbsp;
-export const unsubscribe = &lt;M extends TEventMap&gt;(
-  eventMap: M,
-  m: TMetaEmit = emitMeta
-) =&gt; &lt;E extends keyof M&gt;(
-  event: E
-): TUnsubscribeHandlers&lt;M, E&gt; =&gt; (
-  ...handlers
-) =&gt; (
-  handlers.length &gt; 0 ? (
-    handlers.forEach(h =&gt; (
-      // Emit meta-event (ignore promise)
-      m('unsubscribe')(eventMap, event, h),
-&nbsp;
-      eventMap[event].handlers.delete(h)
-    ))
-  ) : (
-    eventMap[event].handlers.forEach((_, h) =&gt; (
-      // Emit meta-event (ignore promise)
-      m('unsubscribe')(eventMap, event, h)
-    )),
-    eventMap[event].handlers.clear()
-  )
-) as E &amp; void;
-&nbsp;
-export const off = unsubscribe;
-&nbsp;
-export const unsubscribeFromAll = &lt;{
-  &lt;M extends TEventMap&gt;(eventMap: M): {
-    (handler: THandlerOf&lt;M&gt;): void;
-    (...handlers: THandlerOf&lt;M&gt;[]): void;
-  };
-}&gt; doForAll(unsubscribe);
-&nbsp;
-export const offAll = unsubscribeFromAll;
+/**
+ * Enable or disable the debug mode.
+ *
+ * When debug mode is enabled - every event is logged to the console
+ * with a timestamp and other information.
+ *
+ * @param enable - whether to enable the debug mode
+ * - `true` to enable, `false` to disable
+ */
+export const debug = ({ enable, log: logEvent }: IDebugOptions) =&gt; (
+  enable ? onMeta : offMeta
+)(logEvent || log);
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
