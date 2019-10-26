@@ -2,7 +2,7 @@ import { on } from '../src/subscribe';
 import { test_eventMap } from './common';
 
 describe('subscribe', () => {
-  it('adds handler to the event pool', () => {
+  it('adds handler to the event pool and removes it', () => {
     const handler = jest.fn();
     const event = 'event3';
 
