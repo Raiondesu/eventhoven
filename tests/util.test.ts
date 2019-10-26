@@ -35,7 +35,9 @@ describe('util', () => {
       };
 
       const action = jest.fn(
-        (eventMap) => (eventName) => (args) => results[eventName] = args
+        (_eventMap: any) => (
+          eventName: PropertyKey
+        ) => (args: number) => results[eventName] = args
       );
 
       const result = 1;
