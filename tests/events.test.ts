@@ -1,36 +1,22 @@
 import { eventMap } from '../src/events';
+import { test_eventSignatures } from './common';
 
 describe('eventMap', () => {
   it('maps signatures to maps', () => {
-    const signatures = {
-      event1(arg1: string, arg2: number) {},
-      event2(arg: boolean) {},
-      event3() {},
-    };
+    const expectedResult: any = {};
 
-    const expectedResult = {
-      event1: {
-        arity: 2,
-        handlers: new Map([
-          [signatures.event1, false]
-        ]),
-      },
+    for (const eventName in test_eventSignatures) {
+      const handler = test_eventSignatures[eventName as keyof typeof test_eventSignatures];
 
-      event2: {
-        arity: 1,
-        handlers: new Map([
-          [signatures.event2, false]
-        ]),
-      },
+      expectedResult[eventName] = {
+        arity: handler.length,
+        handlers: new Map([[
+          handler,
+          false
+        ]]),
+      };
+    }
 
-      event3: {
-        arity: 0,
-        handlers: new Map([
-          [signatures.event3, false]
-        ]),
-      },
-    };
-
-    expect(eventMap(signatures)).toStrictEqual(expectedResult);
+    expect(eventMap(test_eventSignatures)).toStrictEqual(expectedResult);
   });
 });
