@@ -36,7 +36,7 @@
     "typescript": "^3.8.0-dev.20191022"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest -i",
     "build:js": "ttsc --outDir dist/js -t ES5",
     "build:es": "ttsc --outDir dist/es -t ES2015 --module esnext",
     "build:next": "ttsc --outDir dist/esnext --module esnext",
