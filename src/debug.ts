@@ -18,7 +18,7 @@ const log = (
   } [EVENT ${type.toUpperCase()} "${String(event)}"]: ${
     Array.isArray(argsOrHandler)
       ? argsOrHandler.join(', ')
-      : argsOrHandler
+      : argsOrHandler.name ?? argsOrHandler
   }`
 );
 
