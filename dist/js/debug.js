@@ -8,7 +8,7 @@ var offMeta = unsubscribe_1.offAll(meta_events_1.metaEvents);
 /**
  * Default logging function
  */
-exports.log = function (_a, _map, eventName, argsOrHandler) {
+var log = function (_a, _map, eventName, argsOrHandler) {
     var event = _a.event;
     return console.log(new Date().toISOString().match(/T(.*?)Z/)[1] + " [EVENT " + event.toUpperCase() + " \"" + String(eventName) + "\"] - " + (Array.isArray(argsOrHandler)
         ? argsOrHandler.join(', ')
@@ -25,6 +25,6 @@ exports.log = function (_a, _map, eventName, argsOrHandler) {
  */
 exports.debug = function (_a) {
     var enable = _a.enable, logEvent = _a.log;
-    return (enable ? onMeta : offMeta)(logEvent || exports.log);
+    return (enable ? onMeta : offMeta)(logEvent || log);
 };
 //# sourceMappingURL=debug.js.map

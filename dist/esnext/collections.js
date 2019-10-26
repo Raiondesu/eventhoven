@@ -2,7 +2,7 @@ import { mapObject } from "./util.js";
 import { emit } from "./emit.js";
 import { subscribe } from "./subscribe.js";
 import { unsubscribe } from "./unsubscribe.js";
-const createCollection = (action) => (eventMap) => mapObject(eventMap, action(eventMap));
+export const createCollection = (action) => (eventMap) => mapObject(eventMap, action(eventMap));
 // TODO - remove type-casting
 /**
  * Create a namespaced event emitter collection

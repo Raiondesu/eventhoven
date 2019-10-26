@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("./events");
 var emit_1 = require("./emit");
 exports.metaEvents = events_1.eventMap({
-    subscribe: function (_, eventMap, eventName, handler) { },
-    unsubscribe: function (_, eventMap, eventName, handler) { },
-    emit: function (_, eventMap, eventName, args) { },
+    subscribe: function (_, _eventMap, _eventName, _handler) { },
+    unsubscribe: function (_, _eventMap, _eventName, _handler) { },
+    emit: function (_, _eventMap, _eventName, _args) { },
 });
 exports.emitMeta = function (event) { return function () {
     var args = [];

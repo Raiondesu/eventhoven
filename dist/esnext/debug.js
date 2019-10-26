@@ -6,7 +6,7 @@ const offMeta = offAll(metaEvents);
 /**
  * Default logging function
  */
-export const log = ({ event }, _map, eventName, argsOrHandler) => console.log(`${new Date().toISOString().match(/T(.*?)Z/)[1]} [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${Array.isArray(argsOrHandler)
+const log = ({ event }, _map, eventName, argsOrHandler) => console.log(`${new Date().toISOString().match(/T(.*?)Z/)[1]} [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${Array.isArray(argsOrHandler)
     ? argsOrHandler.join(', ')
     : argsOrHandler}`);
 /**
