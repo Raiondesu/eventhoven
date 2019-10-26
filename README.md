@@ -23,6 +23,7 @@
     - [Simple usage examples](#simple-usage-examples)
   - [API](#api)
     - [`eventMap`](#eventmap)
+      - [Event context](#event-context)
     - [`emit`](#emit)
     - [`emitAll`](#emitall)
     - [`subscribe`](#subscribe)
@@ -167,9 +168,9 @@ const emojiEvents = eventMap({
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  '👩'(emoji: '👨' | '👩') {},
-  '🌈'(emoji: '🦄' | '🌧') {},
-  '🎌':(emoji: '👘' | '🍣' | '🚗', amount: number) {},
+  '👩'(ctx, emoji: '👨' | '👩') {},
+  '🌈'(ctx, emoji: '🦄' | '🌧') {},
+  '🎌'(ctx, emoji: '👘' | '🍣' | '🚗', amount: number) {},
 });
 
 on(emojiEvents)('🎌')(
@@ -178,7 +179,7 @@ on(emojiEvents)('🎌')(
 
 on(emojiEvents)('🎌')(
   // Returning promises is also allowed (example API from http://www.sushicount.com/api)
-  (emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
+  (ctx, emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
     .then(_ => _.json())
     .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} of ${emoji}-s loaded from sushicount!`))
 );
@@ -210,15 +211,16 @@ const todos: Todo[] = [];
 // Event-map declaration
 const todoEvents = eventMap({
   // key - event name,
+  // first argument (ctx) - event contxext
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  'todo-added'(newTodo: Todo, todos: Todo[]) {
+  'todo-added'(ctx, newTodo: Todo, todos: Todo[]) {
     // typically, a default handler is used
     // to compose events from other event managers here
   },
-  'done-change'(todo: Todo, newDone: boolean) {},
-  'text-change'(todo: Todo, newText: string) {},
+  'done-change'(ctx, todo: Todo, newDone: boolean) {},
+  'text-change'(ctx, todo: Todo, newText: string) {},
 });
 
 const unsubFromAddTodo = on(todoEvents)('todo-added')(
@@ -286,9 +288,9 @@ import { eventMap } from 'eventhoven';
 
 // `keyboardEvents` should now be used for all event interactions
 const keyboardEvents = eventMap({
-  keyup(e: KeyboardEvent) {},
-  keydown(e: KeyboardEvent) {},
-  keypress(e: KeyboardEvent, modifier?: string) {
+  keyup(ctx, e: KeyboardEvent) {},
+  keydown(ctx, e: KeyboardEvent) {},
+  keypress(ctx, e: KeyboardEvent, modifier?: string) {
     // This is a default handler for the event,
     // it's always executed when the event is invoked
     console.log('modifier:', modifier);
@@ -341,7 +343,7 @@ const keyboardEvents = {
     // Collection of the event handlers
     handlers: new Map([
       // Notice the default event handler from the event-map
-      (e: KeyboardEvent) => {},
+      (ctx, e: KeyboardEvent) => {},
 
       // Do we execute this event handler only once?
       false
@@ -356,7 +358,7 @@ const keyboardEvents = {
     handlers: new Map([
       // Notice the default event handler from the event-map
       // It's even the same function reference!
-      (e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
+      (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
       false
     ])
   },
@@ -370,13 +372,23 @@ It's also possible to add new events to the event-map at runtime (by creating a 
 const inputEvents = {
   ...keyboardEvents,
   ...eventMap({
-    'mouse-click'(e: MouseEvent) {},
+    'mouse-click'(ctx, e: MouseEvent) {},
   }),
 }
 
 // Still have type inference here!
 emit(inputEvents)('mouse-click')
 ```
+
+#### Event context
+
+You've probably noticed by now, that all event handlers have a first `ctx` parameter.
+
+This is the event context, and it is an object of the following signature:
+key | type | description
+----|------|-----------------
+`event` | `PropertyKey` | An event that triggered this handler.
+`once` | `boolean` | Whether the handler is "once", menaing it will unsibscribe immediately after invocation.
 
 ---
 

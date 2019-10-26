@@ -1,4 +1,5 @@
-import { mapObject } from './util';
+import { mapObject, TLastParams } from './util';
+import { ISubscribeOptions } from './subscribe';
 
 type TEventHandlerData<Event extends TEventHandler> = {
   arity: number;
@@ -9,8 +10,14 @@ export type TEventMap<Events extends TEventSignatures = TEventSignatures> = {
   readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
 };
 
-export type TEventHandler = (...args: any[]) => void | Promise<void>;
+export type TEventHandler<M extends TEventMap = TEventMap> = (
+  context: ISubscribeOptions<M>,
+  ...args: any[]
+) => void | Promise<void>;
+
 export type TEventHandlerFrom<H extends TEventHandler> = (...args: Parameters<H>) => Promise<void>;
+
+export type TContextHandler<T extends TEventHandler> = (...args: TLastParams<T>) => ReturnType<T>;
 
 export type THandlerOf<
   M extends TEventMap,

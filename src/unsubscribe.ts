@@ -1,4 +1,4 @@
-import { TEventMap, THandlerOf } from './events';
+import { TEventMap, THandlerOf, TContextHandler } from './events';
 import { emitMeta, TMetaEmit } from './meta-events';
 import { doForAll } from './util';
 

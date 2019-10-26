@@ -1,24 +1,26 @@
 import { metaEvents, TMetaEvents } from './meta-events';
 import { TEventMap, TEventHandler } from './events';
-import { subscribeCollection, unsubscribeCollection } from './collections';
-import { mapObject } from './util';
+import { ISubscribeOptions, onAll } from './subscribe';
+import { offAll } from './unsubscribe';
 
-const metaSub = subscribeCollection(metaEvents);
-const metaUnsub = unsubscribeCollection(metaEvents);
+const onMeta = onAll(metaEvents);
+const offMeta = offAll(metaEvents);
 
-const log = (
-  type: keyof TMetaEvents
-) => (
-  _map: TMetaEvents,
-  event: keyof TEventMap,
+/**
+ * Default logging function
+ */
+export const log = (
+  { event }: ISubscribeOptions<TMetaEvents, keyof TMetaEvents>,
+  _map: TEventMap,
+  eventName: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   `${
-    new Date().toLocaleTimeString()
-  } [EVENT ${type.toUpperCase()} "${String(event)}"]: ${
+    new Date().toISOString().match(/T(.*?)Z/)![1]
+  } [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${
     Array.isArray(argsOrHandler)
       ? argsOrHandler.join(', ')
-      : argsOrHandler.name ?? argsOrHandler
+      : argsOrHandler.name || argsOrHandler
   }`
 );
 
@@ -37,11 +39,6 @@ export interface IDebugOptions {
  * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = ({ enable, log: logEvent }: IDebugOptions) => {
-  mapObject(
-    metaEvents,
-    (name) => (enable ? metaSub : metaUnsub)[
-      name
-    ]((logEvent || log)(name))
-  );
-};
+export const debug = ({ enable, log: logEvent }: IDebugOptions) => (
+  enable ? onMeta : offMeta
+)(logEvent || log);

@@ -1,6 +1,6 @@
 import { TEventMap, THandlerOf } from './events';
 import { emitMeta, TMetaEmit } from './meta-events';
-import { mapObject } from './util';
+import { mapObject, TLastParams } from './util';
 
 // Redeclare setTimeout to be both node and browser types (instead of overloads)
 // to ensure the code works on both platforms
@@ -30,7 +30,7 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: Parameters<THandlerOf<M, E>>): Promise<void> => {
+(...args: TLastParams<THandlerOf<M, E>>): Promise<void> => {
   const { arity, handlers } = eventMap[event];
   const slicedArgs = arity > 0 ? args.slice(0, arity) : args;
 
@@ -44,7 +44,7 @@ export const emit = <M extends TEventMap>(
     handlers.forEach((once, handler) => {
       results.push(
         Promise.resolve(
-          handler.apply(null, slicedArgs)
+          handler({ event, once }, ...slicedArgs)
         )
       );
 
@@ -56,7 +56,7 @@ export const emit = <M extends TEventMap>(
 };
 
 export type TEventParamsMap<M extends TEventMap> = {
-  [name in keyof M]: Parameters<THandlerOf<M, name>>;
+  [name in keyof M]: TLastParams<THandlerOf<M, name>>;
 };
 
 /**

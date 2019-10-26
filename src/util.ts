@@ -1,10 +1,12 @@
-import { TEventMap } from './events';
+import { TEventMap, TEventHandler } from './events';
 
 export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
   eventMap: M
 ) => <E extends keyof M>(
   event: E
 ) => (...args: P) => R;
+
+export type TLastParams<T extends (arg: any, ...args: any[]) => any> = T extends (arg: any, ...args: infer P) => any ? P : [];
 
 /**
  * Maps object values by their keys into a new object

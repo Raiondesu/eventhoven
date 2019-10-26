@@ -1,8 +1,9 @@
 import cloneDeep from 'lodash.clonedeep';
 
 import { emit, emitAll } from '../src/emit';
-import { test_eventMap, test_promiseDelaySEC, msInSec } from './common';
+import { test_eventMap, test_promiseDelaySEC, msInSec, Context } from './common';
 import { eventMap } from '../src/events';
+import { on } from '../src/subscribe';
 
 describe('emit', () => {
   it(`doesn't affect the event-map`, () => {
@@ -26,6 +27,27 @@ describe('emit', () => {
     const timeAfter = getCurrentSeconds();
 
     expect(timeAfter).toBeCloseTo(timeBefore + test_promiseDelaySEC, 1);
+  });
+
+  it('forwards correct context to handlers', async () => {
+    const event = 'event3';
+
+    const handler = jest.fn((ctx: Context) => {
+      expect(ctx.event).toBe(event);
+      expect(ctx.once).toBe(false);
+    });
+    const handlerOnce = jest.fn((ctx: Context) => {
+      expect(ctx.event).toBe(event);
+      expect(ctx.once).toBe(true);
+    });
+
+    on(test_eventMap)(event)(handler);
+    on(test_eventMap)(event, true)(handlerOnce);
+
+    await emit(test_eventMap)(event)();
+
+    expect(handler.mock.calls.length).toBe(1);
+    expect(handlerOnce.mock.calls.length).toBe(1);
   });
 });
 
