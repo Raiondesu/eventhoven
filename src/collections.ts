@@ -39,15 +39,17 @@ export const emitCollection = <{
   <M extends TEventMap>(eventMap: M): THandlerMap<M>;
 }> createCollection(emit as TDoAction);
 
+type THandlersMapper = {
+  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
+};
+
 /**
  * Create a namespaced event subscriber collection
  * with each property of the collection corresponding to subscribing to a particular event
  *
  * @param eventMap - event collection to subscribe handlers for
  */
-export const subscribeCollection = <{
-  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
-}> createCollection(subscribe);
+export const subscribeCollection = <THandlersMapper> createCollection(subscribe);
 
 /**
  * Create a namespaced event unsubscriber collection
@@ -55,9 +57,7 @@ export const subscribeCollection = <{
  *
  * @param eventMap - event collection to unsubscribe handlers from
  */
-export const unsubscribeCollection = <{
-  <M extends TEventMap>(eventMap: M): THandlersMap<M>;
-}> createCollection(unsubscribe);
+export const unsubscribeCollection = <THandlersMapper> createCollection(unsubscribe);
 
 /**
  * Creates an OOP-style event collection

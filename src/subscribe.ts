@@ -1,7 +1,7 @@
 import { TEventMap, THandlerOf } from './events';
 import { unsubscribe, TUnsubscribe } from './unsubscribe';
 import { emitMeta, TMetaEmit } from './meta-events';
-import { doForAll } from './util';
+import { doForAll, THandlersForAll } from './util';
 
 export interface ISubscribeOptions<M extends TEventMap, N extends keyof M = keyof M> {
   event: N;
@@ -63,11 +63,6 @@ export const on = subscribe;
  * @param eventMap - an event collection to subscribe to
  * @returns a function that subscribes handlers to all events in the given event collection
  */
-export const subscribeToAll = <{
-  <M extends TEventMap>(eventMap: M): {
-    (handler: THandlerOf<M>): void;
-    (...handlers: THandlerOf<M>[]): void;
-  };
-}> doForAll(subscribe);
+export const subscribeToAll = <THandlersForAll> doForAll(subscribe);
 
 export const onAll = subscribeToAll;

@@ -1,4 +1,4 @@
-import { TEventMap, TEventHandler } from './events';
+import { TEventMap, THandlerOf } from './events';
 
 export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
   eventMap: M
@@ -39,4 +39,11 @@ export const doForAll = <A extends TDoAction>(
   ...args: A extends TDoAction<infer P> ? P : any[]
 ) => {
   mapObject(eventMap, (key) => action(eventMap)(key).apply(null, args));
+};
+
+export type THandlersForAll = {
+  <M extends TEventMap>(eventMap: M): {
+    (handler: THandlerOf<M>): void;
+    (...handlers: THandlerOf<M>[]): void;
+  };
 };
