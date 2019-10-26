@@ -23,7 +23,7 @@ describe('wait', () => {
 });
 
 describe('harmonic wait', () => {
-  it.skip('awaits emit correctly', async () => {
+  it('awaits emit correctly', async () => {
     const event = 'promisedEvent';
     const delay = 500;
     const delayInSec = delay / msInSec;
