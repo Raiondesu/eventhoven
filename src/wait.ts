@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf } from './events';
-import { on } from './subscribe';
+import { subscribe } from './subscribe';
 
 /**
  * Creates an event waiter for an event-map
@@ -18,7 +18,7 @@ export const wait = <M extends TEventMap>(
  */
 <E extends keyof M>(
   event: E
-) => new Promise<Parameters<THandlerOf<M, E>>>(resolve => on(eventMap)(event, true)((
+) => new Promise<Parameters<THandlerOf<M, E>>>(resolve => subscribe(eventMap)(event, true)((
   (...args: Parameters<THandlerOf<M, E>>) => resolve(args)
 ) as THandlerOf<M, E>));
 

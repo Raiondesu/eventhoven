@@ -1,5 +1,5 @@
 import { TEventMap, THandlerOf } from './events';
-import { off, TUnsubscribe } from './unsubscribe';
+import { unsubscribe, TUnsubscribe } from './unsubscribe';
 import { emitMeta, TMetaEmit } from './meta-events';
 import { doForAll } from './util';
 
@@ -11,6 +11,11 @@ export interface ISubscribeOptions<M extends TEventMap, N extends keyof M = keyo
 export type TSubscriber<M extends TEventMap, N extends keyof M> = {
   (handler: THandlerOf<M, N>): TUnsubscribe<N>;
   (...handlers: Array<THandlerOf<M, N>>): TUnsubscribe<N>;
+};
+
+export type TSubscriberContext = {
+  unsubscribe: typeof unsubscribe;
+  meta: TMetaEmit;
 };
 
 type TSubscriberFactory<M extends TEventMap> = {
@@ -45,7 +50,7 @@ export const subscribe = <M extends TEventMap>(
       );
     }),
 
-    () => off(eventMap)(event)
+    () => unsubscribe(eventMap)(event)
       .apply(null, handlers)
   );
 };
