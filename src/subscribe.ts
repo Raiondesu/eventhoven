@@ -18,6 +18,11 @@ export type TSubscriberContext = {
   meta: TMetaEmit;
 };
 
+type TSubscriberFactory<M extends TEventMap> = {
+  <E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
+  <S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
+};
+
 /**
  * A subscriber factory
  *
@@ -34,10 +39,7 @@ export const subscribe = <M extends TEventMap>(
     unsubscribe,
     meta: emitMeta,
   }
-): {
-  <E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
-  <S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
-} => (
+): TSubscriberFactory<M> => (
   eventOrOpts: keyof M | ISubscribeOptions<M, keyof M>,
   onceArg: boolean = true
 ): TSubscriber<M, keyof M> => {
