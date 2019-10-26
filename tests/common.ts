@@ -5,6 +5,11 @@ export const test_promiseDelayMS = 1000;
 export const msInSec = 1000;
 export const test_promiseDelaySEC = test_promiseDelayMS / msInSec;
 
+/**
+ * Gets current time in seconds
+ */
+export const getCurrentSeconds = () => new Date().getTime() / msInSec;
+
 export type Context = ISubscribeOptions<TEventMap>;
 
 export const test_eventSignatures = {

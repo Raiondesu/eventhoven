@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
 
 import { emit, emitAll } from '../src/emit';
-import { test_eventMap, test_promiseDelaySEC, msInSec, Context } from './common';
+import { test_eventMap, test_promiseDelaySEC, msInSec, Context, getCurrentSeconds } from './common';
 import { eventMap } from '../src/events';
 import { on } from '../src/subscribe';
 
@@ -15,11 +15,6 @@ describe('emit', () => {
   });
 
   it(`awaits the handlers correctly`, async () => {
-    /**
-     * Gets current time in seconds
-     */
-    const getCurrentSeconds = () => new Date().getTime() / msInSec;
-
     const timeBefore = getCurrentSeconds();
 
     await emit(test_eventMap)('promisedEvent')();
