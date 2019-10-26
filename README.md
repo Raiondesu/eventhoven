@@ -7,7 +7,7 @@
 [![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "Downloads per month, but who cares?")
 [![size](https://img.shields.io/bundlephobia/minzip/eventhoven?style=flat-square)](https://bundlephobia.com/result?p=eventhoven "minzipped size")
 [![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
-[![code quality](https://img.shields.io/codefactor/grade/github/raiondesu-experiments/eventhoven?style=flat-square)](https://www.codefactor.io/repository/github/raiondesu-experiments/eventhoven "Code quality")
+[![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
 ## Table of Contents
 - [eventhoven](#eventhoven)
