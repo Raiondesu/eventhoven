@@ -1,16 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var meta_events_1 = require("./meta-events");
-var collections_1 = require("./collections");
-var util_1 = require("./util");
-var metaSub = collections_1.subscribeCollection(meta_events_1.metaEvents);
-var metaUnsub = collections_1.unsubscribeCollection(meta_events_1.metaEvents);
-var log = function (type) { return function (_map, event, argsOrHandler) {
-    var _a;
-    return console.log(new Date().toLocaleTimeString() + " [EVENT " + type.toUpperCase() + " \"" + String(event) + "\"]: " + (Array.isArray(argsOrHandler)
+var subscribe_1 = require("./subscribe");
+var unsubscribe_1 = require("./unsubscribe");
+var onMeta = subscribe_1.onAll(meta_events_1.metaEvents);
+var offMeta = unsubscribe_1.offAll(meta_events_1.metaEvents);
+/**
+ * Default logging function
+ */
+exports.log = function (_a, _map, eventName, argsOrHandler) {
+    var event = _a.event;
+    return console.log(new Date().toISOString().match(/T(.*?)Z/)[1] + " [EVENT " + event.toUpperCase() + " \"" + String(eventName) + "\"] - " + (Array.isArray(argsOrHandler)
         ? argsOrHandler.join(', ')
-        : (_a = argsOrHandler.name, (_a !== null && _a !== void 0 ? _a : argsOrHandler))));
-}; };
+        : argsOrHandler));
+};
 /**
  * Enable or disable the debug mode.
  *
@@ -20,8 +23,8 @@ var log = function (type) { return function (_map, event, argsOrHandler) {
  * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-exports.debug = function (enable, logEvent) {
-    if (logEvent === void 0) { logEvent = log; }
-    util_1.mapObject(meta_events_1.metaEvents, function (name) { return (enable ? metaSub : metaUnsub)[name](logEvent(name)); });
+exports.debug = function (_a) {
+    var enable = _a.enable, logEvent = _a.log;
+    return (enable ? onMeta : offMeta)(logEvent || exports.log);
 };
 //# sourceMappingURL=debug.js.map

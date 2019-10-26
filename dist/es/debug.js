@@ -1,14 +1,14 @@
 import { metaEvents } from "./meta-events.js";
-import { subscribeCollection, unsubscribeCollection } from "./collections.js";
-import { mapObject } from "./util.js";
-const metaSub = subscribeCollection(metaEvents);
-const metaUnsub = unsubscribeCollection(metaEvents);
-const log = (type) => (_map, event, argsOrHandler) => {
-    var _a;
-    return console.log(`${new Date().toLocaleTimeString()} [EVENT ${type.toUpperCase()} "${String(event)}"]: ${Array.isArray(argsOrHandler)
-        ? argsOrHandler.join(', ')
-        : (_a = argsOrHandler.name, (_a !== null && _a !== void 0 ? _a : argsOrHandler))}`);
-};
+import { onAll } from "./subscribe.js";
+import { offAll } from "./unsubscribe.js";
+const onMeta = onAll(metaEvents);
+const offMeta = offAll(metaEvents);
+/**
+ * Default logging function
+ */
+export const log = ({ event }, _map, eventName, argsOrHandler) => console.log(`${new Date().toISOString().match(/T(.*?)Z/)[1]} [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${Array.isArray(argsOrHandler)
+    ? argsOrHandler.join(', ')
+    : argsOrHandler}`);
 /**
  * Enable or disable the debug mode.
  *
@@ -18,7 +18,5 @@ const log = (type) => (_map, event, argsOrHandler) => {
  * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = (enable, logEvent = log) => {
-    mapObject(metaEvents, (name) => (enable ? metaSub : metaUnsub)[name](logEvent(name)));
-};
+export const debug = ({ enable, log: logEvent }) => (enable ? onMeta : offMeta)(logEvent || log);
 //# sourceMappingURL=debug.js.map

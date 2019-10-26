@@ -29,7 +29,7 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
     // Mandates non-blocking flow
     return new Promise(resolve => setTimeout(() => {
         handlers.forEach((once, handler) => {
-            results.push(Promise.resolve(handler.apply(null, slicedArgs)));
+            results.push(Promise.resolve(handler && handler({ event, once }, ...slicedArgs)));
             once && handlers.delete(handler);
         });
         resolve(Promise.all(results).then(_ => void 0));
