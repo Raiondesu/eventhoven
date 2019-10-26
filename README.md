@@ -159,7 +159,6 @@ const { emit, on, off } = require('eventhoven/dist/js');
 
 ### Simple usage examples
 
-
 <details>
 <summary><b>Example 1</b></summary>
 
