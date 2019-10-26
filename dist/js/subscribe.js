@@ -17,7 +17,7 @@ exports.subscribe = function (eventMap, _a) {
         meta: meta_events_js_1.emitMeta
     } : _a, m = _b.meta, unsub = _b.unsubscribe;
     return function (eventOrOpts, onceArg) {
-        if (onceArg === void 0) { onceArg = true; }
+        if (onceArg === void 0) { onceArg = false; }
         var event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
         var once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
         return function () {

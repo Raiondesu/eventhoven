@@ -12,7 +12,7 @@ import { doForAll } from './util.js';
 export const subscribe = (eventMap, { meta: m, unsubscribe: unsub } = {
     unsubscribe,
     meta: emitMeta
-}) => (eventOrOpts, onceArg = true) => {
+}) => (eventOrOpts, onceArg = false) => {
     const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
     const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
     return (...handlers) => {
