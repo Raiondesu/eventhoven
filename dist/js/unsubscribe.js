@@ -7,12 +7,8 @@ exports.unsubscribe = function (eventMap) { return function (event) { return fun
     for (var _i = 0; _i < arguments.length; _i++) {
         handlers[_i] = arguments[_i];
     }
-    return (handlers.length > 0 ? (handlers.forEach(function (h) { return (
-    // Emit meta-event (ignore promise)
-    meta_events_1.emitMeta('unsubscribe')(eventMap, event, h),
-        eventMap[event].delete(h)); })) : (eventMap[event].forEach(function (_, h) { return (
-    // Emit meta-event (ignore promise)
-    meta_events_1.emitMeta('unsubscribe')(eventMap, event, h)); }),
+    return (handlers.length > 0 ? (handlers.forEach(function (h) { return (meta_events_1.emitMeta('unsubscribe')(eventMap, event, h),
+        eventMap[event].delete(h)); })) : (eventMap[event].forEach(function (_, h) { return (meta_events_1.emitMeta('unsubscribe')(eventMap, event, h)); }),
         eventMap[event].clear()));
 }; }; };
 exports.off = exports.unsubscribe;
