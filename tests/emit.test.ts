@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash.clonedeep';
 
-import { emit } from '../src/emit';
+import { emit, emitAll } from '../src/emit';
 import { test_eventMap, test_promiseDelaySEC, msInSec } from './common';
-
+import { eventMap } from '../src/events';
 
 describe('emit', () => {
   it(`doesn't affect the event-map`, () => {
@@ -26,5 +26,40 @@ describe('emit', () => {
     const timeAfter = getCurrentSeconds();
 
     expect(timeAfter).toBeCloseTo(timeBefore + test_promiseDelaySEC, 1);
+  });
+});
+
+describe('emitAll', () => {
+  it('emits all events in a map', async () => {
+    const mockEvent1 = jest.fn();
+    const mockEvent2 = jest.fn();
+    const mockEvent3 = jest.fn();
+
+    const map = eventMap({
+      event1() {
+        mockEvent1();
+      },
+      event2() {
+        mockEvent2();
+      },
+      event3() {
+        mockEvent3();
+      },
+    });
+
+    await Promise.all(
+      Object.values(
+        emitAll(map)({
+          event1: [],
+          event2: [],
+          event3: [],
+        })
+      )
+    );
+
+    // Expect all handlers to be called once
+    expect(mockEvent1.mock.calls.length).toBe(1);
+    expect(mockEvent2.mock.calls.length).toBe(1);
+    expect(mockEvent3.mock.calls.length).toBe(1);
   });
 });
