@@ -12,10 +12,8 @@ exports.emitMeta = function (event) { return function () {
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return new Promise(function (resolve) {
-        if (args[0] !== exports.metaEvents) {
-            resolve(emit_1.emit(exports.metaEvents)(event).apply(null, args));
-        }
-    });
+    return Promise.resolve(args[0] !== exports.metaEvents
+        ? emit_1.emit(exports.metaEvents)(event).apply(null, args)
+        : void 0);
 }; };
 //# sourceMappingURL=meta-events.js.map

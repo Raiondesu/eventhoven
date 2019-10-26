@@ -32,7 +32,6 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
             results.push(Promise.resolve(handler.apply(null, slicedArgs)));
             once && handlers.delete(handler);
         });
-        debugger;
         resolve(Promise.all(results).then(_ => void 0));
     }, 0));
 };

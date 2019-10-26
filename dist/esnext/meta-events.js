@@ -5,9 +5,7 @@ export const metaEvents = eventMap({
     unsubscribe(eventMap, eventName, handler) { },
     emit(eventMap, eventName, args) { },
 });
-export const emitMeta = (event) => (...args) => new Promise(resolve => {
-    if (args[0] !== metaEvents) {
-        resolve(emit(metaEvents)(event).apply(null, args));
-    }
-});
+export const emitMeta = (event) => (...args) => Promise.resolve(args[0] !== metaEvents
+    ? emit(metaEvents)(event).apply(null, args)
+    : void 0);
 //# sourceMappingURL=meta-events.js.map
