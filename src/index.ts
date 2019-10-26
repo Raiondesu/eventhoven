@@ -4,13 +4,5 @@ export * from './subscribe';
 export * from './events';
 export * from './emit';
 export * from './wait';
-
-export {
-  emitMeta,
-  metaEvents
-} from './meta-events';
-export {
-  debug,
-  IDebugOptions,
-  TLogHandler
-} from './debug';
+export * from './meta-events';
+export * from './debug';
