@@ -1,8 +1,8 @@
 import { TEventMap, TEventHandlerFrom, THandlerOf } from './events';
 import { mapObject, TDoAction } from './util';
 import { emit } from './emit';
-import { subscribe } from './subscribe';
-import { unsubscribe } from './unsubscribe';
+import { on } from './subscribe';
+import { off } from './unsubscribe';
 
 export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;
@@ -47,7 +47,7 @@ export const emitCollection = <{
  */
 export const subscribeCollection = <{
   <M extends TEventMap>(eventMap: M): THandlersMap<M>;
-}> createCollection(subscribe);
+}> createCollection(on);
 
 /**
  * Create a namespaced event unsubscriber collection
@@ -57,7 +57,7 @@ export const subscribeCollection = <{
  */
 export const unsubscribeCollection = <{
   <M extends TEventMap>(eventMap: M): THandlersMap<M>;
-}> createCollection(unsubscribe);
+}> createCollection(off);
 
 /**
  * Creates an OOP-style event collection
