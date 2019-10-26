@@ -9,6 +9,7 @@
     "downlevelIteration": true,
     "sourceMap": true,
     "strict": true,
+    "removeComments": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
