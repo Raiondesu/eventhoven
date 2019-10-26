@@ -20,7 +20,7 @@ export const log = (
   } [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${
     Array.isArray(argsOrHandler)
       ? argsOrHandler.join(', ')
-      : argsOrHandler.name || argsOrHandler
+      : argsOrHandler
   }`
 );
 

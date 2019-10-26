@@ -44,7 +44,7 @@ export const emit = <M extends TEventMap>(
     handlers.forEach((once, handler) => {
       results.push(
         Promise.resolve(
-          handler({ event, once }, ...slicedArgs)
+          handler && handler({ event, once }, ...slicedArgs)
         )
       );
 
