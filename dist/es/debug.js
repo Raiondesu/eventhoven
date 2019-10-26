@@ -3,9 +3,12 @@ import { subscribeCollection, unsubscribeCollection } from "./collections.js";
 import { mapObject } from "./util.js";
 const metaSub = subscribeCollection(metaEvents);
 const metaUnsub = unsubscribeCollection(metaEvents);
-const log = (type) => (_map, event, argsOrHandler) => console.log(`${new Date().toLocaleTimeString()} [EVENT ${type.toUpperCase()} "${String(event)}"]: ${Array.isArray(argsOrHandler)
-    ? argsOrHandler.join(', ')
-    : argsOrHandler}`);
+const log = (type) => (_map, event, argsOrHandler) => {
+    var _a;
+    return console.log(`${new Date().toLocaleTimeString()} [EVENT ${type.toUpperCase()} "${String(event)}"]: ${Array.isArray(argsOrHandler)
+        ? argsOrHandler.join(', ')
+        : (_a = argsOrHandler.name, (_a !== null && _a !== void 0 ? _a : argsOrHandler))}`);
+};
 /**
  * Enable or disable the debug mode.
  *

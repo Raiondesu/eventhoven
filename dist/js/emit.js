@@ -39,6 +39,7 @@ exports.emit = function (eventMap, metaEmit) {
                     results.push(Promise.resolve(handler.apply(null, slicedArgs)));
                     once && handlers.delete(handler);
                 });
+                debugger;
                 resolve(Promise.all(results).then(function (_) { return void 0; }));
             }, 0); });
         };

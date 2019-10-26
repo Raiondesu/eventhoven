@@ -5,9 +5,12 @@ var collections_1 = require("./collections");
 var util_1 = require("./util");
 var metaSub = collections_1.subscribeCollection(meta_events_1.metaEvents);
 var metaUnsub = collections_1.unsubscribeCollection(meta_events_1.metaEvents);
-var log = function (type) { return function (_map, event, argsOrHandler) { return console.log(new Date().toLocaleTimeString() + " [EVENT " + type.toUpperCase() + " \"" + String(event) + "\"]: " + (Array.isArray(argsOrHandler)
-    ? argsOrHandler.join(', ')
-    : argsOrHandler)); }; };
+var log = function (type) { return function (_map, event, argsOrHandler) {
+    var _a;
+    return console.log(new Date().toLocaleTimeString() + " [EVENT " + type.toUpperCase() + " \"" + String(event) + "\"]: " + (Array.isArray(argsOrHandler)
+        ? argsOrHandler.join(', ')
+        : (_a = argsOrHandler.name, (_a !== null && _a !== void 0 ? _a : argsOrHandler))));
+}; };
 /**
  * Enable or disable the debug mode.
  *

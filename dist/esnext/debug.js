@@ -5,7 +5,7 @@ const metaSub = subscribeCollection(metaEvents);
 const metaUnsub = unsubscribeCollection(metaEvents);
 const log = (type) => (_map, event, argsOrHandler) => console.log(`${new Date().toLocaleTimeString()} [EVENT ${type.toUpperCase()} "${String(event)}"]: ${Array.isArray(argsOrHandler)
     ? argsOrHandler.join(', ')
-    : argsOrHandler}`);
+    : argsOrHandler.name ?? argsOrHandler}`);
 /**
  * Enable or disable the debug mode.
  *
