@@ -23,6 +23,10 @@ const log = (
 );
 
 export type TLogHandler = typeof log;
+export interface IDebugOptions {
+  enable: boolean;
+  log?: TLogHandler;
+}
 
 /**
  * Enable or disable the debug mode.
@@ -33,11 +37,11 @@ export type TLogHandler = typeof log;
  * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = (enable: boolean, logEvent: TLogHandler = log) => {
+export const debug = ({ enable, log: logEvent }: IDebugOptions) => {
   mapObject(
     metaEvents,
     (name) => (enable ? metaSub : metaUnsub)[
       name
-    ](logEvent(name))
+    ]((logEvent || log)(name))
   );
 };

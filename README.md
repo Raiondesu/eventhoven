@@ -571,12 +571,12 @@ console.log(e);
 
 Sets a debug mode.
 
-**Parameters**:
+**options** (object):
 
 name | type | description
 -----|------|---------------
 `enabled` | `boolean` | Whether to enable the debug mode or disable it.
-`logEvent` <sup>v0.4.0</sup> | `function` (optional) | A custom logging function.
+`log` <sup>v0.4.0</sup> | `function` (optional) | A custom logging function.
 
 **Returns**: `void`
 
@@ -591,7 +591,7 @@ and `{event-handler-or-params}` is the handler for the event (when subscribing o
 
 Example:
 ```ts
-debug(true);
+debug({ enable: true });
 
 emit(emojiEvents)('🎌')('🍣', 10);
 
