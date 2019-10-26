@@ -39,7 +39,7 @@ export const subscribe = <M extends TEventMap>(
   <S extends ISubscribeOptions<M, keyof M>>(options: S): TSubscriber<M, S['event']>;
 } => (
   eventOrOpts: keyof M | ISubscribeOptions<M, keyof M>,
-  onceArg: boolean = true
+  onceArg: boolean = false
 ): TSubscriber<M, keyof M> => {
   const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
   const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
