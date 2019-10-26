@@ -46,7 +46,7 @@
     "dev": "tsc --noEmit -w",
     "coverage": "cat ./coverage/lcov.info | coveralls",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
-    "preversion": "npm run build && npm run commit-build",
+    "preversion": "npm t && npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
     "pre-minor": "npm version preminor --preid=rc && npm publish --tag next && git push",
     "pre-major": "npm version premajor --preid=rc && npm publish --tag next && git push",
