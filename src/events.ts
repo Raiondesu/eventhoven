@@ -33,10 +33,10 @@ export type TEventSignatures<Events extends PropertyKey = PropertyKey> = {
  */
 export const eventMap = <Events extends TEventSignatures>(
   events: Events
-): TEventMap<Events> => mapObject(
+) => <TEventMap<Events>> mapObject(
   events,
   (key, obj) => ({
-    arity: obj[key].length, // TODO: remove type-cast
-    handlers: new Map([[obj[key] as any, false]]),
+    arity: obj[key].length,
+    handlers: new Map([[obj[key], false]]),
   })
 );
