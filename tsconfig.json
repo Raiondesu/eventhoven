@@ -9,6 +9,7 @@
     "downlevelIteration": true,
     "sourceMap": true,
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "alwaysStrict": true,
