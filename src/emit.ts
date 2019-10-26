@@ -2,6 +2,12 @@ import { TEventMap, THandlerOf } from './events';
 import { emitMeta, TMetaEmit } from './meta-events';
 import { mapObject } from './util';
 
+// Redeclare setTimeout to be both node and browser types (instead of overloads)
+// to ensure the code works on both platforms
+declare const setTimeout:
+  | Window['setTimeout']
+  | ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout);
+
 /**
  * Event-emitter factory creator
  *

@@ -18,11 +18,12 @@
     "noImplicitReturns": true,
     "noImplicitAny": false,
     "lib": [
-      "esnext"
+      "esnext",
+      "dom"
     ],
     "types": [
-      "@types/node",
       "@types/jest",
+      "@types/node"
     ],
     "plugins": [
 			{
