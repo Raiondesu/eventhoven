@@ -1,5 +1,5 @@
-import { TEventMap, THandlerOf } from './events.js';
-import { subscribe } from './subscribe.js';
+import { TEventMap, THandlerOf } from './events';
+import { subscribe } from './subscribe';
 
 /**
  * Creates an event waiter for an event-map

@@ -1,8 +1,8 @@
-import { TEventMap, TEventHandlerFrom, THandlerOf } from './events.js';
-import { mapObject, TDoAction } from './util.js';
-import { emit } from './emit.js';
-import { subscribe } from './subscribe.js';
-import { unsubscribe } from './unsubscribe.js';
+import { TEventMap, TEventHandlerFrom, THandlerOf } from './events';
+import { mapObject, TDoAction } from './util';
+import { emit } from './emit';
+import { subscribe } from './subscribe';
+import { unsubscribe } from './unsubscribe';
 
 export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;

@@ -1,5 +1,5 @@
-import { emitMeta } from './meta-events.js';
-import { mapObject } from './util.js';
+import { emitMeta } from "./meta-events.js";
+import { mapObject } from "./util.js";
 /**
  * Event-emitter factory creator
  *

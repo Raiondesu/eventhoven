@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var subscribe_js_1 = require("./subscribe.js");
+var subscribe_1 = require("./subscribe");
 /**
  * Creates an event waiter for an event-map
  *
@@ -15,7 +15,7 @@ exports.wait = function (eventMap) {
      * @returns a promise that resolves as soon as the described event is emitted
      */
     return function (event) {
-        var onEvent = subscribe_js_1.subscribe(eventMap)(event, true);
+        var onEvent = subscribe_1.subscribe(eventMap)(event, true);
         return new Promise(function (resolve) { return onEvent((function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {

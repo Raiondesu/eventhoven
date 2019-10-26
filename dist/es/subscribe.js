@@ -1,6 +1,6 @@
-import { unsubscribe } from './unsubscribe.js';
-import { emitMeta } from './meta-events.js';
-import { doForAll } from './util.js';
+import { unsubscribe } from "./unsubscribe.js";
+import { emitMeta } from "./meta-events.js";
+import { doForAll } from "./util.js";
 /**
  * A subscriber factory
  *
@@ -9,9 +9,9 @@ import { doForAll } from './util.js';
  * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-export const subscribe = (eventMap, { meta: m, unsubscribe: unsub } = {
+export const subscribe = (eventMap, { meta: m, unsubscribe: unsub, } = {
     unsubscribe,
-    meta: emitMeta
+    meta: emitMeta,
 }) => (eventOrOpts, onceArg = true) => {
     const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
     const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;

@@ -3,14 +3,14 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./unsubscribe.js"));
-__export(require("./collections.js"));
-__export(require("./subscribe.js"));
-__export(require("./events.js"));
-__export(require("./debug.js"));
-__export(require("./emit.js"));
-__export(require("./wait.js"));
-var meta_events_js_1 = require("./meta-events.js");
-exports.emitMeta = meta_events_js_1.emitMeta;
-exports.metaEvents = meta_events_js_1.metaEvents;
+__export(require("./unsubscribe"));
+__export(require("./collections"));
+__export(require("./subscribe"));
+__export(require("./events"));
+__export(require("./debug"));
+__export(require("./emit"));
+__export(require("./wait"));
+var meta_events_1 = require("./meta-events");
+exports.emitMeta = meta_events_1.emitMeta;
+exports.metaEvents = meta_events_1.metaEvents;
 //# sourceMappingURL=index.js.map

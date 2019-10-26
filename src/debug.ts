@@ -1,7 +1,7 @@
-import { metaEvents, TMetaEvents } from './meta-events.js';
-import { TEventMap, TEventHandler } from './events.js';
-import { subscribeCollection, unsubscribeCollection } from './collections.js';
-import { mapObject } from './util.js';
+import { metaEvents, TMetaEvents } from './meta-events';
+import { TEventMap, TEventHandler } from './events';
+import { subscribeCollection, unsubscribeCollection } from './collections';
+import { mapObject } from './util';
 
 const metaSub = subscribeCollection(metaEvents);
 const metaUnsub = unsubscribeCollection(metaEvents);

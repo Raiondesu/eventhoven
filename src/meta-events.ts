@@ -1,5 +1,5 @@
-import { eventMap, TEventMap, TEventHandler, THandlerOf } from './events.js';
-import { emit } from './emit.js';
+import { eventMap, TEventMap, TEventHandler, THandlerOf } from './events';
+import { emit } from './emit';
 
 export const metaEvents = eventMap({
   subscribe(eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},

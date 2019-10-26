@@ -1,4 +1,4 @@
-import { mapObject } from './util.js';
+import { mapObject } from "./util.js";
 /**
  * Creates an event collection based on handler templates
  *

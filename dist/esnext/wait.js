@@ -1,4 +1,4 @@
-import { subscribe } from './subscribe.js';
+import { subscribe } from "./subscribe.js";
 /**
  * Creates an event waiter for an event-map
  *

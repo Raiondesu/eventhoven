@@ -23,7 +23,13 @@
     "types": [
       "@types/node",
       "@types/jest",
-    ]
+    ],
+    "plugins": [
+			{
+				"transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",
+				"after": true,
+			}
+		]
   },
   "include": [
     "./src"
