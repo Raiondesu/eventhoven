@@ -13,13 +13,12 @@ export const subscribe = (eventMap, { meta: m, unsubscribe: unsub, } = {
     unsubscribe,
     meta: emitMeta,
 }) => (eventOrOpts, onceArg = false) => {
-    const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
-    const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
+    const event = eventOrOpts.event || eventOrOpts;
     return (...handlers) => {
         handlers.forEach(handler => {
             // Emit meta-event (ignore promise)
             m('subscribe')(eventMap, event, handler);
-            eventMap[event].handlers.set(handler, once);
+            eventMap[event].handlers.set(handler, eventOrOpts.once || onceArg);
         });
         return () => unsub(eventMap)(event)
             .apply(null, handlers);

@@ -18,8 +18,7 @@ exports.subscribe = function (eventMap, _a) {
     } : _a, m = _b.meta, unsub = _b.unsubscribe;
     return function (eventOrOpts, onceArg) {
         if (onceArg === void 0) { onceArg = false; }
-        var event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
-        var once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
+        var event = eventOrOpts.event || eventOrOpts;
         return function () {
             var handlers = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -28,7 +27,7 @@ exports.subscribe = function (eventMap, _a) {
             handlers.forEach(function (handler) {
                 // Emit meta-event (ignore promise)
                 m('subscribe')(eventMap, event, handler);
-                eventMap[event].handlers.set(handler, once);
+                eventMap[event].handlers.set(handler, eventOrOpts.once || onceArg);
             });
             return function () { return unsub(eventMap)(event)
                 .apply(null, handlers); };
