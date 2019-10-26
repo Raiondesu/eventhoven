@@ -64,6 +64,7 @@
   "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme",
   "jest": {
     "preset": "ts-jest",
+    "verbose": true,
     "coverageReporters": [
       "lcov",
       "text"
