@@ -56,8 +56,7 @@ A main list of features includes (but not limited to):
 - **SOLID**
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
-  - **L**SP - all funcions are easily substitutable using dependency injection
-    as long as they adhere to the same API
+  - **L**SP - all funcions are easily substitutable as long as they adhere to the same API
   - **I**SP - all data types are the least specific versions of them
   - **D**IP - API depends only on abstractions
 - Code-generation-friendly:\
@@ -230,7 +229,7 @@ const todoEvents = eventMap({
 });
 
 const unsubFromAddTodo = on(todoEvents)('todo-added')(
-  (todo, todos) => todos.push(todo)
+  (ctx, todo, todos) => todos.push(todo)
 );
 
 // `addingTodos` is a promise that resolves
@@ -342,32 +341,22 @@ Here, `keyboardEvents` is equal to the following object:
 ```ts
 const keyboardEvents = {
   // Name of the event
-  keyup: {
-    // Amount of arguments for the event handlers
-    arity: 1,
-
+  keyup:
     // Collection of the event handlers
-    handlers: new Map([
+    new Map([
       // Notice the default event handler from the event-map
       (ctx, e: KeyboardEvent) => {},
 
       // Do we execute this event handler only once?
       false
-    ])
-  },
-  keydown: {
-    arity: 1,
-    handlers: new Map([(e: KeyboardEvent) => {}, false])
-  },
-  keypress: {
-    arity: 2,
-    handlers: new Map([
-      // Notice the default event handler from the event-map
-      // It's even the same function reference!
-      (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
-      false
-    ])
-  },
+    ]),
+  keydown: new Map([(ctx, e: KeyboardEvent) => {}, false]),
+  keypress: new Map([
+    // Notice the default event handler from the event-map
+    // It's even the same function reference!
+    (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
+    false
+  ]),
 }
 ```
 </details>
@@ -538,7 +527,7 @@ const keydown = wait(keyboardEvents)('keydown');
 
 //... some time later in async context
 
-const [e] = await keydown; // Resolves upon the first 'keydown' event emit
+const [_ctx, e] = await keydown; // Resolves upon the first 'keydown' event emit
 console.log(e);
 // => KeyboardEvent {}
 ```
@@ -568,16 +557,16 @@ name | type | description
 <summary>Simple example</summary>
 
 ```ts
-import { wait } from 'eventhoven';
+import { harmonicWait } from 'eventhoven';
 
 // Function that initiates a waiter
-const waitForKeydown = wait(keyboardEvents)('keydown');
+const waitForKeydown = harmonicWait(keyboardEvents)('keydown');
 
 //... some time later in async context
 
 // Resolves upon the first 'keydown' event emit
 // since the call of the `waitForKeydown`
-const [e] = await waitForKeydown();
+const [_ctx, e] = await waitForKeydown();
 console.log(e);
 // => KeyboardEvent {}
 ```
@@ -676,7 +665,9 @@ Simple example:
 import { metaEvents, on } from 'eventhoven';
 
 on(metaEvents)('emit')(
-  (eventMap, eventName, eventArgs) => console.log(`This handler will be executed when ANY event is emitted!`)
+  (ctx, eventMap, eventName, eventArgs) => console.log(
+    `This handler will be executed when ANY event is emitted, for example ${eventName}!`
+  )
 );
 ```
 
