@@ -26,10 +26,12 @@
   "devDependencies": {
     "@kazanexpress/tslint": "^1.0.5",
     "@types/jest": "^24.0.18",
+    "@types/lodash.clonedeep": "^4.5.6",
     "@types/node": "^12.11.7",
     "@zoltu/typescript-transformer-append-js-extension": "^1.0.1",
     "coveralls": "^3.0.7",
     "jest": "^24.9.0",
+    "lodash.clonedeep": "^4.5.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "ttypescript": "^1.5.7",
