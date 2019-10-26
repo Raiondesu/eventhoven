@@ -40,7 +40,7 @@ export const emit = <M extends TEventMap>(
   ];
 
   // Mandates non-blocking flow
-  return new Promise(resolve => setTimeout(() => {
+  return new Promise<void>(resolve => setTimeout(() => {
     handlers.forEach((once, handler) => {
       results.push(
         Promise.resolve(
