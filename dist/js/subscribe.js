@@ -15,7 +15,7 @@ exports.subscribe = function (eventMap) { return function (eventOrOpts, onceArg)
             meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
             eventMap[event].set(handler, eventOrOpts.once || onceArg);
         }),
-            function () { return unsubscribe_1.unsubscribe(eventMap)(event)
+            function () { return unsubscribe_1.off(eventMap)(event)
                 .apply(null, handlers); });
     };
 }; };
