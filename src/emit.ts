@@ -56,7 +56,7 @@ export const emit = <M extends TEventMap>(
 };
 
 export type TEventParamsMap<M extends TEventMap> = {
-  [name in keyof M]: Parameters<THandlerOf<M, name>>
+  [name in keyof M]: Parameters<THandlerOf<M, name>>;
 };
 
 /**
