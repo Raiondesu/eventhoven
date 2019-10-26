@@ -40,6 +40,7 @@
     "build:next": "tsc --outDir dist/esnext --module esnext",
     "build": "npm run build:js && npm run build:es && npm run build:next",
     "dev": "tsc --noEmit -w",
+    "coverage": "cat ./coverage/lcov.info | coveralls",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
     "preversion": "npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
