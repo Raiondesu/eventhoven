@@ -29,14 +29,14 @@ export const unsubscribe = <M extends TEventMap>(
       // Emit meta-event (ignore promise)
       m('unsubscribe')(eventMap, event, h),
 
-      eventMap[event].handlers.delete(h)
+      eventMap[event].delete(h)
     ))
   ) : (
-    eventMap[event].handlers.forEach((_, h) => (
+    eventMap[event].forEach((_, h) => (
       // Emit meta-event (ignore promise)
       m('unsubscribe')(eventMap, event, h)
     )),
-    eventMap[event].handlers.clear()
+    eventMap[event].clear()
   )
 ) as E & void;
 

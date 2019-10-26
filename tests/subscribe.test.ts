@@ -11,19 +11,19 @@ describe('subscribe', () => {
 
     // expect handler to be there
     expect(
-      test_eventMap[event].handlers.has(handler)
+      test_eventMap[event].has(handler)
     ).toBe(true);
 
     // expect handler to not be "once"
     expect(
-      test_eventMap[event].handlers.get(handler)
+      test_eventMap[event].get(handler)
     ).toBe(false);
 
     cleanup();
 
     // expect handler to be gone
     expect(
-      test_eventMap[event].handlers.has(handler)
+      test_eventMap[event].has(handler)
     ).toBe(false);
   });
 
@@ -38,19 +38,19 @@ describe('subscribe', () => {
 
     // expect handler to be there
     expect(
-      test_eventMap[event].handlers.has(handler)
+      test_eventMap[event].has(handler)
     ).toBe(true);
 
     // expect handler to be "once"
     expect(
-      test_eventMap[event].handlers.get(handler)
+      test_eventMap[event].get(handler)
     ).toBe(true);
 
     await emit(test_eventMap)(event)();
 
     // expect handler to be gone
     expect(
-      test_eventMap[event].handlers.has(handler)
+      test_eventMap[event].has(handler)
     ).toBe(false);
   });
 });

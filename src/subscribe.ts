@@ -45,20 +45,20 @@ export const subscribe = <M extends TEventMap>(
 ): TSubscriber<M, keyof M> => {
   const event = (<ISubscribeOptions<M>>eventOrOpts).event || eventOrOpts as keyof M;
 
-  return (...handlers: Array<THandlerOf<M>>) => {
+  return (...handlers: Array<THandlerOf<M>>) => (
     handlers.forEach(handler => {
       // Emit meta-event (ignore promise)
       m('subscribe')(eventMap, event, handler);
 
-      eventMap[event].handlers.set(
+      eventMap[event].set(
         handler,
         (<ISubscribeOptions<M>>eventOrOpts).once || onceArg
       );
-    });
+    }),
 
-    return () => unsub(eventMap)(event)
-      .apply(null, handlers);
-  };
+    () => unsub(eventMap)(event)
+      .apply(null, handlers)
+  );
 };
 
 export const on = subscribe;

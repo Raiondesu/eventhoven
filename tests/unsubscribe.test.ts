@@ -8,13 +8,13 @@ describe('unsubscribe', () => {
     const handler = test_eventSignatures[event];
 
     expect(
-      test_eventMap[event].handlers.has(handler)
+      test_eventMap[event].has(handler)
     ).toBe(true);
 
     off(test_eventMap)(event)(handler);
 
     expect(
-      test_eventMap[event].handlers.has(handler)
+      test_eventMap[event].has(handler)
     ).toBe(false);
 
     //cleanup
@@ -26,13 +26,13 @@ describe('unsubscribe', () => {
     const event = 'event3';
 
     expect(
-      test_eventMap[event].handlers.size
+      test_eventMap[event].size
     ).toBeGreaterThan(0);
 
     off(test_eventMap)(event)();
 
     expect(
-      test_eventMap[event].handlers.size
+      test_eventMap[event].size
     ).toBe(0);
 
     //cleanup

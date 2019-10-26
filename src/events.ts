@@ -1,10 +1,7 @@
 import { mapObject, TLastParams } from './util';
 import { ISubscribeOptions } from './subscribe';
 
-type TEventHandlerData<Event extends TEventHandler> = {
-  arity: number;
-  handlers: Map<Event, boolean>;
-};
+type TEventHandlerData<Event extends TEventHandler> = Map<Event, boolean>;
 
 export type TEventMap<Events extends TEventSignatures = TEventSignatures> = {
   readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
@@ -42,8 +39,5 @@ export const eventMap = <Events extends TEventSignatures>(
   events: Events
 ) => <TEventMap<Events>> mapObject(
   events,
-  (key, obj) => ({
-    arity: obj[key].length,
-    handlers: new Map([[obj[key], false]]),
-  })
+  (key, obj) => new Map([[obj[key], false]])
 );
