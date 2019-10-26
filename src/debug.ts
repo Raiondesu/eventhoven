@@ -9,7 +9,7 @@ const offMeta = offAll(metaEvents);
 /**
  * Default logging function
  */
-export const log = (
+const log = (
   { event }: ISubscribeOptions<TMetaEvents, keyof TMetaEvents>,
   _map: TEventMap,
   eventName: keyof TEventMap,
