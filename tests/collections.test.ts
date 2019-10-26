@@ -17,5 +17,5 @@ describe('eventCollection', () => {
     expect(eventCol.unsubscribe).toMatchObject(collection);
   });
 
-  
+  // TODO - real tests for collections
 });
