@@ -599,6 +599,16 @@ emit(emojiEvents)('🎌')('🍣', 10);
 // 12:59:05 [EVENT EMIT 🎌]: 🍣, 10
 ```
 
+If you want coloring or some other features - pass a custom logging function:
+```ts
+// Let's say we want warnings instead of logs...
+const customLog = (type) => (...args) => console.warn(type, ...args);
+
+debug({
+  enable: true,
+  log: customLog
+});
+```
 ---
 
 ### Collections
