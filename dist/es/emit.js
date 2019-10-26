@@ -7,7 +7,7 @@ import { mapObject } from "./util.js";
  *
  * @param eventMap - an event collection to create an emitter for
  */
-export const emit = (eventMap, metaEmit = emitMeta) => 
+export const emit = (eventMap) => 
 /**
  * Emitter factory for a specific event collection
  *
@@ -23,7 +23,7 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
     const handlers = eventMap[event];
     const results = [
         // Emit meta-event
-        metaEmit('emit')(eventMap, event, args)
+        emitMeta('emit')(eventMap, event, args)
     ];
     // Mandates non-blocking flow
     return new Promise(resolve => setTimeout(() => (handlers.forEach((once, handler) => (results.push(handler && handler

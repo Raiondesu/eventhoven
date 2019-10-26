@@ -11,29 +11,23 @@ var util_1 = require("./util");
  * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-exports.subscribe = function (eventMap, _a) {
-    var _b = _a === void 0 ? {
-        unsubscribe: unsubscribe_1.unsubscribe,
-        meta: meta_events_1.emitMeta,
-    } : _a, m = _b.meta, unsub = _b.unsubscribe;
-    return function (eventOrOpts, onceArg) {
-        if (onceArg === void 0) { onceArg = false; }
-        var event = eventOrOpts.event || eventOrOpts;
-        return function () {
-            var handlers = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                handlers[_i] = arguments[_i];
-            }
-            return (handlers.forEach(function (handler) {
-                // Emit meta-event (ignore promise)
-                m('subscribe')(eventMap, event, handler);
-                eventMap[event].set(handler, eventOrOpts.once || onceArg);
-            }),
-                function () { return unsub(eventMap)(event)
-                    .apply(null, handlers); });
-        };
+exports.subscribe = function (eventMap) { return function (eventOrOpts, onceArg) {
+    if (onceArg === void 0) { onceArg = false; }
+    var event = eventOrOpts.event || eventOrOpts;
+    return function () {
+        var handlers = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            handlers[_i] = arguments[_i];
+        }
+        return (handlers.forEach(function (handler) {
+            // Emit meta-event (ignore promise)
+            meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
+            eventMap[event].set(handler, eventOrOpts.once || onceArg);
+        }),
+            function () { return unsubscribe_1.unsubscribe(eventMap)(event)
+                .apply(null, handlers); });
     };
-};
+}; };
 exports.on = exports.subscribe;
 /**
  * A subscriber factory for all events of a given collection

@@ -9,8 +9,7 @@ var util_1 = require("./util");
  *
  * @param eventMap - an event collection to create an emitter for
  */
-exports.emit = function (eventMap, metaEmit) {
-    if (metaEmit === void 0) { metaEmit = meta_events_1.emitMeta; }
+exports.emit = function (eventMap) {
     /**
      * Emitter factory for a specific event collection
      *
@@ -30,7 +29,7 @@ exports.emit = function (eventMap, metaEmit) {
             var handlers = eventMap[event];
             var results = [
                 // Emit meta-event
-                metaEmit('emit')(eventMap, event, args)
+                meta_events_1.emitMeta('emit')(eventMap, event, args)
             ];
             // Mandates non-blocking flow
             return new Promise(function (resolve) { return setTimeout(function () { return (handlers.forEach(function (once, handler) { return (results.push(handler && handler

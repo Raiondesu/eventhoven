@@ -9,17 +9,14 @@ import { doForAll } from "./util.js";
  * @param [meta] - (optional) a custom meta events handler collection
  * @returns a function that subscribes handlers to a given event in a collection
  */
-export const subscribe = (eventMap, { meta: m, unsubscribe: unsub, } = {
-    unsubscribe,
-    meta: emitMeta,
-}) => (eventOrOpts, onceArg = false) => {
+export const subscribe = (eventMap) => (eventOrOpts, onceArg = false) => {
     const event = eventOrOpts.event || eventOrOpts;
     return (...handlers) => (handlers.forEach(handler => {
         // Emit meta-event (ignore promise)
-        m('subscribe')(eventMap, event, handler);
+        emitMeta('subscribe')(eventMap, event, handler);
         eventMap[event].set(handler, eventOrOpts.once || onceArg);
     }),
-        () => unsub(eventMap)(event)
+        () => unsubscribe(eventMap)(event)
             .apply(null, handlers));
 };
 export const on = subscribe;
