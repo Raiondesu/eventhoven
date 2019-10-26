@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "allowJs": true,
@@ -17,7 +17,6 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noImplicitAny": false,
-    "baseUrl": "./src",
     "lib": [
       "esnext"
     ],

@@ -27,6 +27,7 @@
     "@kazanexpress/tslint": "^1.0.5",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.12",
+    "coveralls": "^3.0.7",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
@@ -34,9 +35,9 @@
   },
   "scripts": {
     "test": "jest",
-    "build:js": "tsc --outDir dist/js -t ES5 --module commonjs",
-    "build:es": "tsc --outDir dist/es -t ES2015",
-    "build:next": "tsc --outDir dist/esnext",
+    "build:js": "tsc --outDir dist/js -t ES5",
+    "build:es": "tsc --outDir dist/es -t ES2015 --module esnext",
+    "build:next": "tsc --outDir dist/esnext --module esnext",
     "build": "npm run build:js && npm run build:es && npm run build:next",
     "dev": "tsc --noEmit -w",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
@@ -57,5 +58,8 @@
   "bugs": {
     "url": "https://github.com/raiondesu-experiments/eventhoven/issues"
   },
-  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme"
+  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme",
+  "jest": {
+    "preset": "ts-jest"
+  }
 }
