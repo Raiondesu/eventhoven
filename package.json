@@ -60,6 +60,24 @@
   },
   "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme",
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+        "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests?/",
+      "/dist/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverage": true
   }
 }
