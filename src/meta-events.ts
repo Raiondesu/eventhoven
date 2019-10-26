@@ -3,9 +3,9 @@ import { emit } from './emit';
 import { TLastParams } from './util';
 
 export const metaEvents = eventMap({
-  subscribe(_, eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},
-  unsubscribe(_, eventMap: TEventMap, eventName: keyof TEventMap, handler: TEventHandler) {},
-  emit(_, eventMap: TEventMap, eventName: keyof TEventMap, args: any[]) {},
+  subscribe(_, _eventMap: TEventMap, _eventName: keyof TEventMap, _handler: TEventHandler) {},
+  unsubscribe(_, _eventMap: TEventMap, _eventName: keyof TEventMap, _handler: TEventHandler) {},
+  emit(_, _eventMap: TEventMap, _eventName: keyof TEventMap, _args: any[]) {},
 });
 
 export type TMetaEvents = typeof metaEvents;
