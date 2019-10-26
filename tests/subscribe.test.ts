@@ -1,5 +1,6 @@
 import { on } from '../src/subscribe';
 import { test_eventMap } from './common';
+import { emit } from '../src/emit';
 
 describe('subscribe', () => {
   it('adds handler to the event pool and removes it', () => {
@@ -13,14 +14,41 @@ describe('subscribe', () => {
       test_eventMap[event].handlers.has(handler)
     ).toBe(true);
 
-    // expect handler to not be once
+    // expect handler to not be "once"
     expect(
       test_eventMap[event].handlers.get(handler)
     ).toBe(false);
 
     cleanup();
 
+    // expect handler to be gone
+    expect(
+      test_eventMap[event].handlers.has(handler)
+    ).toBe(false);
+  });
+
+  it('adds a once-handler to the event pool and removes it upon event invocation', async () => {
+    const handler = jest.fn();
+    const event = 'event3';
+
+    on(test_eventMap)({
+      event,
+      once: true,
+    })(handler);
+
     // expect handler to be there
+    expect(
+      test_eventMap[event].handlers.has(handler)
+    ).toBe(true);
+
+    // expect handler to be "once"
+    expect(
+      test_eventMap[event].handlers.get(handler)
+    ).toBe(true);
+
+    await emit(test_eventMap)(event)();
+
+    // expect handler to be gone
     expect(
       test_eventMap[event].handlers.has(handler)
     ).toBe(false);
