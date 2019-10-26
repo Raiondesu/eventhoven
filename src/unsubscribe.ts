@@ -18,7 +18,7 @@ type TUnsubscribeHandlers<M extends TEventMap, From extends keyof M> = (
 
 export const unsubscribe = <M extends TEventMap>(
   eventMap: M,
-  m: TMetaEmit = emitMeta,
+  m: TMetaEmit = emitMeta
 ) => <E extends keyof M>(
   event: E
 ): TUnsubscribeHandlers<M, E> => (
@@ -46,7 +46,7 @@ export const unsubscribeFromAll = <{
   <M extends TEventMap>(eventMap: M): {
     (handler: THandlerOf<M>): void;
     (...handlers: THandlerOf<M>[]): void;
-  }
+  };
 }> doForAll(unsubscribe);
 
 export const offAll = unsubscribeFromAll;

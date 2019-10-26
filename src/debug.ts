@@ -7,7 +7,7 @@ const metaSub = subscribeCollection(metaEvents);
 const metaUnsub = unsubscribeCollection(metaEvents);
 
 const log = (
-  type: keyof TMetaEvents,
+  type: keyof TMetaEvents
 ) => (
   _map: TMetaEvents,
   event: keyof TEventMap,
@@ -30,7 +30,7 @@ export type TLogHandler = typeof log;
  * When debug mode is enabled - every event is logged to the console
  * with a timestamp and other information.
  *
- * @param {boolean} enable - whether to enable the debug mode
+ * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
 export const debug = (enable: boolean, logEvent: TLogHandler = log) => {

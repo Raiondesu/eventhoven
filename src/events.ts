@@ -24,7 +24,7 @@ export type THandlerOf<
 
 export type TEventSignatures<Events extends PropertyKey = PropertyKey> = {
   [name in Events]: TEventHandler;
-}
+};
 
 /**
  * Creates an event collection based on handler templates
@@ -38,5 +38,5 @@ export const eventMap = <Events extends TEventSignatures>(
   (key, obj) => ({
     arity: obj[key].length,
     handlers: new Map([[obj[key], false]]),
-  }),
+  })
 );

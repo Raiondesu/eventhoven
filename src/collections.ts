@@ -37,7 +37,7 @@ const createCollection = <A extends TDoAction>(
  */
 export const emitCollection = <{
   <M extends TEventMap>(eventMap: M): THandlerMap<M>;
-}> createCollection(emit as TDoAction<any[]>);
+}> createCollection(emit as TDoAction);
 
 /**
  * Create a namespaced event subscriber collection

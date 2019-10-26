@@ -28,7 +28,7 @@ export const mapObject = <T extends object, R extends Record<keyof T, any>>(
  *
  * @param action - an action to apply
  */
-export const doForAll = <A extends TDoAction<any[]>>(
+export const doForAll = <A extends TDoAction>(
   action: A
 ) => <M extends TEventMap>(
   eventMap: M

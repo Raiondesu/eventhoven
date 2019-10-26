@@ -16,7 +16,7 @@ export type TSubscriber<M extends TEventMap, N extends keyof M> = {
 export type TSubscriberContext = {
   unsubscribe: typeof unsubscribe;
   meta: TMetaEmit;
-}
+};
 
 /**
  * A subscriber factory
@@ -29,10 +29,10 @@ export type TSubscriberContext = {
 export const subscribe = <M extends TEventMap>(
   eventMap: M, {
     meta: m,
-    unsubscribe: unsub
+    unsubscribe: unsub,
   }: TSubscriberContext = {
     unsubscribe,
-    meta: emitMeta
+    meta: emitMeta,
   }
 ): {
   <E extends keyof M>(event: E, once?: boolean): TSubscriber<M, E>;
@@ -69,7 +69,7 @@ export const subscribeToAll = <{
   <M extends TEventMap>(eventMap: M): {
     (handler: THandlerOf<M>): void;
     (...handlers: THandlerOf<M>[]): void;
-  }
+  };
 }> doForAll(subscribe);
 
 export const onAll = subscribeToAll;
