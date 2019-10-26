@@ -14,6 +14,7 @@
   - [Table of Contents](#table-of-contents)
   - [What is this?](#what-is-this)
   - [Disclaimer](#disclaimer)
+    - [SemVer](#semver)
     - [TypeScript](#typescript)
     - [Currying](#currying)
     - [External state >>> Internal state](#external-state--internal-state)
@@ -71,6 +72,11 @@ Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhov
 
 ## Disclaimer
 > and some ground principles
+
+### SemVer
+
+This project will utilize SemVer after a 1.0.0 release!\
+Until then - breaking changes are possilbe during minor updates!
 
 ### TypeScript
 
