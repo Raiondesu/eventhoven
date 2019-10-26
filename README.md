@@ -299,7 +299,37 @@ const keyboardEvents = eventMap({
 In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount of arguments for a given event.
 
 <details>
-<summary>Here, `keyboardEvents`</summary> is equal to the following object:
+<summary>
+The decision to use plain functions as event signatures comes down to 3 advantages
+</summary>
+
+1. It's easier to make type inference that way.\
+   Since a handler and the event signature are both functions,\
+   there's no need to convert types from event signature to event handler.
+
+2. It allows to compose event managers easier.\
+   Having an event signature be a default event handler\
+   allows to emit other managers' event directly in the event declaration, for example.
+
+   Also, it is a common practice to add a default handler for the event\
+   right after its declaration, which produces lines like this:
+   ```ts
+    import { Manager } from 'some-event-manager';
+
+    const manager = new Manager([ 'event' ]);
+    // Boilerplate code:
+    manager.on('event', () => console.log('I want to debug all invocations of this event!'));
+   ```
+   `eventhoven` allows to never have to do that.
+
+3. It allows code analysis tools detect which events are never being emitted.\
+   Since the event signatures are executable pieces of code, which are **always** executed on their respective events,\
+   code analysis tools (code coverages, testing frameworks) can detect and count the amount of executions\
+   of these signatures. And this amount is equivalent to the amount of emits of a particular event.\
+   This allows, in turn, to always know which events are never emitted and should be deleted from the event-map.
+
+
+Here, `keyboardEvents` is equal to the following object:
 
 ```ts
 const keyboardEvents = {
@@ -325,6 +355,7 @@ const keyboardEvents = {
     arity: 2,
     handlers: new Map([
       // Notice the default event handler from the event-map
+      // It's even the same function reference!
       (e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
       false
     ])
