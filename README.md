@@ -2,6 +2,8 @@
 
 > Compose events effortlessly 🎵
 
+[![travis](https://img.shields.io/travis/com/raiondesu-experiments/eventhoven?style=flat-square)](https://travis-ci.com/raiondesu-experiments/eventhoven "Latest Travis CI build")
+[![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
 [![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page")
 [![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "Downloads per month, but who cares?")
 [![size](https://img.shields.io/bundlephobia/minzip/eventhoven?style=flat-square)](https://bundlephobia.com/result?p=eventhoven "minzipped size")
