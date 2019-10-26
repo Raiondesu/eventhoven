@@ -20,20 +20,17 @@ export const emit = (eventMap, metaEmit = emitMeta) =>
  * Emits an event with proper arguments
  */
 (...args) => {
-    const { arity, handlers } = eventMap[event];
-    const slicedArgs = arity > 0 ? args.slice(0, arity) : args;
+    const handlers = eventMap[event];
     const results = [
         // Emit meta-event
-        metaEmit('emit')(eventMap, event, slicedArgs)
+        metaEmit('emit')(eventMap, event, args)
     ];
     // Mandates non-blocking flow
-    return new Promise(resolve => setTimeout(() => {
-        handlers.forEach((once, handler) => {
-            results.push(Promise.resolve(handler && handler({ event, once }, ...slicedArgs)));
-            once && handlers.delete(handler);
-        });
-        resolve(Promise.all(results).then(_ => void 0));
-    }, 0));
+    return new Promise(resolve => setTimeout(() => (handlers.forEach((once, handler) => (results.push(handler && handler
+        .bind(null, { event, once })
+        .apply(null, args)),
+        (once && handlers.delete(handler)))),
+        resolve(Promise.all(results).then(_ => void 0))), 0));
 };
 /**
  * Emit all events for a given event collection

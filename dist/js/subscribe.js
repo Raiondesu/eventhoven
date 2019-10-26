@@ -24,13 +24,13 @@ exports.subscribe = function (eventMap, _a) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 handlers[_i] = arguments[_i];
             }
-            handlers.forEach(function (handler) {
+            return (handlers.forEach(function (handler) {
                 // Emit meta-event (ignore promise)
                 m('subscribe')(eventMap, event, handler);
-                eventMap[event].handlers.set(handler, eventOrOpts.once || onceArg);
-            });
-            return function () { return unsub(eventMap)(event)
-                .apply(null, handlers); };
+                eventMap[event].set(handler, eventOrOpts.once || onceArg);
+            }),
+                function () { return unsub(eventMap)(event)
+                    .apply(null, handlers); });
         };
     };
 };

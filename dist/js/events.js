@@ -6,8 +6,5 @@ var util_1 = require("./util");
  *
  * @param events - an object with default handlers for events
  */
-exports.eventMap = function (events) { return util_1.mapObject(events, function (key, obj) { return ({
-    arity: obj[key].length,
-    handlers: new Map([[obj[key], false]]),
-}); }); };
+exports.eventMap = function (events) { return util_1.mapObject(events, function (key, obj) { return new Map([[obj[key], false]]); }); };
 //# sourceMappingURL=events.js.map

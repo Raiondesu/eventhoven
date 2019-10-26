@@ -4,8 +4,5 @@ import { mapObject } from "./util.js";
  *
  * @param events - an object with default handlers for events
  */
-export const eventMap = (events) => mapObject(events, (key, obj) => ({
-    arity: obj[key].length,
-    handlers: new Map([[obj[key], false]]),
-}));
+export const eventMap = (events) => mapObject(events, (key, obj) => new Map([[obj[key], false]]));
 //# sourceMappingURL=events.js.map

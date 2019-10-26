@@ -12,10 +12,10 @@ exports.unsubscribe = function (eventMap, m) {
         return (handlers.length > 0 ? (handlers.forEach(function (h) { return (
         // Emit meta-event (ignore promise)
         m('unsubscribe')(eventMap, event, h),
-            eventMap[event].handlers.delete(h)); })) : (eventMap[event].handlers.forEach(function (_, h) { return (
+            eventMap[event].delete(h)); })) : (eventMap[event].forEach(function (_, h) { return (
         // Emit meta-event (ignore promise)
         m('unsubscribe')(eventMap, event, h)); }),
-            eventMap[event].handlers.clear()));
+            eventMap[event].clear()));
     }; };
 };
 exports.off = exports.unsubscribe;
