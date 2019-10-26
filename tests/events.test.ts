@@ -5,7 +5,9 @@ describe('eventMap', () => {
   it('maps signatures to maps', () => {
     const expectedResult: any = {};
 
-    for (const eventName in test_eventSignatures) {
+    for (const eventName in test_eventSignatures) if (
+      test_eventSignatures.hasOwnProperty(eventName)
+    ) {
       const handler = test_eventSignatures[eventName as keyof typeof test_eventSignatures];
 
       expectedResult[eventName] = {
