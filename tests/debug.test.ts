@@ -1,7 +1,6 @@
 import { test_eventMap } from './common';
-import { debug, log } from '../src/debug';
+import { debug } from '../src/debug';
 import { emit } from '../src/emit';
-import { metaEvents } from '../src/meta-events';
 import { on } from '../src/subscribe';
 
 const originalLog = console.log;
