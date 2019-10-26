@@ -15,15 +15,14 @@ export type TLastParams<T extends (arg: any, ...args: any[]) => any> = T extends
  */
 export const mapObject = <T extends object, R>(
   obj: T,
-  value: (key: keyof T, obj: T) => R,
-  defaultValue = <Record<keyof T, R>> {}
+  value: (key: keyof T, obj: T) => R
 ) => (
   <Array<keyof T>>
   Object.keys(obj)
 ).reduce((newObj, key) => (
   (newObj[key] = value(key, obj)),
   newObj
-), defaultValue);
+), <Record<keyof T, R>> {});
 
 /**
  * A `do`-er factory
