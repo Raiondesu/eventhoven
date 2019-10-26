@@ -1,7 +1,7 @@
 import { TEventMap, THandlerOf, TContextHandler } from './events';
 import { unsubscribe, TUnsubscribe } from './unsubscribe';
 import { emitMeta, TMetaEmit } from './meta-events';
-import { doForAll } from './util';
+import { doForAll, TLastParams } from './util';
 
 export interface ISubscribeOptions<M extends TEventMap, N extends keyof M = keyof M> {
   event: N;
@@ -43,15 +43,17 @@ export const subscribe = <M extends TEventMap>(
   eventOrOpts: keyof M | ISubscribeOptions<M>,
   onceArg: boolean = false
 ): TSubscriber<M, keyof M> => {
-  const event = typeof eventOrOpts === 'object' ? eventOrOpts.event : eventOrOpts;
-  const once = typeof eventOrOpts === 'object' ? !!eventOrOpts.once : onceArg;
+  const event = (<ISubscribeOptions<M>>eventOrOpts).event || eventOrOpts as keyof M;
 
-  return (...handlers) => {
+  return (...handlers: Array<THandlerOf<M>>) => {
     handlers.forEach(handler => {
       // Emit meta-event (ignore promise)
       m('subscribe')(eventMap, event, handler);
 
-      eventMap[event].handlers.set(handler, once);
+      eventMap[event].handlers.set(
+        handler,
+        (<ISubscribeOptions<M>>eventOrOpts).once || onceArg
+      );
     });
 
     return () => unsub(eventMap)(event)
