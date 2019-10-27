@@ -605,10 +605,11 @@ emit(emojiEvents)('🎌')('🍣', 10);
 // 12:59:05.512 [EVENT EMIT 🎌]: 🍣, 10
 ```
 
-If you want coloring or some other features - pass a custom logging function:
+If you want coloring or some other features - pass a custom logging function.
+It has the same signature as any other event handler:
 ```ts
-// Let's say we want warnings instead of logs...
-const customLog = (type) => (...args) => console.warn(type, ...args);
+// Let's say we want warnings instead of logs
+const customLog = (ctx, ...args) => console.warn(ctx.event, ...args);
 
 debug({
   enable: true,
