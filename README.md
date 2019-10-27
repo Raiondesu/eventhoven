@@ -589,8 +589,9 @@ When debug mode is enabled, all emits, subscribes and unsubscribes are logged to
 in a following format (default):
 
 ```
-HH:MM:SS [EVENT {event-name}]: {event-handler-or-params}
+HH:MM:SS.fff [EVENT {event-type} {event-name}]: {event-handler-or-params}
 ```
+where `{event-type}` is the type of the event (`emit`, `subscribe`, `unsubscribe`),\
 where `{event-name}` is the name of the event\
 and `{event-handler-or-params}` is the handler for the event (when subscribing or unsubscribing) or its params (when emitting).
 
@@ -601,7 +602,7 @@ debug({ enable: true });
 emit(emojiEvents)('🎌')('🍣', 10);
 
 // logs:
-// 12:59:05 [EVENT EMIT 🎌]: 🍣, 10
+// 12:59:05.512 [EVENT EMIT 🎌]: 🍣, 10
 ```
 
 If you want coloring or some other features - pass a custom logging function:
