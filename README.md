@@ -27,9 +27,9 @@
     - [`emit(eventMap)(event)(...args): Promise<void>`](#emiteventmapeventargs-promisevoid)
     - [`emitAll(eventMap)(eventArgs): object`](#emitalleventmapeventargs-object)
     - [`subscribe(eventMap)(event)(...handlers): () => void`](#subscribeeventmapeventhandlers---void)
-    - [`subscribeToAll(eventMap)(...handlers): void`](#subscribetoalleventmaphandlers-void)
-    - [`unsubscribe(eventMap)(event)(...handlers): void`](#unsubscribeeventmapeventhandlers-void)
-    - [`unsubscribeFromAll(eventMap)(...handlers): void`](#unsubscribefromalleventmaphandlers-void)
+    - [`subscribeToAll(eventMap)(...handlers)`](#subscribetoalleventmaphandlers)
+    - [`unsubscribe(eventMap)(event)(...handlers)`](#unsubscribeeventmapeventhandlers)
+    - [`unsubscribeFromAll(eventMap)(...handlers)`](#unsubscribefromalleventmaphandlers)
     - [`wait(eventMap)(event): Promise<args[]>`](#waiteventmapevent-promiseargs)
     - [`harmonicWait(eventMap)(event)(): Promise<args[]>`](#harmonicwaiteventmapevent-promiseargs)
     - [`debug(options)`](#debugoptions)
@@ -251,13 +251,13 @@ name | type | description
 [`eventMap`](#eventmapevents) | `function` | Event-map factory
 [`emit`](#emiteventmapeventargs-promisevoid) | `function` | Event emitter factory
 [`subscribe`](#subscribeeventmapeventhandlers---void) | `function` | Event subscriber factory
-[`subscribeToAll`](#subscribetoalleventmaphandlers-void) | `function` | Event subscriber factory for all events in a collection
+[`subscribeToAll`](#subscribetoalleventmaphandlers) | `function` | Event subscriber factory for all events in a collection
 [`on`](#subscribeeventmapeventhandlers---void) | `function` | Alias for [`subscribe`](#subscribeeventmapeventhandlers---void)
-[`onAll`](#subscribetoalleventmaphandlers-void) | `function` | Alias for [`subscribeToAll`](#subscribetoalleventmaphandlers-void)
-[`unsubscribe`](#unsubscribeeventmapeventhandlers-void) | `function` | Event unsubscriber factory
-[`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers-void) | `function` | Event unsubscriber factory
-[`off`](#unsubscribeeventmapeventhandlers-void) | `function` | Alias for [`unsubscribe`](#unsubscribeeventmapeventhandlers-void)
-[`offAll`](#unsubscribefromalleventmaphandlers-void) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers-void)
+[`onAll`](#subscribetoalleventmaphandlers) | `function` | Alias for [`subscribeToAll`](#subscribetoalleventmaphandlers)
+[`unsubscribe`](#unsubscribeeventmapeventhandlers) | `function` | Event unsubscriber factory
+[`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers) | `function` | Event unsubscriber factory
+[`off`](#unsubscribeeventmapeventhandlers) | `function` | Alias for [`unsubscribe`](#unsubscribeeventmapeventhandlers)
+[`offAll`](#unsubscribefromalleventmaphandlers) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers)
 [`emitCollection`](#collections) | `function` | Creates a collection of event-emitters from an event-map
 [`subscribeCollection`](#collections) | `function` | Creates a collection of event-subscribers from an event-map
 [`unsubscribeCollection`](#collections) | `function` | Creates a collection of event-unsubscribers from an event-map
@@ -440,7 +440,7 @@ name | type | description
 **Alias**: `on`
 
 
-### `subscribeToAll(eventMap)(...handlers): void`
+### `subscribeToAll(eventMap)(...handlers)`
 
 Subscribes handler(s) to **all** events in an event map.
 
@@ -459,7 +459,7 @@ name | type | description
 
 ---
 
-### `unsubscribe(eventMap)(event)(...handlers): void`
+### `unsubscribe(eventMap)(event)(...handlers)`
 
 Unsubscribes handlers from events of an event-map.
 
@@ -478,7 +478,7 @@ name | type | description
 **Alias**: `off`
 
 
-### `unsubscribeFromAll(eventMap)(...handlers): void`
+### `unsubscribeFromAll(eventMap)(...handlers)`
 
 Unsubscribes handler(s) from **all** events in an event map.
 
@@ -545,7 +545,7 @@ Same as [`wait`](#waiteventmapevent-promiseargs), but returns a promise factory 
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
-Useful due to having the same signature as [`emit`](#emiteventmapeventargs-promisevoid), [`subscribe`](#subscribeeventmapeventhandlers---void) and [`unsubscribe`](#unsubscribeeventmapeventhandlers-void),
+Useful due to having the same signature as [`emit`](#emiteventmapeventargs-promisevoid), [`subscribe`](#subscribeeventmapeventhandlers---void) and [`unsubscribe`](#unsubscribeeventmapeventhandlers),
 which allows for an easier composition of waiters.
 
 **Parameters**:
@@ -642,7 +642,7 @@ name | action | description
 -----|--------|------------------
 `emitCollection(eventMap)` | [`emit`](#emiteventmapeventargs-promisevoid) | Creates a an object, where each property is a function that emits a prescribed event
 `subscribeCollection(eventMap)` | [`subscribe`](#subscribeeventmapeventhandlers---void) | Creates a an object, where each property is a function that subscribes to a prescribed event
-`unsubscribeCollection(eventMap)` | [`unsubscribe`](#unsubscribeeventmapeventhandlers-void) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
+`unsubscribeCollection(eventMap)` | [`unsubscribe`](#unsubscribeeventmapeventhandlers) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
 `eventCollection(eventMap)` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
 
 ---
