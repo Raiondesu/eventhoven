@@ -373,9 +373,11 @@ emit(inputEvents)('mouse-click')
 
 #### Event context
 
-You've probably noticed by now, that all event handlers have a first `ctx` parameter.
+You've probably noticed by now,\
+that all event handlers have a first `ctx` parameter.
 
 This is the event context, and it is an object of the following signature:
+
 key | type | description
 ----|------|-----------------
 `event` | `PropertyKey` | An event that triggered this handler.
