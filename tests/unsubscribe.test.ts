@@ -1,5 +1,4 @@
-import { off } from '../src/unsubscribe';
-import { on } from '../src/subscribe';
+import { off, on } from '../src';
 import { test_eventMap, test_eventSignatures } from './common';
 
 describe('unsubscribe', () => {

@@ -1,5 +1,4 @@
-import { emit } from '../src/emit';
-import { wait, harmonicWait } from '../src/wait';
+import { emit, wait, harmonicWait } from '../src';
 import { test_eventMap, getCurrentSeconds, msInSec } from './common';
 
 describe('wait', () => {

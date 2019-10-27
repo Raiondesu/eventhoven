@@ -1,4 +1,4 @@
-import { eventMap } from '../src/events';
+import { eventMap } from '../src';
 import { test_eventSignatures } from './common';
 
 describe('eventMap', () => {

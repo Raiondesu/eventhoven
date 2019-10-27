@@ -1,6 +1,5 @@
-import { on } from '../src/subscribe';
+import { on, emit } from '../src';
 import { test_eventMap } from './common';
-import { emit } from '../src/emit';
 
 describe('subscribe', () => {
   it('adds handler to the event pool and removes it', () => {

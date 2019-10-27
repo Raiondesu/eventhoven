@@ -1,5 +1,5 @@
 import { mapObject, doForAll } from '../src/util';
-import { eventMap } from '../src/events';
+import { eventMap } from '../src';
 
 describe('util', () => {
   describe('mapObject', () => {

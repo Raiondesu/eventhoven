@@ -1,7 +1,5 @@
 import { test_eventMap } from './common';
-import { debug } from '../src/debug';
-import { emit } from '../src/emit';
-import { on } from '../src/subscribe';
+import { debug, emit, on } from '../src';
 
 const originalLog = console.log;
 const logMock = jest.fn();

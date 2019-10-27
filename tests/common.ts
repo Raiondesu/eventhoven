@@ -1,5 +1,4 @@
-import { eventMap, TEventMap } from '../src/events';
-import { ISubscribeOptions } from '../src/subscribe';
+import { eventMap, TEventMap, ISubscribeOptions } from '../src';
 
 export const test_promiseDelayMS = 1000;
 export const msInSec = 1000;

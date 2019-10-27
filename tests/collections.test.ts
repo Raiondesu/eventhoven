@@ -1,4 +1,4 @@
-import { eventCollection, emitCollection, subscribeCollection, unsubscribeCollection } from '../src';
+import { eventCollection } from '../src';
 import { test_eventMap } from './common';
 
 describe('eventCollection', () => {
