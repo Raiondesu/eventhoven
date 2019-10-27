@@ -581,7 +581,7 @@ Sets a debug mode.
 name | type | description
 -----|------|---------------
 `enabled` | `boolean` | Whether to enable the debug mode or disable it.
-`log` <sup>v0.4.0</sup> | `function` (optional) | A custom logging function.
+`log` | `function` (optional) | A custom logging function.
 
 **Returns**: `void`
 
