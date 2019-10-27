@@ -264,7 +264,7 @@ name | type | description
 [`harmonicWait`](#harmonicwaiteventmapevent-promiseargs) | `function` | Same as [`wait`](#waiteventmapevent-promiseargs) but has an arity of 3, just as all the other event-handling functions
 [`debug`](#debugoptions) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
-[`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
+`emitMeta` | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
 
 ---
 
