@@ -9,15 +9,16 @@ exports.emit = function (eventMap) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            var handlers = eventMap[event];
             var results = [
                 meta_events_1.emitMeta('emit')(eventMap, event, args)
             ];
-            return new Promise(function (resolve) { return setTimeout(function () { return (handlers.forEach(function (once, handler) { return (results.push(handler && handler
+            return new Promise(function (resolve, e) { return setTimeout(function () { return (eventMap[event].forEach(function (once, handler) { return (results.push(handler && handler
                 .bind(null, { event: event, once: once })
                 .apply(null, args)),
-                (once && handlers.delete(handler))); }),
-                resolve(Promise.all(results).then(function (_) { return void 0; }))); }, 0); });
+                (once && eventMap[event].delete(handler))); }),
+                Promise.all(results)
+                    .then(function (_) { return resolve(); })
+                    .catch(e)); }, 0); });
         };
     };
 };
