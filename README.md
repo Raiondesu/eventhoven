@@ -46,7 +46,7 @@ A main list of features includes (but not limited to):
 - Functional-style API
 - Multiple event arguments
 - Event names can also be symbols (private events)
-- Versatile plugin system (using [meta-events](#meta-events))
+- Versatile plugin system (using [meta-events](#meta-events-plugin-api))
 - Fully type-safe - each event-map remembers its event names and type signature (no need for hacky enums)
 - All functions are curried and point-free, which makes them easier to use in functional environment
   (for example, with [`ramda`](https://github.com/ramda/ramda) and similar tools)
