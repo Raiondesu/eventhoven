@@ -9,7 +9,7 @@
 [![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
 ## Table of Contents
-- [eventhoven](#eventhoven)
+- [eventhoven ![npm](https://www.npmjs.com/package/eventhoven "NPM package page")](#eventhoven-npmhttpswwwnpmjscompackageeventhoven-%22npm-package-page%22)
   - [Table of Contents](#table-of-contents)
   - [What is this?](#what-is-this)
   - [Disclaimer](#disclaimer)
@@ -22,19 +22,19 @@
     - [Importing](#importing)
     - [Simple usage examples](#simple-usage-examples)
   - [API](#api)
-    - [`eventMap`](#eventmap)
+    - [`eventMap(events)`](#eventmapevents)
       - [Event context](#event-context)
-    - [`emit`](#emit)
-    - [`emitAll`](#emitall)
-    - [`subscribe`](#subscribe)
-    - [`subscribeToAll`](#subscribetoall)
-    - [`unsubscribe`](#unsubscribe)
-    - [`unsubscribeFromAll`](#unsubscribefromall)
-    - [`wait`](#wait)
-    - [`harmonicWait`](#harmonicwait)
-    - [`debug`](#debug)
+    - [`emit(eventMap)(event)(...args): Promise<void>`](#emiteventmapeventargs-promisevoid)
+    - [`emitAll(eventMap)(eventArgs): object`](#emitalleventmapeventargs-object)
+    - [`subscribe(eventMap)(event)(...handlers): () => void`](#subscribeeventmapeventhandlers---void)
+    - [`subscribeToAll(eventMap)(...handlers): void`](#subscribetoalleventmaphandlers-void)
+    - [`unsubscribe(eventMap)(event)(...handlers): void`](#unsubscribeeventmapeventhandlers-void)
+    - [`unsubscribeFromAll(eventMap)(...handlers): void`](#unsubscribefromalleventmaphandlers-void)
+    - [`wait(eventMap)(event): Promise<args[]>`](#waiteventmapevent-promiseargs)
+    - [`harmonicWait(eventMap)(event)(): Promise<args[]>`](#harmonicwaiteventmapevent-promiseargs)
+    - [`debug(options)`](#debugoptions)
     - [Collections](#collections)
-    - [Plugin API](#plugin-api)
+    - [Meta-Events (Plugin API)](#meta-events-plugin-api)
   - [Contribute](#contribute)
 
 ## What is this?
@@ -248,29 +248,29 @@ General exports are the following:
 
 name | type | description
 -----|------|--------------------
-[`eventMap`](#eventmap) | `function` | Event-map factory
-[`emit`](#emit) | `function` | Event emitter factory
-[`subscribe`](#subscribe) | `function` | Event subscriber factory
-[`subscribeToAll`](#subscribetoall) | `function` | Event subscriber factory for all events in a collection
-[`on`](#subscribe) | `function` | Alias for [`subscribe`](#subscribe)
-[`onAll`](#subscribetoall) | `function` | Alias for [`subscribeToAll`](#subscribetoall)
-[`unsubscribe`](#unsubscribe) | `function` | Event unsubscriber factory
-[`unsubscribeFromAll`](#unsubscribefromall) | `function` | Event unsubscriber factory
-[`off`](#unsubscribe) | `function` | Alias for [`unsubscribe`](#unsubscribe)
-[`offAll`](#unsubscribefromall) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromall)
-[`emitCollection`](#emitcollection) | `function` | Creates a collection of event-emitters from an event-map
-[`subscribeCollection`](#subscribecollection) | `function` | Creates a collection of event-subscribers from an event-map
-[`unsubscribeCollection`](#unsubscribecollection) | `function` | Creates a collection of event-unsubscribers from an event-map
-[`eventCollection`](#eventcollection) | `function` | Creates a collection of the three previous collections from an event-map
-[`wait`](#wait) | `function` | Waits for an event to be executed
-[`harmonicWait`](#harmonicwait) | `function` | Same as [`wait`](#wait) but has an arity of 3, just as all the other event-handling functions
-[`debug`](#debug) | `function` | Sets the debug mode (if enabled - logs all events to the console)
-[`metaEvents`](#metaevents) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
-[`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emit) function created for [`metaEvents`](#metaevents)
+[`eventMap`](#eventmapevents) | `function` | Event-map factory
+[`emit`](#emiteventmapeventargs-promisevoid) | `function` | Event emitter factory
+[`subscribe`](#subscribeeventmapeventhandlers---void) | `function` | Event subscriber factory
+[`subscribeToAll`](#subscribetoalleventmaphandlers-void) | `function` | Event subscriber factory for all events in a collection
+[`on`](#subscribeeventmapeventhandlers---void) | `function` | Alias for [`subscribe`](#subscribeeventmapeventhandlers---void)
+[`onAll`](#subscribetoalleventmaphandlers-void) | `function` | Alias for [`subscribeToAll`](#subscribetoalleventmaphandlers-void)
+[`unsubscribe`](#unsubscribeeventmapeventhandlers-void) | `function` | Event unsubscriber factory
+[`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers-void) | `function` | Event unsubscriber factory
+[`off`](#unsubscribeeventmapeventhandlers-void) | `function` | Alias for [`unsubscribe`](#unsubscribeeventmapeventhandlers-void)
+[`offAll`](#unsubscribefromalleventmaphandlers-void) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers-void)
+[`emitCollection`](#collections) | `function` | Creates a collection of event-emitters from an event-map
+[`subscribeCollection`](#collections) | `function` | Creates a collection of event-subscribers from an event-map
+[`unsubscribeCollection`](#collections) | `function` | Creates a collection of event-unsubscribers from an event-map
+[`eventCollection`](#collections) | `function` | Creates a collection of the three previous collections from an event-map
+[`wait`](#waiteventmapevent-promiseargs) | `function` | Waits for an event to be executed
+[`harmonicWait`](#harmonicwaiteventmapevent-promiseargs) | `function` | Same as [`wait`](#waiteventmapevent-promiseargs) but has an arity of 3, just as all the other event-handling functions
+[`debug`](#debugoptions) | `function` | Sets the debug mode (if enabled - logs all events to the console)
+[`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
+[`emitMeta`](#emitmeta) | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
 
 ---
 
-### `eventMap`
+### `eventMap(events)`
 
 Creates an event-map from event signatures.
 
@@ -385,7 +385,7 @@ key | type | description
 
 ---
 
-### `emit`
+### `emit(eventMap)(event)(...args): Promise<void>`
 
 Creates event emitters for an event-map.
 
@@ -403,7 +403,7 @@ name | type | description
 
 ---
 
-### `emitAll`
+### `emitAll(eventMap)(eventArgs): object`
 
 Emits **all** events in an event map.
 
@@ -421,7 +421,7 @@ name | type | description
 
 ---
 
-### `subscribe`
+### `subscribe(eventMap)(event)(...handlers): () => void`
 
 Creates event subscribers for an event in an event-map.
 
@@ -440,7 +440,7 @@ name | type | description
 **Alias**: `on`
 
 
-### `subscribeToAll`
+### `subscribeToAll(eventMap)(...handlers): void`
 
 Subscribes handler(s) to **all** events in an event map.
 
@@ -459,7 +459,7 @@ name | type | description
 
 ---
 
-### `unsubscribe`
+### `unsubscribe(eventMap)(event)(...handlers): void`
 
 Unsubscribes handlers from events of an event-map.
 
@@ -478,7 +478,7 @@ name | type | description
 **Alias**: `off`
 
 
-### `unsubscribeFromAll`
+### `unsubscribeFromAll(eventMap)(...handlers): void`
 
 Unsubscribes handler(s) from **all** events in an event map.
 
@@ -497,7 +497,7 @@ name | type | description
 
 ---
 
-### `wait`
+### `wait(eventMap)(event): Promise<args[]>`
 
 Allows to wait for an event without the need for callbacks.
 
@@ -533,13 +533,13 @@ console.log(e);
 
 ---
 
-### `harmonicWait`
+### `harmonicWait(eventMap)(event)(): Promise<args[]>`
 
-Same as [`wait`](#wait), but returns a promise factory instead of a plain promise.
+Same as [`wait`](#waiteventmapevent-promiseargs), but returns a promise factory instead of a plain promise.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
-Useful due to having the same signature as [`emit`](#emit), [`subscribe`](#subscribe) and [`unsubscribe`](#unsubscribe),
+Useful due to having the same signature as [`emit`](#emiteventmapeventargs-promisevoid), [`subscribe`](#subscribeeventmapeventhandlers---void) and [`unsubscribe`](#unsubscribeeventmapeventhandlers-void),
 which allows for an easier composition of waiters.
 
 **Parameters**:
@@ -572,7 +572,7 @@ console.log(e);
 
 ---
 
-### `debug`
+### `debug(options)`
 
 Sets a debug mode.
 
@@ -632,18 +632,18 @@ Currently available `collections` are:
 
 name | action | description
 -----|--------|------------------
-`emitCollection` | [`emit`](#emit) | Creates a an object, where each property is a function that emits a prescribed event
-`subscribeCollection` | [`subscribe`](#subscribe) | Creates a an object, where each property is a function that subscribes to a prescribed event
-`unsubscribeCollection` | [`unsubscribe`](#unsubscribe) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
-`eventCollection` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
+`emitCollection(eventMap)` | [`emit`](#emiteventmapeventargs-promisevoid) | Creates a an object, where each property is a function that emits a prescribed event
+`subscribeCollection(eventMap)` | [`subscribe`](#subscribeeventmapeventhandlers---void) | Creates a an object, where each property is a function that subscribes to a prescribed event
+`unsubscribeCollection(eventMap)` | [`unsubscribe`](#unsubscribeeventmapeventhandlers-void) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
+`eventCollection(eventMap)` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
 
 ---
 
-### Plugin API
+### Meta-Events (Plugin API)
 
 It's also possible to write custom plugins for `eventhoven` thanks to meta-events!
 
-Meta-events is a simple [`event-map`](#eventmap) with events for internal `eventhoven` actions, like [`emit`](#emit).\
+Meta-events is a simple [`event-map`](#eventmapevents) with events for internal `eventhoven` actions, like [`emit`](#emiteventmapeventargs-promisevoid).\
 One can subscribe to these events to execute some actions or emit these events to emulate them for the `eventhoven`.
 
 The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/debug.ts) plugin.\
