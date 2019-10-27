@@ -525,9 +525,15 @@ const keydown = wait(keyboardEvents)('keydown');
 
 //... some time later in async context
 
-const [_ctx, e] = await keydown; // Resolves upon the first 'keydown' event emit
+// Resolves upon the first 'keydown' event emit
+// Returns a tuple of arguments that would otherwise go to the handler
+const [ctx, e] = await keydown;
 console.log(e);
 // => KeyboardEvent {}
+
+// `wait` calls have event context too
+console.log(ctx);
+// => { event: "keydown", once: true }
 ```
 </details>
 
