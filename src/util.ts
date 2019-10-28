@@ -20,8 +20,7 @@ export const mapObject = <T extends object, R>(
   <Array<keyof T>>
   Object.keys(obj)
 ).reduce((newObj, key) => (
-  (newObj[key] = value(key)),
-  newObj
+  newObj[key] = value(key), newObj
 ), <Record<keyof T, R>> {});
 
 /**
