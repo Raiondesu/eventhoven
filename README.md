@@ -48,8 +48,8 @@ A main list of features includes (but not limited to):
 - Multiple event arguments
 - Event names can also be symbols (private events)
 - Versatile plugin system (using [meta-events](#meta-events-plugin-api))
-- Fully type-safe - each event-map remembers its event names and type signature (no need for hacky enums)
-- All functions are curried and point-free, which makes them easier to use in functional environment
+- Fully type-safe - each event remembers its name and type signature
+- All functions are curried and point-free, which makes them easier to use in a functional environment
   (for example, with [`ramda`](https://github.com/ramda/ramda) and similar tools)
 - **SOLID**
   - **S**RP - every function does only one thing
