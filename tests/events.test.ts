@@ -27,10 +27,16 @@ describe('eventMap', () => {
     };
     const map = eventMap(options);
 
+    const expectHandlerToBePresent = () => {
+      expect(map.event.length).toBe(1);
+      expect(typeof map.event[0][0]).toBe('function');
+      expect(map.event[0][0]).toBe(options.event);
+    };
+
+    expectHandlerToBePresent();
+
     await emit(map)('event')();
 
-    expect(map.event.length).toBe(1);
-    expect(typeof map.event[0][0]).toBe('function');
-    expect(map.event[0][0]).toBe(options.event);
+    expectHandlerToBePresent();
   });
 });
