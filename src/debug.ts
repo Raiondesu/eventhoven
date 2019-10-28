@@ -1,6 +1,6 @@
 import { metaEvents, TMetaEvents } from './meta-events';
-import { TEventMap, TEventHandler } from './events';
-import { ISubscribeOptions, onAll } from './subscribe';
+import { TEventOptions, TEventMap, TEventHandler } from './events';
+import { onAll } from './subscribe';
 import { offAll } from './unsubscribe';
 
 const onMeta = onAll(metaEvents);
@@ -10,7 +10,7 @@ const offMeta = offAll(metaEvents);
  * Default logging function
  */
 const log = (
-  { event }: ISubscribeOptions<TMetaEvents, keyof TMetaEvents>,
+  { event }: TEventOptions<TMetaEvents>,
   _map: TEventMap,
   eventName: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler

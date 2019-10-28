@@ -30,27 +30,20 @@ export const emit = <M extends TEventMap>(
  * Emits an event with proper arguments
  */
 (...args: TLastParams<THandlerOf<M, E>>): Promise<void> => {
-  const results: Array<Promise<void> | void> = [
-    // Emit meta-event
-    emitMeta('emit')(eventMap, event, args)
-  ];
-
   // Mandates non-blocking flow
-  return new Promise<void>((resolve, e) => setTimeout(() => (
-    eventMap[event].forEach((once, handler) => (
-      results.push(
+  return new Promise<void>((resolve, e) => setTimeout(
+    () => Promise.all([
+      // Emit meta-event
+      emitMeta('emit')(eventMap, event, args),
+      ...eventMap[event].map(([handler, unsubscribe]) => (
         handler && handler
-          .bind(null, { event, once })
+          .bind(null, { event, unsubscribe })
           .apply(null, args)
-      ),
-
-      (once && eventMap[event].delete(handler))
-    )),
-
-    Promise.all(results)
-      .then(_ => resolve())
-      .catch(e)
-  ), 0));
+      ))
+    ])
+    .then(_ => resolve(), e),
+    0
+  ));
 };
 
 export type TEventParamsMap<M extends TEventMap> = {
@@ -70,6 +63,6 @@ export const emitAll = <M extends TEventMap>(
   eventArgs: TEventParamsMap<M>
 ) => mapObject<M, Promise<void>>(
   eventMap,
-  (name) => emit(eventMap)(name)
+  name => emit(eventMap)(name)
     .apply(null, eventArgs[name])
 );

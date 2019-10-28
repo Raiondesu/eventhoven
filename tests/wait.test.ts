@@ -1,42 +1,43 @@
-import { emit, wait, harmonicWait } from '../src';
+import { emit, wait, harmonicWait, TEventMap, eventMap } from '../src';
 import { test_eventMap, getCurrentSeconds, msInSec } from './common';
 
-describe('wait', () => {
-  it('awaits emit correctly', async () => {
-    const event = 'promisedEvent';
-    const delay = 500;
-    const delayInSec = delay / msInSec;
+const waitTests = (_wait: (map: TEventMap, event: PropertyKey) => Promise<any[]>) => {
+  const event = 'promisedEvent';
+  const delay = 100;
+  const delayInSec = delay / msInSec;
 
+  beforeEach(() => {
     setTimeout(() => {
       emit(test_eventMap)(event)();
     }, delay);
+  });
 
+  it('awaits emit correctly', async () => {
     const timeBefore = getCurrentSeconds();
 
-    await wait(test_eventMap)(event);
+    await _wait(test_eventMap, event);
 
     const timeAfter = getCurrentSeconds();
 
     expect(timeAfter).toBeCloseTo(timeBefore + delayInSec, 1);
   });
+
+  it('removes handler from the map', async () => {
+    const expectedAmount = test_eventMap[event].length + 1;
+    const execution = _wait(test_eventMap, event);
+
+    expect(test_eventMap[event].length).toBe(expectedAmount);
+
+    await execution;
+
+    expect(test_eventMap[event].length).toBe(expectedAmount - 1);
+  });
+};
+
+describe('wait', () => {
+  waitTests((map, event) => wait(map)(event));
 });
 
 describe('harmonic wait', () => {
-  it('awaits emit correctly', async () => {
-    const event = 'promisedEvent';
-    const delay = 500;
-    const delayInSec = delay / msInSec;
-
-    setTimeout(() => {
-      emit(test_eventMap)(event)();
-    }, delay);
-
-    const timeBefore = getCurrentSeconds();
-
-    await harmonicWait(test_eventMap)(event)();
-
-    const timeAfter = getCurrentSeconds();
-
-    expect(timeAfter).toBeCloseTo(timeBefore + delayInSec, 1);
-  });
+  waitTests((map, event) => harmonicWait(map)(event)());
 });

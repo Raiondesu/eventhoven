@@ -1,16 +1,21 @@
 import { mapObject, TLastParams } from './util';
-import { ISubscribeOptions } from './subscribe';
+import { TUnsubscribe } from './unsubscribe';
 
-type TEventHandlerData<Event extends TEventHandler> = Map<Event, boolean>;
+type TEventHandlerData<Event extends TEventHandler> = Array<[Event, TUnsubscribe]>;
 
 export type TEventMap<Events extends TEventSignatures = TEventSignatures> = {
   readonly [event in keyof Events]: TEventHandlerData<Events[event]>;
 };
 
 export type TEventHandler<M extends TEventMap = TEventMap> = (
-  context: ISubscribeOptions<M>,
+  context: TEventOptions<M>,
   ...args: any[]
 ) => void | Promise<void>;
+
+export type TEventOptions<M extends TEventMap, N extends keyof M = keyof M> = {
+  event: N;
+  unsubscribe: TUnsubscribe<N>;
+};
 
 export type TEventHandlerFrom<H extends TEventHandler> = (...args: Parameters<H>) => Promise<void>;
 
@@ -39,5 +44,7 @@ export const eventMap = <Events extends TEventSignatures>(
   events: Events
 ) => <TEventMap<Events>> mapObject(
   events,
-  (key, obj) => new Map([[obj[key], false]])
+  key => [[events[key], () => {
+    /* make it impossible to unsubscribe from the default handler */
+  }]]
 );

@@ -381,7 +381,7 @@ This is the event context, and it is an object of the following signature:
 key | type | description
 ----|------|-----------------
 `event` | `PropertyKey` | An event that triggered this handler.
-`once` | `boolean` | Whether the handler is "once", menaing it will unsibscribe immediately after invocation.
+`unsubscribe` | `() => void` | A function that unsubscribes the current handler from the event.
 
 ---
 
@@ -527,13 +527,10 @@ const keydown = wait(keyboardEvents)('keydown');
 
 // Resolves upon the first 'keydown' event emit
 // Returns a tuple of arguments that would otherwise go to the handler
-const [ctx, e] = await keydown;
+// (excluding the context)
+const [e] = await keydown;
 console.log(e);
 // => KeyboardEvent {}
-
-// `wait` calls have event context too
-console.log(ctx);
-// => { event: "keydown", once: true }
 ```
 </details>
 
@@ -570,7 +567,7 @@ const waitForKeydown = harmonicWait(keyboardEvents)('keydown');
 
 // Resolves upon the first 'keydown' event emit
 // since the call of the `waitForKeydown`
-const [_ctx, e] = await waitForKeydown();
+const [e] = await waitForKeydown();
 console.log(e);
 // => KeyboardEvent {}
 ```
