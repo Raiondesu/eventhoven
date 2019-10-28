@@ -42,8 +42,7 @@ exports.once = function (handler) { return function (_) {
     for (var _i = 1; _i < arguments.length; _i++) {
         args[_i - 1] = arguments[_i];
     }
-    return (handler.apply(void 0, __spread([_], args)),
-        _.unsubscribe());
+    return (handler.apply(void 0, __spread([_], args)), _.unsubscribe());
 }; };
 exports.subscribeToAll = util_1.doForAll(exports.subscribe);
 exports.onAll = exports.subscribeToAll;
