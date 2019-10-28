@@ -28,13 +28,13 @@ exports.subscribe = function (eventMap) { return function (event) { return funct
     for (var _i = 0; _i < arguments.length; _i++) {
         handlers[_i] = arguments[_i];
     }
-    var unsub = function () { return unsubscribe_1.unsubscribe(eventMap)(event)
-        .apply(null, handlers); };
+    var unsub = function (_handlers) { return function () { return unsubscribe_1.unsubscribe(eventMap)(event)
+        .apply(null, _handlers); }; };
     handlers.forEach(function (handler) {
         meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
-        eventMap[event].push([handler, unsub]);
+        eventMap[event].push([handler, unsub([handler])]);
     });
-    return unsub;
+    return unsub(handlers);
 }; }; };
 exports.on = exports.subscribe;
 exports.once = function (handler) { return function (_) {
