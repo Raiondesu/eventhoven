@@ -18,7 +18,7 @@ export type TEventCollection<M extends TEventMap> = {
   unsubscribe: THandlersMap<M>;
 };
 
-export const createCollection = <A extends TDoAction>(
+const createCollection = <A extends TDoAction>(
   action: A
 ) => <M extends TEventMap>(
   eventMap: M
