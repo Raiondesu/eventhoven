@@ -176,7 +176,7 @@ const emojiEvents = eventMap({
 });
 
 on(emojiEvents)('🎌')(
-  (emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from japan!`)
+  (ctx, emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from ${ctx.event}!`)
 );
 
 on(emojiEvents)('🎌')(
