@@ -31,11 +31,12 @@ exports.emit = function (eventMap) {
             }
             return new Promise(function (resolve, e) { return setTimeout(function () { return Promise.all(__spread([
                 meta_events_1.emitMeta('emit')(eventMap, event, args)
-            ], eventMap[event].map(function (_a) {
+            ], eventMap[event]
+                .map(function (_a) {
                 var _b = __read(_a, 2), handler = _b[0], unsubscribe = _b[1];
-                return (handler && handler
+                return handler && handler
                     .bind(null, { event: event, unsubscribe: unsubscribe })
-                    .apply(null, args));
+                    .apply(null, args);
             }))).then(function (_) { return resolve(); }, e); }, 0); });
         };
     };
