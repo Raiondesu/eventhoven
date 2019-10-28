@@ -301,7 +301,7 @@ const keyboardEvents = eventMap({
 });
 ```
 
-In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount of arguments for a given event.
+In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount (and types) of arguments for a given event.
 
 <details>
 <summary>
