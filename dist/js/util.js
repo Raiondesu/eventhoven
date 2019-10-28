@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mapObject = function (obj, value) { return Object.keys(obj).reduce(function (newObj, key) { return ((newObj[key] = value(key, obj)),
+exports.mapObject = function (obj, value) { return Object.keys(obj).reduce(function (newObj, key) { return ((newObj[key] = value(key)),
     newObj); }, {}); };
 exports.doForAll = function (action) { return function (eventMap) { return function () {
     var args = [];
