@@ -2,7 +2,7 @@ import { TEventMap, THandlerOf } from './events';
 import { emitMeta } from './meta-events';
 import { doForAll, THandlersForAll } from './util';
 
-export type TUnsubscribe<From> = () => (
+export type TUnsubscribe<From = PropertyKey> = () => (
   // Lifehack to display the event name
   // on the unsubscribe function
   From & void
@@ -22,22 +22,17 @@ export const unsubscribe = <M extends TEventMap>(
   event: E
 ): TUnsubscribeHandlers<M, E> => (
   ...handlers
-) => (
-  handlers.length > 0 ? (
-    handlers.forEach(h => (
+) => handlers.length > 0
+  ? handlers.forEach(_ => (
       // Emit meta-event (ignore promise)
-      emitMeta('unsubscribe')(eventMap, event, h),
+      emitMeta('unsubscribe')(eventMap, event, _),
 
-      eventMap[event].delete(h)
-    ))
-  ) : (
-    eventMap[event].forEach((_, h) => (
+      eventMap[event].splice(eventMap[event].findIndex(h => h[0] == _), 1)
+    )) as E & void
+  : eventMap[event].splice(0).forEach(
       // Emit meta-event (ignore promise)
-      emitMeta('unsubscribe')(eventMap, event, h)
-    )),
-    eventMap[event].clear()
-  )
-) as E & void;
+      h => emitMeta('unsubscribe')(eventMap, event, h[0])
+    ) as E & void;
 
 export const off = unsubscribe;
 

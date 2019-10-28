@@ -28,6 +28,7 @@
   - [`subscribeToAll(eventMap)(...handlers)`](#subscribetoalleventmaphandlers)
   - [`unsubscribe(eventMap)(event)(...handlers)`](#unsubscribeeventmapeventhandlers)
   - [`unsubscribeFromAll(eventMap)(...handlers)`](#unsubscribefromalleventmaphandlers)
+  - [`once(handler): handler`](#oncehandler-handler)
   - [`wait(eventMap)(event): Promise<args[]>`](#waiteventmapevent-promiseargs)
   - [`harmonicWait(eventMap)(event)(): Promise<args[]>`](#harmonicwaiteventmapevent-promiseargs)
   - [`debug(options)`](#debugoptions)
@@ -47,8 +48,8 @@ A main list of features includes (but not limited to):
 - Multiple event arguments
 - Event names can also be symbols (private events)
 - Versatile plugin system (using [meta-events](#meta-events-plugin-api))
-- Fully type-safe - each event-map remembers its event names and type signature (no need for hacky enums)
-- All functions are curried and point-free, which makes them easier to use in functional environment
+- Fully type-safe - each event remembers its name and type signature
+- All functions are curried and point-free, which makes them easier to use in a functional environment
   (for example, with [`ramda`](https://github.com/ramda/ramda) and similar tools)
 - **SOLID**
   - **S**RP - every function does only one thing
@@ -175,7 +176,7 @@ const emojiEvents = eventMap({
 });
 
 on(emojiEvents)('🎌')(
-  (emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from japan!`)
+  (ctx, emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from ${ctx.event}!`)
 );
 
 on(emojiEvents)('🎌')(
@@ -256,6 +257,7 @@ name | type | description
 [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers) | `function` | Event unsubscriber factory
 [`off`](#unsubscribeeventmapeventhandlers) | `function` | Alias for [`unsubscribe`](#unsubscribeeventmapeventhandlers)
 [`offAll`](#unsubscribefromalleventmaphandlers) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers)
+[`once`](#oncehandler-handler) | `function` | Makes a handler be executed only once
 [`emitCollection`](#collections) | `function` | Creates a collection of event-emitters from an event-map
 [`subscribeCollection`](#collections) | `function` | Creates a collection of event-subscribers from an event-map
 [`unsubscribeCollection`](#collections) | `function` | Creates a collection of event-unsubscribers from an event-map
@@ -299,7 +301,7 @@ const keyboardEvents = eventMap({
 });
 ```
 
-In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount of arguments for a given event.
+In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'keydown', etc.) and values contain handler maps and amount (and types) of arguments for a given event.
 
 <details>
 <summary>
@@ -337,22 +339,23 @@ Here, `keyboardEvents` is equal to the following object:
 ```ts
 const keyboardEvents = {
   // Name of the event
-  keyup:
+  keyup: [
     // Collection of the event handlers
-    new Map([
+    [
       // Notice the default event handler from the event-map
       (ctx, e: KeyboardEvent) => {},
-
-      // Do we execute this event handler only once?
-      false
-    ]),
-  keydown: new Map([(ctx, e: KeyboardEvent) => {}, false]),
-  keypress: new Map([
+      // second element is an internal function,
+      // the implementation of which is not relevant here
+      () => {}
+    ]
+  ],
+  keydown: [[(ctx, e: KeyboardEvent) => {}, () => {}]],
+  keypress: [[
     // Notice the default event handler from the event-map
     // It's even the same function reference!
     (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
-    false
-  ]),
+    () => {}
+  ]]),
 }
 ```
 </details>
@@ -381,7 +384,22 @@ This is the event context, and it is an object of the following signature:
 key | type | description
 ----|------|-----------------
 `event` | `PropertyKey` | An event that triggered this handler.
-`once` | `boolean` | Whether the handler is "once", menaing it will unsibscribe immediately after invocation.
+`unsubscribe` | `() => void` | A function that unsubscribes the current handler from the event.
+
+<details>
+<summary>
+Simple example
+</summary>
+
+```ts
+const map = eventMap({
+  eventName(ctx) {
+    console.log(ctx.event); // => "eventName"
+    console.log(typeof ctx.unsubscribe); // => "function"
+  }
+})
+```
+</details>
 
 ---
 
@@ -497,6 +515,28 @@ name | type | description
 
 ---
 
+### `once(handler): handler`
+
+Makes a handler being called only once upon the subscribed event invocation.\
+Should be used with [`subscribe`](#subscribeeventmapeventhandlers---void) to reduce boilerplate for one-time handlers.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`handler` | `function` | An event handler to be `once`-d
+
+**Returns**: `handler` - a changed handler that was passed in
+
+Usage example:
+```ts
+on(eventmap)('some-event')(once((ctx, arg) => {
+  console.log('This handler will only be called once!');
+}));
+```
+
+---
+
 ### `wait(eventMap)(event): Promise<args[]>`
 
 Allows to wait for an event without the need for callbacks.
@@ -527,13 +567,10 @@ const keydown = wait(keyboardEvents)('keydown');
 
 // Resolves upon the first 'keydown' event emit
 // Returns a tuple of arguments that would otherwise go to the handler
-const [ctx, e] = await keydown;
+// (excluding the context)
+const [e] = await keydown;
 console.log(e);
 // => KeyboardEvent {}
-
-// `wait` calls have event context too
-console.log(ctx);
-// => { event: "keydown", once: true }
 ```
 </details>
 
@@ -570,7 +607,7 @@ const waitForKeydown = harmonicWait(keyboardEvents)('keydown');
 
 // Resolves upon the first 'keydown' event emit
 // since the call of the `waitForKeydown`
-const [_ctx, e] = await waitForKeydown();
+const [e] = await waitForKeydown();
 console.log(e);
 // => KeyboardEvent {}
 ```

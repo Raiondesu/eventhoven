@@ -27,15 +27,23 @@ describe('emit', () => {
 
     const handler = jest.fn((ctx: Context) => {
       expect(ctx.event).toBe(event);
-      expect(ctx.once).toBe(false);
+      expect(typeof ctx.unsubscribe).toBe('function');
     });
     const handlerOnce = jest.fn((ctx: Context) => {
       expect(ctx.event).toBe(event);
-      expect(ctx.once).toBe(true);
+      expect(typeof ctx.unsubscribe).toBe('function');
+
+      expect(test_eventMap[event].find(_ => _[0] == handlerOnce)).toHaveProperty('0', handlerOnce);
+
+      ctx.unsubscribe();
+
+      expect(test_eventMap[event].find(_ => _[0] == handlerOnce)).toBeUndefined();
     });
 
-    on(test_eventMap)(event)(handler);
-    on(test_eventMap)(event, true)(handlerOnce);
+    const onEvent = on(test_eventMap)(event);
+
+    onEvent(handler);
+    onEvent(handlerOnce);
 
     await emit(test_eventMap)(event)();
 

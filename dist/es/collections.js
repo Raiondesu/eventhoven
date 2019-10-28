@@ -2,7 +2,7 @@ import { mapObject } from "./util.js";
 import { emit } from "./emit.js";
 import { subscribe } from "./subscribe.js";
 import { unsubscribe } from "./unsubscribe.js";
-export const createCollection = (action) => (eventMap) => mapObject(eventMap, action(eventMap));
+const createCollection = (action) => (eventMap) => mapObject(eventMap, action(eventMap));
 export const emitCollection = createCollection(emit);
 export const subscribeCollection = createCollection(subscribe);
 export const unsubscribeCollection = createCollection(unsubscribe);

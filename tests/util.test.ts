@@ -16,7 +16,7 @@ describe('util', () => {
         c: 'C',
       };
 
-      const dest = mapObject(src, (key, obj) => obj[key].toUpperCase());
+      const dest = mapObject(src, (key) => src[key].toUpperCase());
 
       expect(dest).toEqual(destTest);
     });

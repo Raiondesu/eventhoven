@@ -7,9 +7,10 @@ exports.unsubscribe = function (eventMap) { return function (event) { return fun
     for (var _i = 0; _i < arguments.length; _i++) {
         handlers[_i] = arguments[_i];
     }
-    return (handlers.length > 0 ? (handlers.forEach(function (h) { return (meta_events_1.emitMeta('unsubscribe')(eventMap, event, h),
-        eventMap[event].delete(h)); })) : (eventMap[event].forEach(function (_, h) { return (meta_events_1.emitMeta('unsubscribe')(eventMap, event, h)); }),
-        eventMap[event].clear()));
+    return handlers.length > 0
+        ? handlers.forEach(function (_) { return (meta_events_1.emitMeta('unsubscribe')(eventMap, event, _),
+            eventMap[event].splice(eventMap[event].findIndex(function (h) { return h[0] == _; }), 1)); })
+        : eventMap[event].splice(0).forEach(function (h) { return meta_events_1.emitMeta('unsubscribe')(eventMap, event, h[0]); });
 }; }; };
 exports.off = exports.unsubscribe;
 exports.unsubscribeFromAll = util_1.doForAll(exports.unsubscribe);

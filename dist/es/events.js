@@ -1,3 +1,4 @@
 import { mapObject } from "./util.js";
-export const eventMap = (events) => mapObject(events, (key, obj) => new Map([[obj[key], false]]));
+export const eventMap = (events) => mapObject(events, key => [[events[key], () => {
+        }]]);
 //# sourceMappingURL=events.js.map
