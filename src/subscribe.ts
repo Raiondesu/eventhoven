@@ -46,10 +46,10 @@ export const on = subscribe;
 export const once = <
   M extends TEventMap,
   E extends keyof M
->(handler: THandlerOf<M, E>) => (_: TEventOptions<M>, ...args: TLastParams<THandlerOf<M, E>>) => (
-  handler(_, ...args),
-  _.unsubscribe()
-);
+>(handler: THandlerOf<M, E>) => (
+  _: TEventOptions<M>,
+  ...args: TLastParams<THandlerOf<M, E>>
+) => (handler(_, ...args), _.unsubscribe());
 
 /**
  * A subscriber factory for all events of a given collection
