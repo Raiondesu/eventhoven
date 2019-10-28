@@ -2,12 +2,6 @@ import { TEventMap, THandlerOf } from './events';
 import { emitMeta } from './meta-events';
 import { mapObject, TLastParams } from './util';
 
-// Redeclare setTimeout to be both node and browser types (instead of overloads)
-// to ensure the code works on both platforms
-declare const setTimeout:
-  | Window['setTimeout']
-  | ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout);
-
 /**
  * Event-emitter factory creator
  *
@@ -29,18 +23,19 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: TLastParams<THandlerOf<M, E>>): Promise<void> =>
-// Mandates non-blocking flow
-new Promise<void>((resolve, e) => setTimeout(() => Promise.all([
-  // Emit meta-event
-  emitMeta('emit')(eventMap, event, args),
+(...args: TLastParams<THandlerOf<M, E>>): Promise<void> => new Promise<void>(
+  (resolve, e) => Promise.all([
+    // Emit meta-event
+    emitMeta('emit')(eventMap, event, args),
 
-  ...eventMap[event]
-    .map(([handler, unsubscribe]) => handler && handler
-      .bind(null, { event, unsubscribe })
-      .apply(null, args)
-    )
-]).then(_ => resolve(), e), 0));
+    ...eventMap[event]
+      .map(([handler, unsubscribe]) => handler && handler
+        .bind(null, { event, unsubscribe })
+        .apply(null, args)
+      )
+  ])
+  .then(_ => resolve(), e)
+);
 
 export type TEventParamsMap<M extends TEventMap> = {
   [name in keyof M]: TLastParams<THandlerOf<M, name>>;
