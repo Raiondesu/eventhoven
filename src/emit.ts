@@ -35,11 +35,11 @@ new Promise<void>((resolve, e) => setTimeout(() => Promise.all([
   // Emit meta-event
   emitMeta('emit')(eventMap, event, args),
 
-  ...eventMap[event].map(([handler, unsubscribe]) => (
-    handler && handler
-    .bind(null, { event, unsubscribe })
-    .apply(null, args)
-  ))
+  ...eventMap[event]
+    .map(([handler, unsubscribe]) => handler && handler
+      .bind(null, { event, unsubscribe })
+      .apply(null, args)
+    )
 ]).then(_ => resolve(), e), 0));
 
 export type TEventParamsMap<M extends TEventMap> = {
