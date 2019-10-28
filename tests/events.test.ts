@@ -19,7 +19,7 @@ describe('eventMap', () => {
     expect(eventMap(test_eventSignatures)).toStrictEqual(expectedResult);
   });
 
-  test('it is impossible to unsub the default handler from itself', async () => {
+  test('it is impossible to unsub the default handler from within itself', async () => {
     const options = {
       event({ unsubscribe }) {
         unsubscribe();
