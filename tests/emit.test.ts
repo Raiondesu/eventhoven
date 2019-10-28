@@ -42,10 +42,19 @@ describe('emit', () => {
 
     const onEvent = on(test_eventMap)(event);
 
-    onEvent(handler);
-    onEvent(handlerOnce);
+    const amountWithoutHandlers = test_eventMap[event].length;
+    const handlersAmount = 2;
+    const amountOnce = 1;
+
+    onEvent(handler, handlerOnce);
+
+    expect(test_eventMap[event].length)
+      .toBe(amountWithoutHandlers + handlersAmount);
 
     await emit(test_eventMap)(event)();
+
+    expect(test_eventMap[event].length)
+      .toBe(amountWithoutHandlers + handlersAmount - amountOnce);
 
     expect(handler.mock.calls.length).toBe(1);
     expect(handlerOnce.mock.calls.length).toBe(1);
