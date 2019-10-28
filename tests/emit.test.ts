@@ -33,7 +33,7 @@ describe('emit', () => {
       expect(ctx.event).toBe(event);
       expect(typeof ctx.unsubscribe).toBe('function');
 
-      expect(test_eventMap[event].find(_ => _[0] == handlerOnce)).toBe(handlerOnce);
+      expect(test_eventMap[event].find(_ => _[0] == handlerOnce)).toHaveProperty('0', handlerOnce);
 
       ctx.unsubscribe();
 
