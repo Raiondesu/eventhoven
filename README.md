@@ -344,6 +344,8 @@ const keyboardEvents = {
     [
       // Notice the default event handler from the event-map
       (ctx, e: KeyboardEvent) => {},
+      // second element is an internal function,
+      // the implementation of which is not relevant here
       () => {}
     ]
   ],
