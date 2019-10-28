@@ -36,8 +36,7 @@ exports.emit = function (eventMap) {
                 return (handler && handler
                     .bind(null, { event: event, unsubscribe: unsubscribe })
                     .apply(null, args));
-            })))
-                .then(function (_) { return resolve(); }, e); }, 0); });
+            }))).then(function (_) { return resolve(); }, e); }, 0); });
         };
     };
 };
