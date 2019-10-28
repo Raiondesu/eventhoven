@@ -1,4 +1,4 @@
-import { on, emit } from '../src';
+import { on, emit, once } from '../src';
 import { test_eventMap, hasHandler, Context } from './common';
 
 describe('subscribe', () => {
@@ -22,10 +22,9 @@ describe('subscribe', () => {
   });
 
   it('adds a once-handler to the event pool and removes it upon event invocation', async () => {
-    const handler = jest.fn(({ unsubscribe }: Context) => {
-      unsubscribe();
-    });
     const event = 'event3';
+
+    const handler = jest.fn(once(() => {}));
 
     on(test_eventMap)(event)(handler);
 
@@ -35,6 +34,8 @@ describe('subscribe', () => {
     ).toBe(true);
 
     await emit(test_eventMap)(event)();
+
+    expect(handler).toHaveBeenCalled();
 
     // expect handler to be gone
     expect(

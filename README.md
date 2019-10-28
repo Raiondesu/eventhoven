@@ -28,6 +28,7 @@
   - [`subscribeToAll(eventMap)(...handlers)`](#subscribetoalleventmaphandlers)
   - [`unsubscribe(eventMap)(event)(...handlers)`](#unsubscribeeventmapeventhandlers)
   - [`unsubscribeFromAll(eventMap)(...handlers)`](#unsubscribefromalleventmaphandlers)
+  - [`once(handler): handler`](#oncehandler-handler)
   - [`wait(eventMap)(event): Promise<args[]>`](#waiteventmapevent-promiseargs)
   - [`harmonicWait(eventMap)(event)(): Promise<args[]>`](#harmonicwaiteventmapevent-promiseargs)
   - [`debug(options)`](#debugoptions)
@@ -256,6 +257,7 @@ name | type | description
 [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers) | `function` | Event unsubscriber factory
 [`off`](#unsubscribeeventmapeventhandlers) | `function` | Alias for [`unsubscribe`](#unsubscribeeventmapeventhandlers)
 [`offAll`](#unsubscribefromalleventmaphandlers) | `function` | Alias for [`unsubscribeFromAll`](#unsubscribefromalleventmaphandlers)
+[`once`](#oncehandler-handler) | `function` | Makes a handler be executed only once
 [`emitCollection`](#collections) | `function` | Creates a collection of event-emitters from an event-map
 [`subscribeCollection`](#collections) | `function` | Creates a collection of event-subscribers from an event-map
 [`unsubscribeCollection`](#collections) | `function` | Creates a collection of event-unsubscribers from an event-map
@@ -494,6 +496,28 @@ name | type | description
 **Returns**: `void`
 
 **Alias**: `offAll`
+
+---
+
+### `once(handler): handler`
+
+Makes a handler being called only once upon the subscribed event invocation.\
+Should be used with [`subscribe`](#subscribeeventmapeventhandlers---void) to reduce boilerplate for one-time handlers.
+
+**Parameters**:
+
+name | type | description
+-----|------|---------------
+`handler` | `function` | An event handler to be `once`-d
+
+**Returns**: `handler` - a changed handler that was passed in
+
+Usage example:
+```ts
+on(eventmap)('some-event')(once((ctx, arg) => {
+  console.log('This handler will only be called once!');
+}));
+```
 
 ---
 
