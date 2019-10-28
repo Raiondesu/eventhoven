@@ -386,6 +386,21 @@ key | type | description
 `event` | `PropertyKey` | An event that triggered this handler.
 `unsubscribe` | `() => void` | A function that unsubscribes the current handler from the event.
 
+<details>
+<summary>
+Simple example
+</summary>
+
+```ts
+const map = eventMap({
+  eventName(ctx) {
+    console.log(ctx.event); // => "eventName"
+    console.log(typeof ctx.unsubscribe); // => "function"
+  }
+})
+```
+</details>
+
 ---
 
 ### `emit(eventMap)(event)(...args): Promise<void>`
