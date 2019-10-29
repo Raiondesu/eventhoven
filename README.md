@@ -201,7 +201,7 @@ await emit(emojiEvents)(
 </details>
 
 <details>
-<summary><b>Example 2</b></summary>
+<summary><b>Example 2 (Todo-App)</b></summary>
 
 ```ts
 import { eventMap, emit, on, off } from 'eventhoven';
@@ -217,25 +217,52 @@ const todoEvents = eventMap({
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  'todo-added'(context, newTodo: Todo, todos: Todo[]) {
-    // typically, a default handler is used
-    // to compose events from other event managers here
+  'add-todos'(context, todos: Todo[], ...newTodos: Todo[]) {
+    // Typically, a default handler is used to compose events from other event managers here.
+    // But we'll just implement a simple todo-app for now
+    todos.push(...newTodos);
   },
-  'done-change'(context, todo: Todo, newDone: boolean) {},
-  'text-change'(context, todo: Todo, newText: string) {},
+  'done-change'(context, todo: Todo, newDone: boolean) {
+    todo.done = newDone
+  },
+  'text-change'(context, todo: Todo, newText: string) {
+    todo.text = newText;
+  },
 });
 
-const unsubFromAddTodo = on(todoEvents)('todo-added')(
-  (context, todo, todos) => todos.push(todo)
+const unsubFromAddTodo = on(todoEvents)('add-todos')(
+  // Parameter types are inferred here
+  (context, todos, ...newTodos) => newTodos.forEach(todo => console.log(
+    `Wow, new todo added - "${todo.text}"!`,
+    todo.done ? `And it's done already!` : 'Need to do it!'
+  ))
 );
 
-// `addingTodos` is a promise that resolves
-// when all event subscribers are done executing
-const addingTodos = emit(todoEvents)('todo-added')(
-  { done: false, text: 'new todo' },
-  todos
+const addTodo = emit(todoEvents)('add-todos');
+
+addTodo(
+  todos,
+  { text: 'learn fp', done: true },
+  { text: 'publish a cool event manager', done: true },
 );
-// Now, `todos` contains the new todo
+// => Wow, new todo added - "learn fp"! And it's done already!
+// => Wow, new todo added - "publish a cool event manager"! And it's done already!
+
+// Unsubbed the wow-ing console.log from the event
+unsubFromAddTodo();
+
+addTodo(
+  todos,
+  { text: 'buy milk', done: false }
+);
+// nothing happens in the console now
+
+console.log(todos);
+// => [
+//   { text: 'learn fp', done: true },
+//   { text: 'publish a cool event manager', done: true },
+//   { text: 'buy milk', done: false }
+// ]
 ```
 </details>
 
