@@ -30,8 +30,7 @@ export const subscribe = <M extends TEventMap>(
 ): TSubscriber<M, E> => (...handlers: Array<THandlerOf<M, E>>) => {
   const unsub = (
     _handlers: Array<THandlerOf<M, E>>
-  ) => () => unsubscribe(eventMap)(event)
-    .apply(null, _handlers);
+  ) => () => unsubscribe(eventMap)(event)(..._handlers);
 
   handlers.forEach(handler => {
     // Emit meta-event (ignore promise)

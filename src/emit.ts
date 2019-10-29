@@ -32,7 +32,7 @@ export const emit = <M extends TEventMap>(
     ...[...eventMap[event]].map(
       ([handler, unsubscribe]) => handler && handler
         .bind(null, { event, unsubscribe })
-        .apply(null, args)
+        (...args)
     )
   ])
   .then(_ => resolve(), e)
@@ -55,6 +55,5 @@ export const emitAll = <M extends TEventMap>(
   eventArgs: TEventParamsMap<M>
 ) => mapObject<M, Promise<void>>(
   eventMap,
-  name => emit(eventMap)(name)
-    .apply(null, eventArgs[name])
+  name => emit(eventMap)(name)(...eventArgs[name])
 );

@@ -37,7 +37,7 @@ export const doForAll = <A extends TDoAction>(
 ) => (
   ...args: A extends TDoAction<infer P> ? P : any[]
 ) => {
-  mapObject(eventMap, key => action(eventMap)(key).apply(null, args));
+  mapObject(eventMap, key => action(eventMap)(key)(...args));
 };
 
 export type THandlersForAll = {
