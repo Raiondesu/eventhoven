@@ -677,9 +677,9 @@ Currently available `collections` are:
 
 name | action | description
 -----|--------|------------------
-`emitCollection(eventMap)` | [`emit`](#emiteventmapeventargs-promisevoid) | Creates a an object, where each property is a function that emits a prescribed event
-`subscribeCollection(eventMap)` | [`subscribe`](#subscribeeventmapeventhandlers---void) | Creates a an object, where each property is a function that subscribes to a prescribed event
-`unsubscribeCollection(eventMap)` | [`unsubscribe`](#unsubscribeeventmapeventhandlers) | Creates a an object, where each property is a function that unsubscribes from a prescribed event
+`emitCollection(eventMap)` | [`emit`](#emiteventmapeventargs-promisevoid) | Creates an object, where each property is a function that emits a prescribed event
+`subscribeCollection(eventMap)` | [`subscribe`](#subscribeeventmapeventhandlers---void) | Creates an object, where each property is a function that subscribes to a prescribed event
+`unsubscribeCollection(eventMap)` | [`unsubscribe`](#unsubscribeeventmapeventhandlers) | Creates an object, where each property is a function that unsubscribes from a prescribed event
 `eventCollection(eventMap)` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
 
 ---
