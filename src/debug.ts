@@ -1,7 +1,7 @@
 import { metaEvents, TMetaEvents } from './meta-events';
 import { onAll } from './subscribe';
 import { offAll } from './unsubscribe';
-import { TEventMap, TEventOptions, TEventHandler } from './types';
+import { TEventMap, TEventContext, TEventHandler } from './types';
 
 const onMeta = onAll(metaEvents);
 const offMeta = offAll(metaEvents);
@@ -10,14 +10,16 @@ const offMeta = offAll(metaEvents);
  * Default logging function
  */
 const log = (
-  { event }: TEventOptions<TMetaEvents>,
+  { event }: TEventContext<TMetaEvents>,
   _map: TEventMap,
   eventName: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
-  `${// tslint:disable-next-line: no-magic-numbers - because these *are* magic
-    new Date().toJSON().substr(14, 9)
-  } [${event.toUpperCase()} "${String(eventName)}"] -`,
+  // tslint:disable-next-line: no-magic-numbers - because these *are* magic
+  new Date().toJSON().substr(14, 9),
+
+  `[${event} "${String(eventName)}"] -`,
+
   ...(Array.isArray(argsOrHandler)
     ? argsOrHandler
     : [argsOrHandler]

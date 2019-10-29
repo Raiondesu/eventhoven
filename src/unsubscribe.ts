@@ -1,6 +1,7 @@
 import { emitMeta } from './emit';
 import { doForAll, THandlersForAll } from './util';
 import { TEventMap, TUnsubscribeHandlers } from './types';
+import { EMetaEvents } from './meta-events';
 
 export const unsubscribe = <M extends TEventMap>(
   eventMap: M
@@ -14,7 +15,7 @@ export const unsubscribe = <M extends TEventMap>(
       ? handlers
       : eventMap[event].keys()
   ) // Emit meta-event (ignore promise)
-    emitMeta('unsubscribe')(eventMap, event, h),
+    emitMeta(EMetaEvents.UNSUBSCRIBE)(eventMap, event, h),
     eventMap[event].delete(h);
 };
 

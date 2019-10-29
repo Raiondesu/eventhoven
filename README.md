@@ -170,18 +170,18 @@ const emojiEvents = eventMap({
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  '👩'(ctx, emoji: '👨' | '👩') {},
-  '🌈'(ctx, emoji: '🦄' | '🌧') {},
-  '🎌'(ctx, emoji: '👘' | '🍣' | '🚗', amount: number) {},
+  '👩'(context, emoji: '👨' | '👩') {},
+  '🌈'(context, emoji: '🦄' | '🌧') {},
+  '🎌'(context, emoji: '👘' | '🍣' | '🚗', amount: number) {},
 });
 
 on(emojiEvents)('🎌')(
-  (ctx, emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from ${ctx.event}!`)
+  (context, emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from ${context.event}!`)
 );
 
 on(emojiEvents)('🎌')(
   // Returning promises is also allowed (example API from http://www.sushicount.com/api)
-  (ctx, emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
+  (context, emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
     .then(_ => _.json())
     .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} of ${emoji}-s loaded from sushicount!`))
 );
@@ -213,20 +213,20 @@ const todos: Todo[] = [];
 // Event-map declaration
 const todoEvents = eventMap({
   // key - event name,
-  // first argument (ctx) - event contxext
+  // first argument (context) - event contxext
   // function arguments - event arguments,
   // function body - default handler for the event
   // (leave emtpy if you need to just declare the event)
-  'todo-added'(ctx, newTodo: Todo, todos: Todo[]) {
+  'todo-added'(context, newTodo: Todo, todos: Todo[]) {
     // typically, a default handler is used
     // to compose events from other event managers here
   },
-  'done-change'(ctx, todo: Todo, newDone: boolean) {},
-  'text-change'(ctx, todo: Todo, newText: string) {},
+  'done-change'(context, todo: Todo, newDone: boolean) {},
+  'text-change'(context, todo: Todo, newText: string) {},
 });
 
 const unsubFromAddTodo = on(todoEvents)('todo-added')(
-  (ctx, todo, todos) => todos.push(todo)
+  (context, todo, todos) => todos.push(todo)
 );
 
 // `addingTodos` is a promise that resolves
@@ -291,9 +291,9 @@ import { eventMap } from 'eventhoven';
 
 // `keyboardEvents` should now be used for all event interactions
 const keyboardEvents = eventMap({
-  keyup(ctx, e: KeyboardEvent) {},
-  keydown(ctx, e: KeyboardEvent) {},
-  keypress(ctx, e: KeyboardEvent, modifier?: string) {
+  keyup(context, e: KeyboardEvent) {},
+  keydown(context, e: KeyboardEvent) {},
+  keypress(context, e: KeyboardEvent, modifier?: string) {
     // This is a default handler for the event,
     // it's always executed when the event is invoked
     console.log('modifier:', modifier);
@@ -343,17 +343,17 @@ const keyboardEvents = {
     // Collection of the event handlers
     [
       // Notice the default event handler from the event-map
-      (ctx, e: KeyboardEvent) => {},
+      (context, e: KeyboardEvent) => {},
       // second element is an internal function,
       // the implementation of which is not relevant here
       () => {}
     ]
   ]),
-  keydown: new Map([[(ctx, e: KeyboardEvent) => {}, () => {}]]),
+  keydown: new Map([[(context, e: KeyboardEvent) => {}, () => {}]]),
   keypress: new Map([[
     // Notice the default event handler from the event-map
     // It's even the same function reference!
-    (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
+    (context, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
     () => {}
   ]]),
 }
@@ -366,7 +366,7 @@ It's also possible to add new events to the event-map at runtime (by creating a 
 const inputEvents = {
   ...keyboardEvents,
   ...eventMap({
-    'mouse-click'(ctx, e: MouseEvent) {},
+    'mouse-click'(context, e: MouseEvent) {},
   }),
 }
 
@@ -377,7 +377,7 @@ emit(inputEvents)('mouse-click')
 #### Event context
 
 You've probably noticed by now,\
-that all event handlers have a first `ctx` parameter.
+that all event handlers have a first `context` parameter.
 
 This is the event context, and it is an object of the following signature:
 
@@ -393,9 +393,9 @@ Simple example
 
 ```ts
 const map = eventMap({
-  eventName(ctx) {
-    console.log(ctx.event); // => "eventName"
-    console.log(typeof ctx.unsubscribe); // => "function"
+  eventName(context) {
+    console.log(context.event); // => "eventName"
+    console.log(typeof context.unsubscribe); // => "function"
   }
 })
 ```
@@ -617,7 +617,7 @@ console.log(e);
 
 ### `debug(options)`
 
-Sets a debug mode.
+Sets the debug mode.
 
 **options** (object):
 
@@ -634,9 +634,13 @@ in a following format (default):
 ```
 MM:SS.fff [{event-type} {event-name}]: {event-handler-or-params}
 ```
-where `{event-type}` is the type of the event (`emit`, `subscribe`, `unsubscribe`),\
-where `{event-name}` is the name of the event\
-and `{event-handler-or-params}` is the handler for the event (when subscribing or unsubscribing) or its params (when emitting).
+
+Where:
+- `{event-type}` - [type of the event](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/meta-events.ts)
+- `{event-name}` - name of the event
+- `{event-handler-or-params}`
+  - the handler for the event (when subscribing or unsubscribing)
+  - params of the event (when emitting)
 
 Example:
 ```ts
@@ -651,14 +655,21 @@ emit(emojiEvents)('🎌')('🍣', 10);
 If you want coloring or some other features - pass a custom logging function.
 It has the same signature as any other event handler:
 ```ts
+import { debug, TLogHandler } from 'eventhoven';
+
 // Let's say we want warnings instead of logs
-const customLog = (ctx, ...args) => console.warn(ctx.event, ...args);
+const customLog: TLogHandler = (ctx, ...args) => console.warn(ctx.event, ...args);
 
 debug({
   enable: true,
   log: customLog
 });
 ```
+
+> **Note**\
+> Always store a reference to your custom log function.\
+> Without this reference it will be impossible to turn off the debug mode.
+
 ---
 
 ### Collections
@@ -750,16 +761,18 @@ Current list of all meta-events is as follows:
 
  name  | emitted when
 -------|------------------
-`emit` | Any event is emitted, except itself.
-`subscribe` | Any event is subscribed to, except itself.
-`unsubscribe` | Any event is unsubscribed from, except itself.
+`EMIT` | Any event is emitted, except itself.
+`SUBSCRIBE` | Any event is subscribed to, except itself.
+`UNSUBSCRIBE` | Any event is unsubscribed from, except itself.
+
+This list is also described as a [const enum EMetaEvents](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/meta-events.ts).
 
 Simple example:
 
 ```ts
-import { metaEvents, on } from 'eventhoven';
+import { metaEvents, EMetaEvents, on } from 'eventhoven';
 
-on(metaEvents)('emit')(
+on(metaEvents)(EMetaEvents.EMIT)(
   (ctx, eventMap, eventName, eventArgs) => console.log(
     `This handler will be executed when ANY event is emitted, for example ${eventName}!`
   )

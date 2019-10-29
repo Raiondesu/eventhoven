@@ -1,4 +1,4 @@
-import { TMetaEvents, metaEvents } from './meta-events';
+import { TMetaEvents, metaEvents, EMetaEvents } from './meta-events';
 import { mapObject } from './util';
 import { TEventMap, THandlerOf, TLastParams } from './types';
 
@@ -26,7 +26,7 @@ export const emit = <M extends TEventMap>(
 (...args: TLastParams<THandlerOf<M, E>>): Promise<void> => new Promise<void>(
   (resolve, e) => Promise.all([
     // Emit meta-event
-    emitMeta('emit')(eventMap, event, args),
+    emitMeta(EMetaEvents.EMIT)(eventMap, event, args),
 
     ...[...eventMap[event]].map(
       ([handler, unsubscribe]) => handler
