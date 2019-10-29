@@ -22,4 +22,4 @@ export const test_eventSignatures = {
 
 export const test_eventMap = eventMap(test_eventSignatures);
 
-export const hasHandler = (map, event, handler) => map[event].some(_ => _[0] == handler);
+export const hasHandler = <T extends TEventMap>(map: T, event: keyof T, handler) => map[event].has(handler);
