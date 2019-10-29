@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = require("./util");
-exports.eventMap = function (events) { return util_1.mapObject(events, function (key) { return new Map([[events[key], function () {
+import { mapObject } from "./util.js";
+export var eventMap = function (events) { return mapObject(events, function (key) { return new Map([[events[key], function () {
         }]]); }); };
 //# sourceMappingURL=events.js.map

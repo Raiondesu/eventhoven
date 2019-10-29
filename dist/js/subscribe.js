@@ -1,4 +1,3 @@
-"use strict";
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -19,30 +18,29 @@ var __spread = (this && this.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var unsubscribe_1 = require("./unsubscribe");
-var meta_events_1 = require("./meta-events");
-var util_1 = require("./util");
-exports.subscribe = function (eventMap) { return function (event) { return function () {
+import { unsubscribe } from "./unsubscribe.js";
+import { emitMeta } from "./meta-events.js";
+import { doForAll } from "./util.js";
+export var subscribe = function (eventMap) { return function (event) { return function () {
     var handlers = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         handlers[_i] = arguments[_i];
     }
-    var unsub = function (_handlers) { return function () { return unsubscribe_1.unsubscribe(eventMap)(event).apply(void 0, __spread(_handlers)); }; };
+    var unsub = function (_handlers) { return function () { return unsubscribe(eventMap)(event).apply(void 0, __spread(_handlers)); }; };
     handlers.forEach(function (handler) {
-        meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
+        emitMeta('subscribe')(eventMap, event, handler);
         eventMap[event].set(handler, unsub([handler]));
     });
     return unsub(handlers);
 }; }; };
-exports.on = exports.subscribe;
-exports.once = function (handler) { return function (_) {
+export var on = subscribe;
+export var once = function (handler) { return function (_) {
     var args = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         args[_i - 1] = arguments[_i];
     }
     return (handler.apply(void 0, __spread([_], args)), _.unsubscribe());
 }; };
-exports.subscribeToAll = util_1.doForAll(exports.subscribe);
-exports.onAll = exports.subscribeToAll;
+export var subscribeToAll = doForAll(subscribe);
+export var onAll = subscribeToAll;
 //# sourceMappingURL=subscribe.js.map

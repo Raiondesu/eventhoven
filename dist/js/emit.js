@@ -1,4 +1,3 @@
-"use strict";
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -19,10 +18,9 @@ var __spread = (this && this.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var meta_events_1 = require("./meta-events");
-var util_1 = require("./util");
-exports.emit = function (eventMap) {
+import { emitMeta } from "./meta-events.js";
+import { mapObject } from "./util.js";
+export var emit = function (eventMap) {
     return function (event) {
         return function () {
             var args = [];
@@ -30,7 +28,7 @@ exports.emit = function (eventMap) {
                 args[_i] = arguments[_i];
             }
             return new Promise(function (resolve, e) { return Promise.all(__spread([
-                meta_events_1.emitMeta('emit')(eventMap, event, args)
+                emitMeta('emit')(eventMap, event, args)
             ], __spread(eventMap[event]).map(function (_a) {
                 var _b = __read(_a, 2), handler = _b[0], unsubscribe = _b[1];
                 return handler
@@ -39,5 +37,5 @@ exports.emit = function (eventMap) {
         };
     };
 };
-exports.emitAll = function (eventMap) { return function (eventArgs) { return util_1.mapObject(eventMap, function (name) { return exports.emit(eventMap)(name).apply(void 0, __spread(eventArgs[name])); }); }; };
+export var emitAll = function (eventMap) { return function (eventArgs) { return mapObject(eventMap, function (name) { return emit(eventMap)(name).apply(void 0, __spread(eventArgs[name])); }); }; };
 //# sourceMappingURL=emit.js.map

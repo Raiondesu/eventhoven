@@ -1,4 +1,3 @@
-"use strict";
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -19,20 +18,19 @@ var __spread = (this && this.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = require("./events");
-var emit_1 = require("./emit");
-exports.metaEvents = events_1.eventMap({
+import { eventMap } from "./events.js";
+import { emit } from "./emit.js";
+export var metaEvents = eventMap({
     subscribe: function (_, _eventMap, _eventName, _handler) { },
     unsubscribe: function (_, _eventMap, _eventName, _handler) { },
     emit: function (_, _eventMap, _eventName, _args) { },
 });
-exports.emitMeta = function (event) { return function () {
+export var emitMeta = function (event) { return function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return args[0] !== exports.metaEvents
-        ? emit_1.emit(exports.metaEvents)(event).apply(void 0, __spread(args)) : Promise.resolve();
+    return args[0] !== metaEvents
+        ? emit(metaEvents)(event).apply(void 0, __spread(args)) : Promise.resolve();
 }; };
 //# sourceMappingURL=meta-events.js.map

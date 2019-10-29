@@ -1,4 +1,3 @@
-"use strict";
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -19,13 +18,12 @@ var __spread = (this && this.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.mapObject = function (obj, value) { return Object.keys(obj).reduce(function (newObj, key) { return (newObj[key] = value(key), newObj); }, {}); };
-exports.doForAll = function (action) { return function (eventMap) { return function () {
+export var mapObject = function (obj, value) { return Object.keys(obj).reduce(function (newObj, key) { return (newObj[key] = value(key), newObj); }, {}); };
+export var doForAll = function (action) { return function (eventMap) { return function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    exports.mapObject(eventMap, function (key) { return action(eventMap)(key).apply(void 0, __spread(args)); });
+    mapObject(eventMap, function (key) { return action(eventMap)(key).apply(void 0, __spread(args)); });
 }; }; };
 //# sourceMappingURL=util.js.map
