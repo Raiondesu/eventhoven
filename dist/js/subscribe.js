@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const unsubscribe_1 = require("./unsubscribe");
-const meta_events_1 = require("./meta-events");
+const emit_1 = require("./emit");
 const util_1 = require("./util");
 exports.subscribe = (eventMap) => (event) => (...handlers) => {
     const unsub = (_handlers) => () => unsubscribe_1.unsubscribe(eventMap)(event)(..._handlers);
     handlers.forEach(handler => {
-        meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
+        emit_1.emitMeta('subscribe')(eventMap, event, handler);
         eventMap[event].set(handler, unsub([handler]));
     });
     return unsub(handlers);

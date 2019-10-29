@@ -1,4 +1,4 @@
-import { emitMeta } from "./meta-events.js";
+import { emitMeta } from "./emit.js";
 import { doForAll } from "./util.js";
 export const unsubscribe = (eventMap) => (event) => (...handlers) => {
     for (const h of handlers.length > 0

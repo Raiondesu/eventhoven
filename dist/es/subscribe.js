@@ -1,5 +1,5 @@
 import { unsubscribe } from "./unsubscribe.js";
-import { emitMeta } from "./meta-events.js";
+import { emitMeta } from "./emit.js";
 import { doForAll } from "./util.js";
 export const subscribe = (eventMap) => (event) => (...handlers) => {
     const unsub = (_handlers) => () => unsubscribe(eventMap)(event)(..._handlers);
