@@ -649,7 +649,7 @@ debug({ enable: true });
 emit(emojiEvents)('🎌')('🍣', 10);
 
 // logs:
-// 59:05.512 [EMIT 🎌]: 🍣, 10
+// 59:05.512 [EMIT "🎌"]: 🍣, 10
 ```
 
 If you want coloring or some other features - pass a custom logging function.
@@ -668,7 +668,7 @@ debug({
 
 > **Note**\
 > Always store a reference to your custom log function.\
-> Without this reference it will be impossible to turn off the debug mode.
+> Without this reference, it will be impossible to turn off the debug mode.
 
 ---
 
