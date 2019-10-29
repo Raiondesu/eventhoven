@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "node",
-    "module": "es2015",
+    "module": "commonjs",
     "resolveJsonModule": true,
     "outDir": "./dist",
     "allowJs": true,
