@@ -5,6 +5,8 @@
   "description": "Compose strongly-typed events effortlessly 🎵",
   "main": "dist/js",
   "module": "dist/es",
+  "unpkg": "dist/es",
+  "typings": "src",
   "keywords": [
     "events",
     "event-manager",

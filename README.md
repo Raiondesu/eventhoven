@@ -149,7 +149,7 @@ import { emit, on, off } from 'eventhoven';
 import { emit, on, off } from 'eventhoven/dist/esnext';
 
 // ES-module (browser)
-import { emit, on, off } from 'https://unpkg.com/eventhoven/dist/es';
+import { emit, on, off } from 'https://unpkg.com/eventhoven';
 
 // Classic node commonjs
 const { emit, on, off } = require('eventhoven/dist/js');
