@@ -4,7 +4,7 @@ export const unsubscribe = (eventMap) => (event) => (...handlers) => {
     for (const h of handlers.length > 0
         ? handlers
         : eventMap[event].keys())
-        emitMeta('unsubscribe')(eventMap, event, h),
+        emitMeta("UNSUBSCRIBE")(eventMap, event, h),
             eventMap[event].delete(h);
 };
 export const off = unsubscribe;

@@ -1,7 +1,7 @@
 import { metaEvents } from "./meta-events.js";
 import { mapObject } from "./util.js";
 export const emit = (eventMap) => (event) => (...args) => new Promise((resolve, e) => Promise.all([
-    emitMeta('emit')(eventMap, event, args),
+    emitMeta("EMIT")(eventMap, event, args),
     ...[...eventMap[event]].map(([handler, unsubscribe]) => handler
         && handler({ event, unsubscribe }, ...args))
 ]).then(_ => resolve(), e));

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const meta_events_1 = require("./meta-events");
 const util_1 = require("./util");
 exports.emit = (eventMap) => (event) => (...args) => new Promise((resolve, e) => Promise.all([
-    exports.emitMeta('emit')(eventMap, event, args),
+    exports.emitMeta("EMIT")(eventMap, event, args),
     ...[...eventMap[event]].map(([handler, unsubscribe]) => handler
         && handler({ event, unsubscribe }, ...args))
 ]).then(_ => resolve(), e));
