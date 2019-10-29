@@ -33,10 +33,9 @@ exports.emit = function (eventMap) {
                 meta_events_1.emitMeta('emit')(eventMap, event, args)
             ], __spread(eventMap[event]).map(function (_a) {
                 var _b = __read(_a, 2), handler = _b[0], unsubscribe = _b[1];
-                return handler && handler
-                    .bind(null, { event: event, unsubscribe: unsubscribe }).apply(void 0, __spread(args));
-            })))
-                .then(function (_) { return resolve(); }, e); });
+                return handler
+                    && handler.apply(void 0, __spread([{ event: event, unsubscribe: unsubscribe }], args));
+            }))).then(function (_) { return resolve(); }, e); });
         };
     };
 };
