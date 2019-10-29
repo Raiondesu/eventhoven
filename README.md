@@ -195,7 +195,7 @@ await emit(emojiEvents)(
   '🍣', 10
 );
 // Console output:
-// => Yay!, 10 🍣-s from japan!
+// => Yay!, 10 🍣-s from 🎌!
 // => Yay!, 11 🍣-s loaded from sushicount!
 ```
 </details>
