@@ -25,6 +25,7 @@ const log = (
 );
 
 export type TLogHandler = typeof log;
+
 export interface IDebugOptions {
   enable: boolean;
   log?: TLogHandler;
@@ -39,6 +40,6 @@ export interface IDebugOptions {
  * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
  */
-export const debug = ({ enable, log: logEvent }: IDebugOptions) => (
+export const debug = ({ enable, log: logEvent = log }: IDebugOptions) => (
   enable ? onMeta : offMeta
-)(logEvent || log);
+)(logEvent);
