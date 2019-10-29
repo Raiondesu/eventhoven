@@ -1,5 +1,5 @@
 import { test_eventMap } from './common';
-import { debug, emit, on } from '../src';
+import { debug, emit, on, off } from '../src';
 
 const originalLog = console.log;
 const logMock = jest.fn();
@@ -16,11 +16,14 @@ describe('debug', () => {
   });
 
   it('toggles logs, outputs to console', async () => {
-    const expectedLogs = 3;
+    const expectedLogs = 5;
     const callEvents = async () => {
-      await emit(test_eventMap)('event3')();
-      await emit(test_eventMap)('event2')(false);
-      await emit(test_eventMap)('event1')('asd', 0);
+      /* logs: */ const h = () => {};
+      /* - 1 - */ on(test_eventMap)('event3')(h);
+      /* - 2 - */ await emit(test_eventMap)('event3')();
+      /* - 3 - */ await emit(test_eventMap)('event2')(false);
+      /* - 4 - */ await emit(test_eventMap)('event1')('asd', 0);
+      /* - 5 - */ off(test_eventMap)('event3')(h);
     };
 
     console.log = logMock;

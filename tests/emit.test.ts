@@ -33,27 +33,27 @@ describe('emit', () => {
       expect(ctx.event).toBe(event);
       expect(typeof ctx.unsubscribe).toBe('function');
 
-      expect(test_eventMap[event].find(_ => _[0] == handlerOnce)).toHaveProperty('0', handlerOnce);
+      expect(test_eventMap[event].has(handlerOnce)).toBe(true);
 
       ctx.unsubscribe();
 
-      expect(test_eventMap[event].find(_ => _[0] == handlerOnce)).toBeUndefined();
+      expect(test_eventMap[event].has(handlerOnce)).toBe(false);
     });
 
     const onEvent = on(test_eventMap)(event);
 
-    const amountWithoutHandlers = test_eventMap[event].length;
+    const amountWithoutHandlers = test_eventMap[event].size;
     const handlersAmount = 2;
     const amountOnce = 1;
 
     onEvent(handler, handlerOnce);
 
-    expect(test_eventMap[event].length)
+    expect(test_eventMap[event].size)
       .toBe(amountWithoutHandlers + handlersAmount);
 
     await emit(test_eventMap)(event)();
 
-    expect(test_eventMap[event].length)
+    expect(test_eventMap[event].size)
       .toBe(amountWithoutHandlers + handlersAmount - amountOnce);
 
     expect(handler.mock.calls.length).toBe(1);

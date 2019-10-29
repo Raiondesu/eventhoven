@@ -339,7 +339,7 @@ Here, `keyboardEvents` is equal to the following object:
 ```ts
 const keyboardEvents = {
   // Name of the event
-  keyup: [
+  keyup: new Map([
     // Collection of the event handlers
     [
       // Notice the default event handler from the event-map
@@ -348,9 +348,9 @@ const keyboardEvents = {
       // the implementation of which is not relevant here
       () => {}
     ]
-  ],
-  keydown: [[(ctx, e: KeyboardEvent) => {}, () => {}]],
-  keypress: [[
+  ]),
+  keydown: new Map([[(ctx, e: KeyboardEvent) => {}, () => {}]]),
+  keypress: new Map([[
     // Notice the default event handler from the event-map
     // It's even the same function reference!
     (ctx, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },

@@ -1,6 +1,7 @@
 import { TEventMap, THandlerOf } from './events';
 import { emitMeta } from './meta-events';
 import { mapObject, TLastParams } from './util';
+import { TUnsubscribe } from './unsubscribe';
 
 /**
  * Event-emitter factory creator
@@ -28,11 +29,11 @@ export const emit = <M extends TEventMap>(
     // Emit meta-event
     emitMeta('emit')(eventMap, event, args),
 
-    ...eventMap[event]
-      .map(([handler, unsubscribe]) => handler && handler
+    ...[...eventMap[event]].map(
+      ([handler, unsubscribe]) => handler && handler
         .bind(null, { event, unsubscribe })
         .apply(null, args)
-      )
+    )
   ])
   .then(_ => resolve(), e)
 );

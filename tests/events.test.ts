@@ -10,10 +10,10 @@ describe('eventMap', () => {
     ) {
       const handler = test_eventSignatures[eventName as keyof typeof test_eventSignatures];
 
-      expectedResult[eventName] = [[
+      expectedResult[eventName] = new Map([[
         handler,
         expect.any(Function)
-      ]];
+      ]]);
     }
 
     expect(eventMap(test_eventSignatures)).toStrictEqual(expectedResult);
@@ -27,16 +27,10 @@ describe('eventMap', () => {
     };
     const map = eventMap(options);
 
-    const expectHandlerToBePresent = () => {
-      expect(map.event.length).toBe(1);
-      expect(typeof map.event[0][0]).toBe('function');
-      expect(map.event[0][0]).toBe(options.event);
-    };
-
-    expectHandlerToBePresent();
+    expect(map.event.size).toBe(1);
 
     await emit(map)('event')();
 
-    expectHandlerToBePresent();
+    expect(map.event.size).toBe(1);
   });
 });
