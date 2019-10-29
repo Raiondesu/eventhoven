@@ -230,7 +230,7 @@ const todoEvents = eventMap({
   },
 });
 
-const unsubFromAddTodo = on(todoEvents)('add-todos')(
+const unsubFromAddTodos = on(todoEvents)('add-todos')(
   // Parameter types are inferred here
   (context, todos, ...newTodos) => newTodos.forEach(todo => console.log(
     `Wow, new todo added - "${todo.text}"!`,
@@ -238,9 +238,9 @@ const unsubFromAddTodo = on(todoEvents)('add-todos')(
   ))
 );
 
-const addTodo = emit(todoEvents)('add-todos');
+const addTodos = emit(todoEvents)('add-todos');
 
-addTodo(
+addTodos(
   todos,
   { text: 'learn fp', done: true },
   { text: 'publish a cool event manager', done: true },
@@ -249,9 +249,9 @@ addTodo(
 // => Wow, new todo added - "publish a cool event manager"! And it's done already!
 
 // Unsubbed the wow-ing console.log from the event
-unsubFromAddTodo();
+unsubFromAddTodos();
 
-addTodo(
+addTodos(
   todos,
   { text: 'buy milk', done: false }
 );
@@ -262,6 +262,19 @@ console.log(todos);
 //   { text: 'learn fp', done: true },
 //   { text: 'publish a cool event manager', done: true },
 //   { text: 'buy milk', done: false }
+// ]
+
+const changeText = emit(todoEvents)('text-change');
+
+changeText(todos[2], 'write documentation');
+
+changeText(todos[2], true);
+
+console.log(todos);
+// => [
+//   { text: 'learn fp', done: true },
+//   { text: 'publish a cool event manager', done: true },
+//   { text: 'buy milk', done: true }
 // ]
 ```
 </details>
