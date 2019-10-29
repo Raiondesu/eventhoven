@@ -682,6 +682,58 @@ name | action | description
 `unsubscribeCollection(eventMap)` | [`unsubscribe`](#unsubscribeeventmapeventhandlers) | Creates an object, where each property is a function that unsubscribes from a prescribed event
 `eventCollection(eventMap)` | all of the above | Creates an object that contains all three collections in itself. Can be used to create a singleton that manages all events in an event-map.
 
+<details>
+<summary>Simple example</summary>
+
+```ts
+import {
+  eventMap,
+  emitCollection,
+  subscribeCollection,
+  unsubscribeCollection,
+  eventCollection
+} from 'eventhoven';
+
+const myEvents = eventMap({
+  event1() {},
+  event2(ctx, arg1: number, arg2: string) {},
+  event3(ctx, arg: boolean) {},
+});
+
+const emit = emitCollection(myEvents);
+
+emit.event1();// => Promise<void>
+emit.event2(12, 'some string');// => Promise<void>
+emit.event3(true);// => Promise<void>
+
+const on = subscribeCollection(myEvents);
+const handler = (ctx, arg: boolean) => console.log(arg);
+
+on.event3(handler);
+
+const off = unsubscribeCollection(myEvents);
+
+off.event3(handler);
+
+const myCollection = eventCollection(myEvents);
+// The same as
+/*
+const myCollection = {
+  emit: emitCollection(myEvents),
+  subscribe: subscribeCollection(myEvents),
+  unsubscribe: unsubscribeCollection(myEvents)
+};
+*/
+
+myCollection.emit.event1();// => Promise<void>
+myCollection.emit.event2(12, 'some string');// => Promise<void>
+myCollection.emit.event3(true);// => Promise<void>
+
+myCollection.subscribe.event3(handler);
+myCollection.unsubscribe.event3(handler);
+```
+</details>
+
 ---
 
 ### Meta-Events (Plugin API)
