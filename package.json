@@ -34,10 +34,11 @@
     "coveralls": "^3.0.7",
     "jest": "^24.9.0",
     "lodash.clonedeep": "^4.5.0",
+    "madge": "^3.5.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "ttypescript": "^1.5.7",
-    "typescript": "^3.8.0-dev.20191022"
+    "typescript": "^3.6.4"
   },
   "scripts": {
     "test": "jest -i",
@@ -47,7 +48,7 @@
     "build": "npm run checks && npm run build:js && npm run build:es && npm run build:next",
     "dev": "tsc --noEmit -w",
     "coverage": "cat ./coverage/lcov.info | coveralls",
-    "checks": "npx madge --circular --extensions ts src/index.ts",
+    "checks": "madge --circular --extensions ts src/index.ts",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
     "preversion": "npm t && npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",
