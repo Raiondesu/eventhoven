@@ -28,8 +28,7 @@ exports.subscribe = function (eventMap) { return function (event) { return funct
     for (var _i = 0; _i < arguments.length; _i++) {
         handlers[_i] = arguments[_i];
     }
-    var unsub = function (_handlers) { return function () { return unsubscribe_1.unsubscribe(eventMap)(event)
-        .apply(null, _handlers); }; };
+    var unsub = function (_handlers) { return function () { return unsubscribe_1.unsubscribe(eventMap)(event).apply(void 0, __spread(_handlers)); }; };
     handlers.forEach(function (handler) {
         meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
         eventMap[event].set(handler, unsub([handler]));

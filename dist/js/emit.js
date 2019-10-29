@@ -34,13 +34,11 @@ exports.emit = function (eventMap) {
             ], __spread(eventMap[event]).map(function (_a) {
                 var _b = __read(_a, 2), handler = _b[0], unsubscribe = _b[1];
                 return handler && handler
-                    .bind(null, { event: event, unsubscribe: unsubscribe })
-                    .apply(null, args);
+                    .bind(null, { event: event, unsubscribe: unsubscribe }).apply(void 0, __spread(args));
             })))
                 .then(function (_) { return resolve(); }, e); });
         };
     };
 };
-exports.emitAll = function (eventMap) { return function (eventArgs) { return util_1.mapObject(eventMap, function (name) { return exports.emit(eventMap)(name)
-    .apply(null, eventArgs[name]); }); }; };
+exports.emitAll = function (eventMap) { return function (eventArgs) { return util_1.mapObject(eventMap, function (name) { return exports.emit(eventMap)(name).apply(void 0, __spread(eventArgs[name])); }); }; };
 //# sourceMappingURL=emit.js.map

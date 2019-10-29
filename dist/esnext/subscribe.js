@@ -2,8 +2,7 @@ import { unsubscribe } from "./unsubscribe.js";
 import { emitMeta } from "./meta-events.js";
 import { doForAll } from "./util.js";
 export const subscribe = (eventMap) => (event) => (...handlers) => {
-    const unsub = (_handlers) => () => unsubscribe(eventMap)(event)
-        .apply(null, _handlers);
+    const unsub = (_handlers) => () => unsubscribe(eventMap)(event)(..._handlers);
     handlers.forEach(handler => {
         emitMeta('subscribe')(eventMap, event, handler);
         eventMap[event].set(handler, unsub([handler]));
