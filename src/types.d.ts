@@ -34,8 +34,6 @@ export type TEventOptions<M extends TEventMap, N extends keyof M = keyof M> = {
   unsubscribe: TUnsubscribe<N>;
 };
 
-export type TEventHandlerFrom<H extends TEventHandler> = (...args: Parameters<H>) => Promise<void>;
-
 export type TContextHandler<T extends TEventHandler> = (...args: TLastParams<T>) => ReturnType<T>;
 
 export type TLastParams<T extends (arg: any, ...args: any[]) => any> = T extends (arg: any, ...args: infer P) => any ? P : [];

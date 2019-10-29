@@ -2,7 +2,9 @@ import { mapObject, TDoAction } from './util';
 import { emit } from './emit';
 import { subscribe } from './subscribe';
 import { unsubscribe } from './unsubscribe';
-import { TEventMap, THandlerOf, TEventHandlerFrom } from './types';
+import { TEventMap, THandlerOf, TEventHandler, TLastParams } from './types';
+
+type TEventHandlerFrom<H extends TEventHandler> = (...args: TLastParams<H>) => Promise<void>;
 
 export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;
