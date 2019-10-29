@@ -16,12 +16,12 @@ const log = (
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   `${
-    new Date().toISOString().match(/T(.*?)Z/)![1]
-  } [EVENT ${event.toUpperCase()} "${String(eventName)}"] - ${
-    Array.isArray(argsOrHandler)
-      ? argsOrHandler.join(', ')
-      : argsOrHandler
-  }`
+    new Date().toJSON().match(/T(.*?)Z/)![1]
+  } [${event.toUpperCase()} "${String(eventName)}"] - `,
+  ...(Array.isArray(argsOrHandler)
+    ? argsOrHandler
+    : [argsOrHandler]
+  )
 );
 
 export type TLogHandler = typeof log;

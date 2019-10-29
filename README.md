@@ -645,7 +645,7 @@ debug({ enable: true });
 emit(emojiEvents)('🎌')('🍣', 10);
 
 // logs:
-// 12:59:05.512 [EVENT EMIT 🎌]: 🍣, 10
+// 12:59:05.512 [EMIT 🎌]: 🍣, 10
 ```
 
 If you want coloring or some other features - pass a custom logging function.
