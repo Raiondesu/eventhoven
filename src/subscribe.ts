@@ -22,20 +22,16 @@ export const subscribe = <M extends TEventMap>(
   eventMap: M
 ): TSubscriberFactory<M> => <E extends keyof M>(
   event: E
-): TSubscriber<M, E> => (...handlers: Array<THandlerOf<M, E>>) => {
-  const unsub = (
-    _handlers: Array<THandlerOf<M, E>>
-  ) => () => unsubscribe(eventMap)(event)(..._handlers);
-
-  handlers.forEach(handler => {
-    // Emit meta-event (ignore promise)
-    emitMeta('subscribe')(eventMap, event, handler);
-
-    eventMap[event].set(handler, unsub([handler]));
-  });
-
-  return unsub(handlers);
-};
+): TSubscriber<M, E> => (...handlers: Array<THandlerOf<M, E>>) => (
+  (unsub: (...h: Array<THandlerOf<M, E>>) => TUnsubscribe<E>) => unsub(
+    ...handlers.map(handler => (
+      // Emit meta-event (ignore promise)
+      emitMeta('subscribe')(eventMap, event, handler),
+      eventMap[event].set(handler, unsub(handler)),
+      handler
+    ))
+  )
+)((...handlers) => () => unsubscribe(eventMap)(event)(...handlers));
 
 export const on = subscribe;
 
