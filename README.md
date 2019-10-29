@@ -265,10 +265,11 @@ console.log(todos);
 // ]
 
 const changeText = emit(todoEvents)('text-change');
+const changeDone = emit(todoEvents)('done-change');
 
 changeText(todos[2], 'write documentation');
 
-changeText(todos[2], true);
+changeDone(todos[2], true);
 
 console.log(todos);
 // => [
