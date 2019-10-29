@@ -16,7 +16,7 @@ const log = (
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   `${
-    new Date().toJSON().match(/T\d\d:(.*?)Z/)![1]
+    new Date().toJSON().match(/:(.*?)Z/)![1]
   } [${event.toUpperCase()} "${String(eventName)}"] -`,
   ...(Array.isArray(argsOrHandler)
     ? argsOrHandler
