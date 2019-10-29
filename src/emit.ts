@@ -1,6 +1,6 @@
-import { TEventMap, THandlerOf } from './events';
-import { emitMeta } from './meta-events';
-import { mapObject, TLastParams } from './util';
+import { TMetaEvents, metaEvents } from './meta-events';
+import { mapObject } from './util';
+import { TEventMap, THandlerOf, TLastParams } from './types';
 
 /**
  * Event-emitter factory creator
@@ -54,3 +54,9 @@ export const emitAll = <M extends TEventMap>(
   eventMap,
   name => emit(eventMap)(name)(...eventArgs[name])
 );
+
+export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
+  ...args: TLastParams<THandlerOf<TMetaEvents, E>>
+): Promise<void> => args[0] !== metaEvents
+  ? emit(metaEvents)(event)(...args)
+  : Promise.resolve();

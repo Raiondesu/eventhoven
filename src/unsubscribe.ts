@@ -1,12 +1,6 @@
-import { TEventMap, THandlerOf } from './events';
-import { emitMeta } from './meta-events';
+import { emitMeta } from './emit';
 import { doForAll, THandlersForAll } from './util';
-
-export type TUnsubscribe<_From = PropertyKey> = () => void;
-
-type TUnsubscribeHandlers<M extends TEventMap, From extends keyof M> = (
-  ...handlers: Array<THandlerOf<M, From>>
-) => void;
+import { TEventMap, TUnsubscribeHandlers } from './types';
 
 export const unsubscribe = <M extends TEventMap>(
   eventMap: M

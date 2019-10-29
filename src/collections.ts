@@ -1,8 +1,8 @@
-import { TEventMap, TEventHandlerFrom, THandlerOf } from './events';
 import { mapObject, TDoAction } from './util';
 import { emit } from './emit';
 import { subscribe } from './subscribe';
 import { unsubscribe } from './unsubscribe';
+import { TEventMap, THandlerOf, TEventHandlerFrom } from './types';
 
 export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;

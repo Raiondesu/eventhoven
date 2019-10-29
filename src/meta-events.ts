@@ -1,6 +1,5 @@
-import { eventMap, TEventMap, TEventHandler, THandlerOf } from './events';
-import { emit } from './emit';
-import { TLastParams } from './util';
+import { eventMap } from './events';
+import { TEventMap, TEventHandler } from './types';
 
 export const metaEvents = eventMap({
   subscribe(_, _eventMap: TEventMap, _eventName: keyof TEventMap, _handler: TEventHandler) {},
@@ -9,10 +8,3 @@ export const metaEvents = eventMap({
 });
 
 export type TMetaEvents = typeof metaEvents;
-export type TMetaEmit = typeof emitMeta;
-
-export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
-  ...args: TLastParams<THandlerOf<TMetaEvents, E>>
-): Promise<void> => args[0] !== metaEvents
-  ? emit(metaEvents)(event)(...args)
-  : Promise.resolve();

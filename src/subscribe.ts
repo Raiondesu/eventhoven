@@ -1,16 +1,11 @@
-import { TEventMap, THandlerOf, TEventOptions } from './events';
-import { unsubscribe, TUnsubscribe } from './unsubscribe';
-import { emitMeta, TMetaEmit } from './meta-events';
-import { doForAll, THandlersForAll, TLastParams } from './util';
+import { unsubscribe } from './unsubscribe';
+import { emitMeta } from './emit';
+import { doForAll, THandlersForAll } from './util';
+import { TEventMap, THandlerOf, TUnsubscribe, TEventOptions, TLastParams } from './types';
 
 export type TSubscriber<M extends TEventMap, N extends keyof M> = {
   (handler: THandlerOf<M, N>): TUnsubscribe<N>;
   (...handlers: Array<THandlerOf<M, N>>): TUnsubscribe<N>;
-};
-
-export type TSubscriberContext = {
-  unsubscribe: typeof unsubscribe;
-  meta: TMetaEmit;
 };
 
 type TSubscriberFactory<M extends TEventMap> = {

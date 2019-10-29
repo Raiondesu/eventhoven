@@ -1,7 +1,7 @@
 import { metaEvents, TMetaEvents } from './meta-events';
-import { TEventOptions, TEventMap, TEventHandler } from './events';
 import { onAll } from './subscribe';
 import { offAll } from './unsubscribe';
+import { TEventMap, TEventOptions, TEventHandler } from './types';
 
 const onMeta = onAll(metaEvents);
 const offMeta = offAll(metaEvents);

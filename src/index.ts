@@ -6,3 +6,4 @@ export * from './emit';
 export * from './wait';
 export * from './meta-events';
 export * from './debug';
+export * from './types';
