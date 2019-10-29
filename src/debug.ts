@@ -15,8 +15,8 @@ const log = (
   eventName: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
-  `${
-    new Date().toJSON().match(/:(.*?)Z/)![1]
+  `${// tslint:disable-next-line: no-magic-numbers - because these *are* magic
+    new Date().toJSON().substr(14, 9)
   } [${event.toUpperCase()} "${String(eventName)}"] -`,
   ...(Array.isArray(argsOrHandler)
     ? argsOrHandler
