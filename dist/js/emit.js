@@ -29,15 +29,15 @@ exports.emit = function (eventMap) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            return new Promise(function (resolve, e) { return setTimeout(function () { return Promise.all(__spread([
+            return new Promise(function (resolve, e) { return Promise.all(__spread([
                 meta_events_1.emitMeta('emit')(eventMap, event, args)
-            ], eventMap[event]
-                .map(function (_a) {
+            ], __spread(eventMap[event]).map(function (_a) {
                 var _b = __read(_a, 2), handler = _b[0], unsubscribe = _b[1];
                 return handler && handler
                     .bind(null, { event: event, unsubscribe: unsubscribe })
                     .apply(null, args);
-            }))).then(function (_) { return resolve(); }, e); }, 0); });
+            })))
+                .then(function (_) { return resolve(); }, e); });
         };
     };
 };

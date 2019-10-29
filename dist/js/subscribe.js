@@ -32,7 +32,7 @@ exports.subscribe = function (eventMap) { return function (event) { return funct
         .apply(null, _handlers); }; };
     handlers.forEach(function (handler) {
         meta_events_1.emitMeta('subscribe')(eventMap, event, handler);
-        eventMap[event].push([handler, unsub([handler])]);
+        eventMap[event].set(handler, unsub([handler]));
     });
     return unsub(handlers);
 }; }; };

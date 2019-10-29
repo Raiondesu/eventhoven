@@ -6,7 +6,7 @@ export const subscribe = (eventMap) => (event) => (...handlers) => {
         .apply(null, _handlers);
     handlers.forEach(handler => {
         emitMeta('subscribe')(eventMap, event, handler);
-        eventMap[event].push([handler, unsub([handler])]);
+        eventMap[event].set(handler, unsub([handler]));
     });
     return unsub(handlers);
 };
