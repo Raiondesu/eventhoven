@@ -632,7 +632,7 @@ When debug mode is enabled, all emits, subscribes and unsubscribes are logged to
 in a following format (default):
 
 ```
-MM:SS.fff [EVENT {event-type} {event-name}]: {event-handler-or-params}
+MM:SS.fff [{event-type} {event-name}]: {event-handler-or-params}
 ```
 where `{event-type}` is the type of the event (`emit`, `subscribe`, `unsubscribe`),\
 where `{event-name}` is the name of the event\
