@@ -1,4 +1,4 @@
-import { eventMap, TEventMap, TEventOptions } from '../src';
+import { eventMap, TEventMap, TEventContext } from '../src';
 
 export const test_promiseDelayMS = 200;
 export const msInSec = 1000;
@@ -9,7 +9,7 @@ export const test_promiseDelaySEC = test_promiseDelayMS / msInSec;
  */
 export const getCurrentSeconds = () => new Date().getTime() / msInSec;
 
-export type Context = TEventOptions<TEventMap>;
+export type Context = TEventContext<TEventMap>;
 
 export const test_eventSignatures = {
   event1(ctx: Context, arg1: string, arg2: number) {},
