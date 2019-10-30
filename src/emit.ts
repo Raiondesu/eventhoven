@@ -1,12 +1,6 @@
-import { TEventMap, THandlerOf } from './events';
-import { emitMeta } from './meta-events';
-import { mapObject, TLastParams } from './util';
-
-// Redeclare setTimeout to be both node and browser types (instead of overloads)
-// to ensure the code works on both platforms
-declare const setTimeout:
-  | Window['setTimeout']
-  | ((callback: (...args: any[]) => void, ms: number, ...args: any[]) => NodeJS.Timeout);
+import { TMetaEvents, metaEvents, EMetaEvents } from './meta-events';
+import { mapObject } from './util';
+import { TEventMap, THandlerOf, TLastParams } from './types';
 
 /**
  * Event-emitter factory creator
@@ -29,18 +23,17 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: TLastParams<THandlerOf<M, E>>): Promise<void> =>
-// Mandates non-blocking flow
-new Promise<void>((resolve, e) => setTimeout(() => Promise.all([
-  // Emit meta-event
-  emitMeta('emit')(eventMap, event, args),
+(...args: TLastParams<THandlerOf<M, E>>): Promise<void> => new Promise<void>(
+  (resolve, e) => Promise.all([
+    // Emit meta-event
+    emitMeta(EMetaEvents.EMIT)(eventMap, event, args),
 
-  ...eventMap[event]
-    .map(([handler, unsubscribe]) => handler && handler
-      .bind(null, { event, unsubscribe })
-      .apply(null, args)
+    ...[...eventMap[event]].map(
+      ([handler, unsubscribe]) => handler
+        && handler({ event, unsubscribe }, ...args)
     )
-]).then(_ => resolve(), e), 0));
+  ]).then(_ => resolve(), e)
+);
 
 export type TEventParamsMap<M extends TEventMap> = {
   [name in keyof M]: TLastParams<THandlerOf<M, name>>;
@@ -59,6 +52,11 @@ export const emitAll = <M extends TEventMap>(
   eventArgs: TEventParamsMap<M>
 ) => mapObject<M, Promise<void>>(
   eventMap,
-  name => emit(eventMap)(name)
-    .apply(null, eventArgs[name])
+  name => emit(eventMap)(name)(...eventArgs[name])
 );
+
+export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
+  ...args: TLastParams<THandlerOf<TMetaEvents, E>>
+): Promise<void> => args[0] !== metaEvents
+  ? emit(metaEvents)(event)(...args)
+  : Promise.resolve();

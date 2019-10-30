@@ -1,11 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mapObject = function (obj, value) { return Object.keys(obj).reduce(function (newObj, key) { return (newObj[key] = value(key), newObj); }, {}); };
-exports.doForAll = function (action) { return function (eventMap) { return function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    exports.mapObject(eventMap, function (key) { return action(eventMap)(key).apply(null, args); });
-}; }; };
+exports.mapObject = (obj, value) => Object.keys(obj).reduce((newObj, key) => (newObj[key] = value(key), newObj), {});
+exports.doForAll = (action) => (eventMap) => (...args) => {
+    exports.mapObject(eventMap, key => action(eventMap)(key)(...args));
+};
 //# sourceMappingURL=util.js.map

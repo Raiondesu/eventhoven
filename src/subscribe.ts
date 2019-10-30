@@ -1,16 +1,12 @@
-import { TEventMap, THandlerOf, TEventOptions } from './events';
-import { unsubscribe, TUnsubscribe } from './unsubscribe';
-import { emitMeta, TMetaEmit } from './meta-events';
-import { doForAll, THandlersForAll, TLastParams } from './util';
+import { unsubscribe } from './unsubscribe';
+import { emitMeta } from './emit';
+import { doForAll, THandlersForAll } from './util';
+import { TEventMap, THandlerOf, TUnsubscribe, TEventContext, TLastParams } from './types';
+import { EMetaEvents } from './meta-events';
 
 export type TSubscriber<M extends TEventMap, N extends keyof M> = {
   (handler: THandlerOf<M, N>): TUnsubscribe<N>;
   (...handlers: Array<THandlerOf<M, N>>): TUnsubscribe<N>;
-};
-
-export type TSubscriberContext = {
-  unsubscribe: typeof unsubscribe;
-  meta: TMetaEmit;
 };
 
 type TSubscriberFactory<M extends TEventMap> = {
@@ -29,18 +25,15 @@ export const subscribe = <M extends TEventMap>(
   event: E
 ): TSubscriber<M, E> => (...handlers: Array<THandlerOf<M, E>>) => {
   const unsub = (
-    _handlers: Array<THandlerOf<M, E>>
-  ) => () => unsubscribe(eventMap)(event)
-    .apply(null, _handlers);
+    ...handlers: Array<THandlerOf<M, E>>
+  ) => () => unsubscribe(eventMap)(event)(...handlers);
 
-  handlers.forEach(handler => {
+  return unsub(...handlers.map(handler => (
     // Emit meta-event (ignore promise)
-    emitMeta('subscribe')(eventMap, event, handler);
-
-    eventMap[event].push([handler, unsub([handler])]);
-  });
-
-  return unsub(handlers);
+    emitMeta(EMetaEvents.SUBSCRIBE)(eventMap, event, handler),
+    eventMap[event].set(handler, unsub(handler)),
+    handler
+  )));
 };
 
 export const on = subscribe;
@@ -49,7 +42,7 @@ export const once = <
   M extends TEventMap,
   E extends keyof M
 >(handler: THandlerOf<M, E>) => (
-  _: TEventOptions<M>,
+  _: TEventContext<M>,
   ...args: TLastParams<THandlerOf<M, E>>
 ) => (handler(_, ...args), _.unsubscribe());
 

@@ -1,20 +1,7 @@
-import { TEventMap, THandlerOf } from './events';
-import { emitMeta } from './meta-events';
+import { emitMeta } from './emit';
 import { doForAll, THandlersForAll } from './util';
-
-export type TUnsubscribe<From = PropertyKey> = () => (
-  // Lifehack to display the event name
-  // on the unsubscribe function
-  From & void
-);
-
-type TUnsubscribeHandlers<M extends TEventMap, From extends keyof M> = (
-  ...handlers: Array<THandlerOf<M, From>>
-) => (
-  // Lifehack to display the event name
-  // on the unsubscribe function
-  From & void
-);
+import { TEventMap, TUnsubscribeHandlers } from './types';
+import { EMetaEvents } from './meta-events';
 
 export const unsubscribe = <M extends TEventMap>(
   eventMap: M
@@ -22,17 +9,15 @@ export const unsubscribe = <M extends TEventMap>(
   event: E
 ): TUnsubscribeHandlers<M, E> => (
   ...handlers
-) => handlers.length > 0
-  ? handlers.forEach(_ => (
-      // Emit meta-event (ignore promise)
-      emitMeta('unsubscribe')(eventMap, event, _),
-
-      eventMap[event].splice(eventMap[event].findIndex(h => h[0] == _), 1)
-    )) as E & void
-  : eventMap[event].splice(0).forEach(
-      // Emit meta-event (ignore promise)
-      h => emitMeta('unsubscribe')(eventMap, event, h[0])
-    ) as E & void;
+) => {
+  for (
+    const h of handlers.length > 0
+      ? handlers
+      : eventMap[event].keys()
+  ) // Emit meta-event (ignore promise)
+    emitMeta(EMetaEvents.UNSUBSCRIBE)(eventMap, event, h),
+    eventMap[event].delete(h);
+};
 
 export const off = unsubscribe;
 

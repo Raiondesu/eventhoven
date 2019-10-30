@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = require("./util");
-exports.eventMap = function (events) { return util_1.mapObject(events, function (key) { return [[events[key], function () {
-        }]]; }); };
+const util_1 = require("./util");
+exports.eventMap = (events) => util_1.mapObject(events, key => new Map([[events[key], () => {
+        }]]));
 //# sourceMappingURL=events.js.map

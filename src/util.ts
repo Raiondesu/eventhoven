@@ -1,12 +1,10 @@
-import { TEventMap, THandlerOf } from './events';
+import { TEventMap, THandlerOf } from './types';
 
 export type TDoAction<P extends any[] = any[], R = void> = <M extends TEventMap>(
   eventMap: M
 ) => <E extends keyof M>(
   event: E
 ) => (...args: P) => R;
-
-export type TLastParams<T extends (arg: any, ...args: any[]) => any> = T extends (arg: any, ...args: infer P) => any ? P : [];
 
 /**
  * Maps object values by their keys into a new object
@@ -37,7 +35,7 @@ export const doForAll = <A extends TDoAction>(
 ) => (
   ...args: A extends TDoAction<infer P> ? P : any[]
 ) => {
-  mapObject(eventMap, key => action(eventMap)(key).apply(null, args));
+  mapObject(eventMap, key => action(eventMap)(key)(...args));
 };
 
 export type THandlersForAll = {

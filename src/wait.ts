@@ -1,6 +1,5 @@
-import { TEventMap, THandlerOf } from './events';
 import { subscribe } from './subscribe';
-import { TLastParams } from './util';
+import { TEventMap, THandlerOf, TLastParams } from './types';
 
 /**
  * Creates an event waiter for an event-map

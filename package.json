@@ -1,10 +1,12 @@
 {
   "name": "eventhoven",
-  "version": "0.7.1",
+  "version": "0.8.0-rc.14",
   "sideEffects": false,
   "description": "Compose strongly-typed events effortlessly 🎵",
   "main": "dist/js",
   "module": "dist/es",
+  "unpkg": "dist/es",
+  "typings": "src",
   "keywords": [
     "events",
     "event-manager",
@@ -32,19 +34,21 @@
     "coveralls": "^3.0.7",
     "jest": "^24.9.0",
     "lodash.clonedeep": "^4.5.0",
+    "madge": "^3.5.0",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "ttypescript": "^1.5.7",
-    "typescript": "^3.8.0-dev.20191022"
+    "typescript": "^3.6.4"
   },
   "scripts": {
     "test": "jest -i",
-    "build:js": "ttsc --outDir dist/js -t ES5",
+    "build:js": "ttsc --outDir dist/js -t ES2015",
     "build:es": "ttsc --outDir dist/es -t ES2015 --module esnext",
     "build:next": "ttsc --outDir dist/esnext --module esnext",
-    "build": "npm run build:js && npm run build:es && npm run build:next",
+    "build": "npm run checks && npm run build:js && npm run build:es && npm run build:next",
     "dev": "tsc --noEmit -w",
     "coverage": "cat ./coverage/lcov.info | coveralls",
+    "checks": "madge --circular --extensions ts src/index.ts",
     "commit-build": "(git diff --quiet && git diff --staged --quiet) || (git add . && git commit -m \"Update dist\")",
     "preversion": "npm t && npm run build && npm run commit-build",
     "prerelease": "npm version prerelease --preid=rc && npm publish --tag next && git push",

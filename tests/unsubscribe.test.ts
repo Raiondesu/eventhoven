@@ -25,17 +25,27 @@ describe('unsubscribe', () => {
     const event = 'event3';
 
     expect(
-      test_eventMap[event].length
+      test_eventMap[event].size
     ).toBeGreaterThan(0);
 
     off(test_eventMap)(event)();
 
     expect(
-      test_eventMap[event].length
+      test_eventMap[event].size
     ).toBe(0);
 
     //cleanup
 
     on(test_eventMap)(event)(test_eventSignatures[event]);
+  });
+
+  it(`doesn't unsubscribe invalid handlers`, () => {
+    const someHandler = () => {};
+
+    const expectedAmount = test_eventMap.event3.size;
+
+    off(test_eventMap)('event3')(someHandler);
+
+    expect(test_eventMap.event3.size).toBe(expectedAmount);
   });
 });

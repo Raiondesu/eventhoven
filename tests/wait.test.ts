@@ -23,14 +23,14 @@ const waitTests = (_wait: (map: TEventMap, event: PropertyKey) => Promise<any[]>
   });
 
   it('removes handler from the map', async () => {
-    const expectedAmount = test_eventMap[event].length + 1;
+    const expectedAmount = test_eventMap[event].size + 1;
     const execution = _wait(test_eventMap, event);
 
-    expect(test_eventMap[event].length).toBe(expectedAmount);
+    expect(test_eventMap[event].size).toBe(expectedAmount);
 
     await execution;
 
-    expect(test_eventMap[event].length).toBe(expectedAmount - 1);
+    expect(test_eventMap[event].size).toBe(expectedAmount - 1);
   });
 };
 
