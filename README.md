@@ -8,10 +8,11 @@
 [![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
 [![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
+[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground")
+
 ## Table of Contents <!-- omit in toc -->
 - [What is this?](#what-is-this)
 - [Disclaimer](#disclaimer)
-  - [SemVer](#semver)
   - [TypeScript](#typescript)
   - [Currying](#currying)
   - [External state >>> Internal state](#external-state--internal-state)
@@ -69,11 +70,6 @@ Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhov
 
 ## Disclaimer
 > and some ground principles
-
-### SemVer
-
-This project will utilize SemVer after a 1.0.0 release!\
-Until then - breaking changes are possilbe during minor updates!
 
 ### TypeScript
 
@@ -223,12 +219,14 @@ const todoEvents = eventMap({
     todos.push(...newTodos);
   },
   'done-change'(context, todo: Todo, newDone: boolean) {
-    todo.done = newDone
+    todo.done = newDone;
   },
   'text-change'(context, todo: Todo, newText: string) {
     todo.text = newText;
   },
 });
+
+const emitTodo = emit(todoEvents);
 
 const unsubFromAddTodos = on(todoEvents)('add-todos')(
   // Parameter types are inferred here
@@ -238,7 +236,7 @@ const unsubFromAddTodos = on(todoEvents)('add-todos')(
   ))
 );
 
-const addTodos = emit(todoEvents)('add-todos');
+const addTodos = emitTodo('add-todos');
 
 addTodos(
   todos,
@@ -264,8 +262,8 @@ console.log(todos);
 //   { text: 'buy milk', done: false }
 // ]
 
-const changeText = emit(todoEvents)('text-change');
-const changeDone = emit(todoEvents)('done-change');
+const changeText = emitTodo('text-change');
+const changeDone = emitTodo('done-change');
 
 changeText(todos[2], 'write documentation');
 
@@ -279,6 +277,8 @@ console.log(todos);
 // ]
 ```
 </details>
+
+[**Code Pen Playground**](https://codepen.io/raiondesu/pen/qBBPPom)
 
 ---
 
