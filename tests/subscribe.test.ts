@@ -52,10 +52,13 @@ describe('subscribe', () => {
     let failed = false;
 
     try {
-      on(test_eventMap)(
+      const unsub = on(test_eventMap)(
         // intentionally wrong event
         event
       )(someHandler);
+
+      // does nothing
+      unsub();
     } catch (e) {
       failed = true;
     }
