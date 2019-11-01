@@ -376,9 +376,10 @@ In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'k
 
 <details>
 <summary>
-The decision to use plain functions as event signatures comes down to 3 advantages
+Why plain functions as event signatures?
 </summary>
 
+The decision to use plain functions as event signatures comes down to 3 advantages:
 1. It's easier to make type inference that way.\
    Since a handler and the event signature are both functions,\
    there's no need to convert types from event signature to event handler.
@@ -403,47 +404,44 @@ The decision to use plain functions as event signatures comes down to 3 advantag
    code analysis tools (code coverages, testing frameworks) can detect and count the amount of executions\
    of these signatures. And this amount is equivalent to the amount of emits of a particular event.\
    This allows, in turn, to always know which events are never emitted and should be deleted from the event-map.
-
-
-Here, `keyboardEvents` is equal to the following object:
-
-```ts
-const keyboardEvents = {
-  // Name of the event
-  keyup: new Map([
-    // Collection of the event handlers
-    [
-      // Notice the default event handler from the event-map
-      (context, e: KeyboardEvent) => {},
-      // second element is an internal function,
-      // the implementation of which is not relevant here
-      () => {}
-    ]
-  ]),
-  keydown: new Map([[(context, e: KeyboardEvent) => {}, () => {}]]),
-  keypress: new Map([[
-    // Notice the default event handler from the event-map
-    // It's even the same function reference!
-    (context, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
-    () => {}
-  ]]),
-}
-```
 </details>
 
-It's also possible to add new events to the event-map at runtime (by creating a new event-map 😁):
 
-```ts
-const inputEvents = {
-  ...keyboardEvents,
-  ...eventMap({
-    'mouse-click'(context, e: MouseEvent) {},
-  }),
-}
+<details>
+<summary>
+How do I add new events at runtime?
+</summary>
 
-// Still have type inference here!
-emit(inputEvents)('mouse-click')
-```
+- by adding an event to a generic map:
+  ```ts
+  import { eventMap, TEventSignatures } from 'eventhoven';
+
+                     // Makes event-map accept any event into itself
+  const someEventMap = eventMap<TEventSignatures>({
+    someEvent() {}
+  });
+
+  // Adding a new event to the map! (notice, no default handler)
+  someEventMap['newEvent'] = new Map();
+
+  // And now we can use it:
+  emit(someEventMap)('newEvent')();
+  ```
+
+- by creating a new event-map 😁:
+  ```ts
+  const inputEvents = {
+    ...keyboardEvents,
+    ...eventMap({
+      'mouse-click'(context, e: MouseEvent) {},
+    }),
+  }
+
+  // Still have type inference here!
+  emit(inputEvents)('mouse-click')
+  ```
+
+</details>
 
 #### Event context
 
