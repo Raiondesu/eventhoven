@@ -42,4 +42,29 @@ describe('subscribe', () => {
       hasHandler(test_eventMap, event, handler)
     ).toBe(false);
   });
+
+  it(`Adds a map to a new event`, () => {
+    const event: any = `event${Math.random()}`;
+    expect(test_eventMap[event]).toBeUndefined();
+
+    const someHandler = () => {};
+
+    let failed = false;
+
+    try {
+      const unsub = on(test_eventMap)(
+        // intentionally wrong event
+        event
+      )(someHandler);
+
+      // does nothing
+      unsub();
+    } catch (e) {
+      failed = true;
+    }
+
+    expect(failed).toBe(false);
+
+    expect(test_eventMap[event]).toBeUndefined();
+  });
 });

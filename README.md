@@ -38,7 +38,7 @@
 - [Contribute](#contribute)
 
 ## What is this?
-It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable).
+It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#api)).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -48,6 +48,7 @@ A main list of features includes (but not limited to):
 - Functional-style API
 - Multiple event arguments
 - Event names can also be symbols (private events)
+- Soft error-handling - no unexpected runtime errors!
 - Versatile plugin system (using [meta-events](#meta-events-plugin-api))
 - Fully type-safe - each event remembers its name and type signature
 - All functions are curried and point-free, which makes them easier to use in a functional environment
@@ -126,30 +127,40 @@ It just so happens that it can do event management very efficiently too. 😉
 npm i -S eventhoven
 ```
 
-**module**: see [importing](#importing)
+**browser**:
+```html
+<!-- ES2015 -->
+<script type="module">
+  import { eventMap, emit, on, off } from 'https://unpkg.com/eventhoven';
 
-Currently, only installation through [`npm`](https://www.npmjs.com/package/eventhoven) or `script[type=module]` is supported.\
-No single-file bundles just yet.
+  // use it here
+</script>
+
+<!-- ES5 with IE11+ general syntax polyfills, global object - `eventhoven` -->
+<!-- Polyfill `window.Promise` and `Object.assign` yourself! -->
+<script src="https://unpkg.com/eventhoven/dist/umd.js"></script>
+```
 
 ### Importing
 
 ```ts
 // TS-module (pure typescript),
 // allows compilation settings to be set from the project config
-import { emit, on, off } from 'eventhoven/src';
+import { eventMap, emit, on, off } from 'eventhoven/src';
 
-// ES-module (node, typescript)
-import { emit, on, off } from 'eventhoven';
+// ES-module (npm/node, typescript)
+import { eventMap, emit, on, off } from 'eventhoven';
 
 // ESNext (no polyfills for esnext)
-import { emit, on, off } from 'eventhoven/dist/esnext';
+import { eventMap, emit, on, off } from 'eventhoven/dist/esnext';
 
-// ES-module (browser)
-import { emit, on, off } from 'https://unpkg.com/eventhoven';
+// ES-module (browser, node)
+import { eventMap, emit, on, off } from 'https://unpkg.com/eventhoven';
 
 // Classic node commonjs
-const { emit, on, off } = require('eventhoven/dist/js');
+const { eventMap, emit, on, off } = require('eventhoven/dist/js');
 ```
+
 
 ### Simple usage examples
 
@@ -284,7 +295,23 @@ console.log(todos);
 
 ## API
 
-General exports are the following:
+There are only 4 essential exports that are needed to use this library:
+
+name | type | description
+-----|------|--------------------
+[`eventMap`](#eventmapevents) | `function` | Event-map factory
+[`emit`](#emiteventmapeventargs-promisevoid) | `function` | Event emitter factory
+[`on`](#subscribeeventmapeventhandlers---void) | `function` | Event subscriber factory
+[`off`](#unsubscribeeventmapeventhandlers) | `function` | Event unsubscriber factory
+
+**Together they add up to less than 500 Bytes (gzipped)!**
+
+Everithyng else is just syntax sugar and boilerplate reduction.
+
+<details>
+<summary>
+List of all exports is as follows
+</summary>
 
 name | type | description
 -----|------|--------------------
@@ -308,6 +335,9 @@ name | type | description
 [`debug`](#debugoptions) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 `emitMeta` | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
+</details>
+
+
 
 ---
 
@@ -346,9 +376,10 @@ In this example, keys in `keyboardEvents` correspond to event names ('keyup', 'k
 
 <details>
 <summary>
-The decision to use plain functions as event signatures comes down to 3 advantages
+Why plain functions as event signatures?
 </summary>
 
+The decision to use plain functions as event signatures comes down to 3 advantages:
 1. It's easier to make type inference that way.\
    Since a handler and the event signature are both functions,\
    there's no need to convert types from event signature to event handler.
@@ -373,47 +404,44 @@ The decision to use plain functions as event signatures comes down to 3 advantag
    code analysis tools (code coverages, testing frameworks) can detect and count the amount of executions\
    of these signatures. And this amount is equivalent to the amount of emits of a particular event.\
    This allows, in turn, to always know which events are never emitted and should be deleted from the event-map.
-
-
-Here, `keyboardEvents` is equal to the following object:
-
-```ts
-const keyboardEvents = {
-  // Name of the event
-  keyup: new Map([
-    // Collection of the event handlers
-    [
-      // Notice the default event handler from the event-map
-      (context, e: KeyboardEvent) => {},
-      // second element is an internal function,
-      // the implementation of which is not relevant here
-      () => {}
-    ]
-  ]),
-  keydown: new Map([[(context, e: KeyboardEvent) => {}, () => {}]]),
-  keypress: new Map([[
-    // Notice the default event handler from the event-map
-    // It's even the same function reference!
-    (context, e: KeyboardEvent, modifier?: string) => { console.log('modifier:', modifier); },
-    () => {}
-  ]]),
-}
-```
 </details>
 
-It's also possible to add new events to the event-map at runtime (by creating a new event-map 😁):
 
-```ts
-const inputEvents = {
-  ...keyboardEvents,
-  ...eventMap({
-    'mouse-click'(context, e: MouseEvent) {},
-  }),
-}
+<details>
+<summary>
+How do I add new events at runtime?
+</summary>
 
-// Still have type inference here!
-emit(inputEvents)('mouse-click')
-```
+- by adding an event to a generic map:
+  ```ts
+  import { eventMap, TEventSignatures } from 'eventhoven';
+
+                     // Makes event-map accept any event into itself
+  const someEventMap = eventMap<TEventSignatures>({
+    someEvent() {}
+  });
+
+  // Adding a new event to the map! (notice, no default handler)
+  someEventMap['newEvent'] = new Map();
+
+  // And now we can use it:
+  emit(someEventMap)('newEvent')();
+  ```
+
+- by creating a new event-map 😁:
+  ```ts
+  const inputEvents = {
+    ...keyboardEvents,
+    ...eventMap({
+      'mouse-click'(context, e: MouseEvent) {},
+    }),
+  }
+
+  // Still have type inference here!
+  emit(inputEvents)('mouse-click')
+  ```
+
+</details>
 
 #### Event context
 
@@ -446,7 +474,8 @@ const map = eventMap({
 
 ### `emit(eventMap)(event)(...args): Promise<void>`
 
-Creates event emitters for an event-map.
+Creates event emitters for an event-map.\
+If an event does not exist, it will be ignored.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
@@ -482,7 +511,8 @@ name | type | description
 
 ### `subscribe(eventMap)(event)(...handlers): () => void`
 
-Creates event subscribers for an event in an event-map.
+Creates event subscribers for an event in an event-map.\
+If an event does not exist, it will be ignored.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
@@ -497,7 +527,6 @@ name | type | description
 **Returns**: `() => void` - a function that unsubscribes the handler from the event
 
 **Alias**: `on`
-
 
 ### `subscribeToAll(eventMap)(...handlers)`
 
@@ -520,7 +549,8 @@ name | type | description
 
 ### `unsubscribe(eventMap)(event)(...handlers)`
 
-Unsubscribes handlers from events of an event-map.
+Unsubscribes handlers from events of an event-map.\
+If an event does not exist, it will be ignored.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
@@ -691,6 +721,17 @@ emit(emojiEvents)('🎌')('🍣', 10);
 
 // logs:
 // 59:05.512 [EMIT "🎌"]: 🍣, 10
+```
+
+If an event does not exist in an event-map, the log will contain `(INVALID)` mark:
+```ts
+debug({ enable: true });
+
+// event "😎" doesn't exist in the `emojiEvents` map
+emit(emojiEvents)('😎')('🍣', 10);
+
+// logs:
+// 59:05.512 [EMIT "😎" (INVALID)]: 🍣, 10
 ```
 
 If you want coloring or some other features - pass a custom logging function.

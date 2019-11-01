@@ -28,7 +28,7 @@ export const emit = <M extends TEventMap>(
     // Emit meta-event
     emitMeta(EMetaEvents.EMIT)(eventMap, event, args),
 
-    ...[...eventMap[event]].map(
+    ...[...(eventMap[event] || [])].map(
       ([handler, unsubscribe]) => handler
         && handler({ event, unsubscribe }, ...args)
     )

@@ -10,7 +10,7 @@ export const eventMap = <Events extends TEventSignatures>(
   events: Events
 ) => <TEventMap<Events>> mapObject(
   events,
-  key => new Map([[events[key], () => {
+  event => new Map().set(events[event], () => {
     /* make it impossible to unsubscribe from the default handler */
-  }]])
+  })
 );

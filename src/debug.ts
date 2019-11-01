@@ -11,14 +11,14 @@ const offMeta = offAll(metaEvents);
  */
 const log = (
   { event }: TEventContext<TMetaEvents>,
-  _map: TEventMap,
+  map: TEventMap,
   eventName: keyof TEventMap,
   argsOrHandler: any[] | TEventHandler
 ) => console.log(
   // tslint:disable-next-line: no-magic-numbers - because these *are* magic
   new Date().toJSON().substr(14, 9),
 
-  `[${event} "${String(eventName)}"] -`,
+  `[${event} "${String(eventName)}"${eventName in map ? '' : ' (INVALID)'}] -`,
 
   ...(Array.isArray(argsOrHandler)
     ? argsOrHandler

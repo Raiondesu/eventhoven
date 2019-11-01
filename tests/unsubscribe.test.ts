@@ -48,4 +48,24 @@ describe('unsubscribe', () => {
 
     expect(test_eventMap.event3.size).toBe(expectedAmount);
   });
+
+  it(`doesn't fail on invalid events`, () => {
+    const event: any = `event${Math.random()}`;
+    const someHandler = () => {};
+
+    let failed = false;
+
+    try {
+      off(test_eventMap)(
+        // intentionally wrong event
+        event
+      )(someHandler);
+    } catch (e) {
+      failed = true;
+    }
+
+    expect(failed).toBe(false);
+
+    expect(test_eventMap[event]).toBeUndefined();
+  });
 });

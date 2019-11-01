@@ -6,11 +6,10 @@ const util_1 = require("./util");
 exports.subscribe = (eventMap) => (event) => (...handlers) => {
     const unsub = (...handlers) => () => unsubscribe_1.unsubscribe(eventMap)(event)(...handlers);
     return unsub(...handlers.map(handler => (emit_1.emitMeta("SUBSCRIBE")(eventMap, event, handler),
-        eventMap[event].set(handler, unsub(handler)),
+        event in eventMap && eventMap[event].set(handler, unsub(handler)),
         handler)));
 };
 exports.on = exports.subscribe;
-exports.once = (handler) => (_, ...args) => (handler(_, ...args), _.unsubscribe());
 exports.subscribeToAll = util_1.doForAll(exports.subscribe);
 exports.onAll = exports.subscribeToAll;
 //# sourceMappingURL=subscribe.js.map
