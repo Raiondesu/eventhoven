@@ -38,7 +38,7 @@
 - [Contribute](#contribute)
 
 ## What is this?
-It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#together-they-add-up-to-less-that-500-bytes-gzipped)).
+It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#together-they-add-up-to-less-that-500-bytes-gzipped-)).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
