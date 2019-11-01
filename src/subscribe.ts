@@ -31,7 +31,7 @@ export const subscribe = <M extends TEventMap>(
   return unsub(...handlers.map(handler => (
     // Emit meta-event (ignore promise)
     emitMeta(EMetaEvents.SUBSCRIBE)(eventMap, event, handler),
-    eventMap[event].set(handler, unsub(handler)),
+    (eventMap[event] = eventMap[event] || new Map()).set(handler, unsub(handler)),
     handler
   )));
 };
