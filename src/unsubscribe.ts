@@ -14,7 +14,8 @@ export const unsubscribe = <M extends TEventMap>(
     const h of handlers.length > 0
       ? handlers
       : eventMap[event].keys()
-  ) // Emit meta-event (ignore promise)
+  ) if (event in eventMap)
+    // Emit meta-event (ignore promise)
     emitMeta(EMetaEvents.UNSUBSCRIBE)(eventMap, event, h),
     eventMap[event].delete(h);
 };
