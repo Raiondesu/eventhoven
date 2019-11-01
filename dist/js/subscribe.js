@@ -10,7 +10,6 @@ exports.subscribe = (eventMap) => (event) => (...handlers) => {
         handler)));
 };
 exports.on = exports.subscribe;
-exports.once = (handler) => (_, ...args) => (handler(_, ...args), _.unsubscribe());
 exports.subscribeToAll = util_1.doForAll(exports.subscribe);
 exports.onAll = exports.subscribeToAll;
 //# sourceMappingURL=subscribe.js.map

@@ -8,7 +8,6 @@ export const subscribe = (eventMap) => (event) => (...handlers) => {
         handler)));
 };
 export const on = subscribe;
-export const once = (handler) => (_, ...args) => (handler(_, ...args), _.unsubscribe());
 export const subscribeToAll = doForAll(subscribe);
 export const onAll = subscribeToAll;
 //# sourceMappingURL=subscribe.js.map
