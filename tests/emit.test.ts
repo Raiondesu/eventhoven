@@ -61,6 +61,8 @@ describe('emit', () => {
   });
 
   it(`doesn't fail on invalid events`, async () => {
+    const event: any = `event${Math.random()}`;
+
     const someHandler = () => {};
 
     let failed = false;
@@ -68,17 +70,17 @@ describe('emit', () => {
     try {
       await emit(test_eventMap)(
         // intentionally wrong event
-        'event4' as any
+        event
       )(someHandler);
     } catch (e) {
       console.error(e);
-      
+
       failed = true;
     }
 
     expect(failed).toBe(false);
 
-    expect(test_eventMap['event4' as any]).toBeUndefined();
+    expect(test_eventMap[event]).toBeUndefined();
   });
 });
 

@@ -44,7 +44,8 @@ describe('subscribe', () => {
   });
 
   it(`Adds a map to a new event`, () => {
-    expect(test_eventMap['event4' as any]).toBeUndefined();
+    const event: any = `event${Math.random()}`;
+    expect(test_eventMap[event]).toBeUndefined();
 
     const someHandler = () => {};
 
@@ -53,7 +54,7 @@ describe('subscribe', () => {
     try {
       on(test_eventMap)(
         // intentionally wrong event
-        'event4' as any
+        event
       )(someHandler);
     } catch (e) {
       failed = true;
@@ -61,6 +62,6 @@ describe('subscribe', () => {
 
     expect(failed).toBe(false);
 
-    expect(test_eventMap['event4' as any]).toEqual(new Map([[someHandler, expect.any(Function)]]));
+    expect(test_eventMap[event]).toEqual(new Map([[someHandler, expect.any(Function)]]));
   });
 });
