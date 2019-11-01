@@ -57,4 +57,36 @@ describe('debug', () => {
 
     expect(failed).toBe(false);
   });
+
+  it('logs invalid handlers on emits', async () => {
+    const logs: string[] = [];
+    const logWriter = jest.fn((...args) => logs.push(args.join(' ')));
+
+    console.log = logWriter;
+
+    const event: any = `event${Math.random()}`;
+
+    let failed = false;
+
+    try {
+      debug({ enable: true });
+
+      on(test_eventMap)(
+        // Intentional invalid event
+        event
+      )(
+        // Intentional invalid handler
+        undefined as any
+      );
+
+      await emit(test_eventMap)(event)();
+    } catch (e) {
+      failed = true;
+    }
+
+    expect(failed).toBe(false);
+    expect(logWriter.mock.calls.length).toBe(1);
+    expect(logs.length).toBe(1);
+    expect(logs[0]).toMatch(new RegExp(`\[EMIT ${event} (INVALID)\]`));
+  });
 });
