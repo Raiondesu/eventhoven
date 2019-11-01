@@ -3,9 +3,9 @@ import { emitMeta } from "./emit.js";
 import { doForAll } from "./util.js";
 export const subscribe = (eventMap) => (event) => (...handlers) => {
     const unsub = (...handlers) => () => unsubscribe(eventMap)(event)(...handlers);
-    return event in eventMap ? unsub(...handlers.map(handler => (emitMeta("SUBSCRIBE")(eventMap, event, handler),
-        eventMap[event].set(handler, unsub(handler)),
-        handler))) : () => { };
+    return unsub(...handlers.map(handler => (emitMeta("SUBSCRIBE")(eventMap, event, handler),
+        event in eventMap && eventMap[event].set(handler, unsub(handler)),
+        handler)));
 };
 export const on = subscribe;
 export const subscribeToAll = doForAll(subscribe);
