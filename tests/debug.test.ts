@@ -59,6 +59,7 @@ describe('debug', () => {
   });
 
   it('logs invalid handlers on emits', async () => {
+    const expectedAmount = 2;
     const logs: string[] = [];
     const logWriter = jest.fn((...args) => logs.push(args.join(' ')));
 
@@ -85,8 +86,9 @@ describe('debug', () => {
     }
 
     expect(failed).toBe(false);
-    expect(logWriter.mock.calls.length).toBe(1);
-    expect(logs.length).toBe(1);
-    expect(logs[0]).toMatch(new RegExp(`\[EMIT ${event} (INVALID)\]`));
+    expect(logWriter.mock.calls.length).toBe(expectedAmount);
+    expect(logs.length).toBe(expectedAmount);
+    expect(logs[0]).toMatch(new RegExp(`\[SUBSCRIBE ${event} (INVALID)\]`));
+    expect(logs[1]).toMatch(new RegExp(`\[EMIT ${event} (INVALID)\]`));
   });
 });
