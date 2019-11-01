@@ -16,7 +16,7 @@ export const mapObject = <T extends object, R>(
   value: (key: keyof T) => R
 ) => (
   <Array<keyof T>>
-  Object.keys(obj)
+  [...Object.keys(obj), ...Object.getOwnPropertySymbols(obj)]
 ).reduce((newObj, key) => (
   newObj[key] = value(key), newObj
 ), <Record<keyof T, R>> {});

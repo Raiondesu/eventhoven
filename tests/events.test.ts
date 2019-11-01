@@ -33,4 +33,23 @@ describe('eventMap', () => {
 
     expect(map.event.size).toBe(1);
   });
+
+  test('it processes symbols too', async () => {
+    const event = Symbol('event');
+
+    const options = {
+      [event]: jest.fn(),
+    };
+
+    const map = eventMap(options);
+
+    expect(map[event].size).toBe(1);
+
+    expect(map[event]).toEqual(new Map([[options[event], expect.any(Function)]]));
+
+    await emit(map)(event)();
+
+    expect(options[event]).toHaveBeenCalled();
+    expect(options[event].mock.calls.length).toBe(1);
+  });
 });
