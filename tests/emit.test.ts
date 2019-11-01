@@ -59,6 +59,27 @@ describe('emit', () => {
     expect(handler.mock.calls.length).toBe(1);
     expect(handlerOnce.mock.calls.length).toBe(1);
   });
+
+  it(`doesn't fail on invalid events`, async () => {
+    const someHandler = () => {};
+
+    let failed = false;
+
+    try {
+      await emit(test_eventMap)(
+        // intentionally wrong event
+        'event4' as any
+      )(someHandler);
+    } catch (e) {
+      console.error(e);
+      
+      failed = true;
+    }
+
+    expect(failed).toBe(false);
+
+    expect(test_eventMap['event4' as any]).toBeUndefined();
+  });
 });
 
 describe('emitAll', () => {
