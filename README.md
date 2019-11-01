@@ -304,7 +304,7 @@ name | type | description
 [`on`](#subscribeeventmapeventhandlers---void) | `function` | Event subscriber factory
 [`off`](#unsubscribeeventmapeventhandlers) | `function` | Event unsubscriber factory
 
-##### Together they add up to less that 500 Bytes (gzipped)! <!-- omit in toc -->
+##### Together they add up to less than 500 Bytes (gzipped)! <!-- omit in toc -->
 
 Everithyng else is just syntax sugar and boilerplate reduction.
 
