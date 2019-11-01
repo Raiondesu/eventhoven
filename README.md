@@ -38,7 +38,7 @@
 - [Contribute](#contribute)
 
 ## What is this?
-It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable).
+It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#together-they-add-up-to-less-that-500-bytes-gzipped)).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -48,6 +48,7 @@ A main list of features includes (but not limited to):
 - Functional-style API
 - Multiple event arguments
 - Event names can also be symbols (private events)
+- Soft error-handling - no unexpected runtime errors!
 - Versatile plugin system (using [meta-events](#meta-events-plugin-api))
 - Fully type-safe - each event remembers its name and type signature
 - All functions are curried and point-free, which makes them easier to use in a functional environment
@@ -130,7 +131,7 @@ npm i -S eventhoven
 ```html
 <!-- ES2015 -->
 <script type="module">
-  import { emit, on, off } from 'https://unpkg.com/eventhoven';
+  import { eventMap, emit, on, off } from 'https://unpkg.com/eventhoven';
 
   // use it here
 </script>
@@ -145,19 +146,19 @@ npm i -S eventhoven
 ```ts
 // TS-module (pure typescript),
 // allows compilation settings to be set from the project config
-import { emit, on, off } from 'eventhoven/src';
+import { eventMap, emit, on, off } from 'eventhoven/src';
 
 // ES-module (npm/node, typescript)
-import { emit, on, off } from 'eventhoven';
+import { eventMap, emit, on, off } from 'eventhoven';
 
 // ESNext (no polyfills for esnext)
-import { emit, on, off } from 'eventhoven/dist/esnext';
+import { eventMap, emit, on, off } from 'eventhoven/dist/esnext';
 
 // ES-module (browser, node)
-import { emit, on, off } from 'https://unpkg.com/eventhoven';
+import { eventMap, emit, on, off } from 'https://unpkg.com/eventhoven';
 
 // Classic node commonjs
-const { emit, on, off } = require('eventhoven/dist/js');
+const { eventMap, emit, on, off } = require('eventhoven/dist/js');
 ```
 
 
@@ -294,7 +295,23 @@ console.log(todos);
 
 ## API
 
-General exports are the following:
+There are only 4 essential exports that are needed to use this library:
+
+name | type | description
+-----|------|--------------------
+[`eventMap`](#eventmapevents) | `function` | Event-map factory
+[`emit`](#emiteventmapeventargs-promisevoid) | `function` | Event emitter factory
+[`on`](#subscribeeventmapeventhandlers---void) | `function` | Event subscriber factory
+[`off`](#unsubscribeeventmapeventhandlers) | `function` | Event unsubscriber factory
+
+##### Together they add up to less that 500 Bytes (gzipped)! <!-- omit in toc -->
+
+Everithyng else is just syntax sugar and boilerplate reduction.
+
+<details>
+<summary>
+List of all exports is as follows
+</summary>
 
 name | type | description
 -----|------|--------------------
@@ -318,6 +335,9 @@ name | type | description
 [`debug`](#debugoptions) | `function` | Sets the debug mode (if enabled - logs all events to the console)
 [`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 `emitMeta` | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
+</details>
+
+
 
 ---
 
@@ -456,7 +476,8 @@ const map = eventMap({
 
 ### `emit(eventMap)(event)(...args): Promise<void>`
 
-Creates event emitters for an event-map.
+Creates event emitters for an event-map.\
+If an event does not exist, it will be ignored.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
@@ -492,7 +513,8 @@ name | type | description
 
 ### `subscribe(eventMap)(event)(...handlers): () => void`
 
-Creates event subscribers for an event in an event-map.
+Creates event subscribers for an event in an event-map.\
+If an event does not exist, it will be ignored.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
@@ -507,7 +529,6 @@ name | type | description
 **Returns**: `() => void` - a function that unsubscribes the handler from the event
 
 **Alias**: `on`
-
 
 ### `subscribeToAll(eventMap)(...handlers)`
 
@@ -530,7 +551,8 @@ name | type | description
 
 ### `unsubscribe(eventMap)(event)(...handlers)`
 
-Unsubscribes handlers from events of an event-map.
+Unsubscribes handlers from events of an event-map.\
+If an event does not exist, it will be ignored.
 
 > Note, that the function is [curried](#currying), which means that it must be called partially
 
