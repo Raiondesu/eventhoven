@@ -38,7 +38,7 @@
 - [Contribute](#contribute)
 
 ## What is this?
-It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#together-they-add-up-to-less-than-500-bytes-gzipped-)).
+It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#api)).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -304,7 +304,7 @@ name | type | description
 [`on`](#subscribeeventmapeventhandlers---void) | `function` | Event subscriber factory
 [`off`](#unsubscribeeventmapeventhandlers) | `function` | Event unsubscriber factory
 
-##### Together they add up to less than 500 Bytes (gzipped)! <!-- omit in toc -->
+**Together they add up to less than 500 Bytes (gzipped)!**
 
 Everithyng else is just syntax sugar and boilerplate reduction.
 
