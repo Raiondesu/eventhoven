@@ -62,6 +62,6 @@ describe('subscribe', () => {
 
     expect(failed).toBe(false);
 
-    expect(test_eventMap[event]).toEqual(new Map([[someHandler, expect.any(Function)]]));
+    expect(test_eventMap[event]).toBeUndefined();
   });
 });

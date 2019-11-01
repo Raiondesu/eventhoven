@@ -28,12 +28,12 @@ export const subscribe = <M extends TEventMap>(
     ...handlers: Array<THandlerOf<M, E>>
   ) => () => unsubscribe(eventMap)(event)(...handlers);
 
-  return unsub(...handlers.map(handler => (
+  return event in eventMap ? unsub(...handlers.map(handler => (
     // Emit meta-event (ignore promise)
     emitMeta(EMetaEvents.SUBSCRIBE)(eventMap, event, handler),
-    (eventMap[event] = eventMap[event] || new Map()).set(handler, unsub(handler)),
+    eventMap[event].set(handler, unsub(handler)),
     handler
-  )));
+  ))) : () => {};
 };
 
 export const on = subscribe;
