@@ -126,10 +126,19 @@ It just so happens that it can do event management very efficiently too. 😉
 npm i -S eventhoven
 ```
 
-**module**: see [importing](#importing)
+**browser**:
+```html
+<!-- ES2015 -->
+<script type="module">
+  import { emit, on, off } from 'https://unpkg.com/eventhoven';
 
-Currently, only installation through [`npm`](https://www.npmjs.com/package/eventhoven) or `script[type=module]` is supported.\
-No single-file bundles just yet.
+  // use it here
+</script>
+
+<!-- ES5 with IE11+ general syntax polyfills, global object - `eventhoven` -->
+<!-- Polyfill `window.Promise` and `Object.assign` yourself! -->
+<script src="https://unpkg.com/eventhoven/dist/umd.js"></script>
+```
 
 ### Importing
 
@@ -138,18 +147,19 @@ No single-file bundles just yet.
 // allows compilation settings to be set from the project config
 import { emit, on, off } from 'eventhoven/src';
 
-// ES-module (node, typescript)
+// ES-module (npm/node, typescript)
 import { emit, on, off } from 'eventhoven';
 
 // ESNext (no polyfills for esnext)
 import { emit, on, off } from 'eventhoven/dist/esnext';
 
-// ES-module (browser)
+// ES-module (browser, node)
 import { emit, on, off } from 'https://unpkg.com/eventhoven';
 
 // Classic node commonjs
 const { emit, on, off } = require('eventhoven/dist/js');
 ```
+
 
 ### Simple usage examples
 
