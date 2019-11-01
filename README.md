@@ -723,6 +723,17 @@ emit(emojiEvents)('🎌')('🍣', 10);
 // 59:05.512 [EMIT "🎌"]: 🍣, 10
 ```
 
+If an event does not exist in an event-map, the log will contain `(INVALID)` mark:
+```ts
+debug({ enable: true });
+
+// event "😎" doesn't exist in the `emojiEvents` map
+emit(emojiEvents)('😎')('🍣', 10);
+
+// logs:
+// 59:05.512 [EMIT "😎" (INVALID)]: 🍣, 10
+```
+
 If you want coloring or some other features - pass a custom logging function.
 It has the same signature as any other event handler:
 ```ts
