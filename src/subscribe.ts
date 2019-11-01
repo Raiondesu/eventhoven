@@ -1,7 +1,7 @@
 import { unsubscribe } from './unsubscribe';
 import { emitMeta } from './emit';
 import { doForAll, THandlersForAll } from './util';
-import { TEventMap, THandlerOf, TUnsubscribe, TEventContext, TLastParams } from './types';
+import { TEventMap, THandlerOf, TUnsubscribe } from './types';
 import { EMetaEvents } from './meta-events';
 
 export type TSubscriber<M extends TEventMap, N extends keyof M> = {
@@ -37,14 +37,6 @@ export const subscribe = <M extends TEventMap>(
 };
 
 export const on = subscribe;
-
-export const once = <
-  M extends TEventMap,
-  E extends keyof M
->(handler: THandlerOf<M, E>) => (
-  _: TEventContext<M>,
-  ...args: TLastParams<THandlerOf<M, E>>
-) => (handler(_, ...args), _.unsubscribe());
 
 /**
  * A subscriber factory for all events of a given collection

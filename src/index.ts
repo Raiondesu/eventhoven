@@ -3,6 +3,7 @@ export * from './collections';
 export * from './meta-events';
 export * from './subscribe';
 export * from './events';
+export * from './once';
 export * from './emit';
 export * from './wait';
 export * from './debug';
