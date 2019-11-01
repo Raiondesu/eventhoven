@@ -6,8 +6,9 @@ exports.unsubscribe = (eventMap) => (event) => (...handlers) => {
     for (const h of handlers.length > 0
         ? handlers
         : eventMap[event].keys())
-        emit_1.emitMeta("UNSUBSCRIBE")(eventMap, event, h),
-            eventMap[event].delete(h);
+        if (event in eventMap)
+            emit_1.emitMeta("UNSUBSCRIBE")(eventMap, event, h),
+                eventMap[event].delete(h);
 };
 exports.off = exports.unsubscribe;
 exports.unsubscribeFromAll = util_1.doForAll(exports.unsubscribe);

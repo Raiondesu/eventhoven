@@ -6,7 +6,7 @@ const util_1 = require("./util");
 exports.subscribe = (eventMap) => (event) => (...handlers) => {
     const unsub = (...handlers) => () => unsubscribe_1.unsubscribe(eventMap)(event)(...handlers);
     return unsub(...handlers.map(handler => (emit_1.emitMeta("SUBSCRIBE")(eventMap, event, handler),
-        eventMap[event].set(handler, unsub(handler)),
+        (eventMap[event] = eventMap[event] || new Map()).set(handler, unsub(handler)),
         handler)));
 };
 exports.on = exports.subscribe;
