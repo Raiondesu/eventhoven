@@ -1,6 +1,6 @@
 {
   "name": "eventhoven",
-  "version": "0.9.0",
+  "version": "0.9.1-rc.0",
   "sideEffects": false,
   "description": "Event manager that composes events effortlessly 🎵",
   "main": "dist/js",
