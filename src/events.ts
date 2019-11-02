@@ -10,6 +10,8 @@ export const eventMap = <Events extends TEventSignatures>(
   events: Events
 ) => <TEventMap<Events>> mapObject(
   events,
+  // Actually faster than `new Map([[events[event], () => {}]])`
+  // see https://jsperf.com/map-constructor-vs-set/1
   event => new Map().set(events[event], () => {
     /* make it impossible to unsubscribe from the default handler */
   })
