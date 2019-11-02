@@ -1,4 +1,6 @@
-module.exports = {
+import { Config } from 'bili';
+
+export default {
   input: 'src/index.ts',
   output: {
     moduleName: 'eventhoven',
@@ -9,4 +11,4 @@ module.exports = {
   plugins: {
     typescript2: true,
   },
-};
+} as Config;
