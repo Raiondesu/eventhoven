@@ -21,14 +21,14 @@ const doForAll = <A extends TDoAction>(
   mapObject(eventMap, key => action(eventMap)(key)(...args));
 };
 
-export type THandlersForAll = {
+type THandlersForAll = {
   <M extends TEventMap>(eventMap: M): {
     (handler: THandlerOf<M>): void;
     (...handlers: THandlerOf<M>[]): void;
   };
 };
 
-export type TEventParamsMap<M extends TEventMap> = {
+type TEventParamsMap<M extends TEventMap> = {
   [name in keyof M]: TLastParams<THandlerOf<M, name>>;
 };
 
