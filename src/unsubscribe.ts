@@ -1,5 +1,4 @@
 import { emitMeta } from './emit';
-import { doForAll, THandlersForAll } from './util';
 import { TEventMap, TUnsubscribeHandlers } from './types';
 import { EMetaEvents } from './meta-events';
 
@@ -21,7 +20,3 @@ export const unsubscribe = <M extends TEventMap>(
 };
 
 export const off = unsubscribe;
-
-export const unsubscribeFromAll = <THandlersForAll> doForAll(unsubscribe);
-
-export const offAll = unsubscribeFromAll;

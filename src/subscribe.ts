@@ -1,6 +1,5 @@
 import { unsubscribe } from './unsubscribe';
 import { emitMeta } from './emit';
-import { doForAll, THandlersForAll } from './util';
 import { TEventMap, THandlerOf, TUnsubscribe } from './types';
 import { EMetaEvents } from './meta-events';
 
@@ -37,13 +36,3 @@ export const subscribe = <M extends TEventMap>(
 };
 
 export const on = subscribe;
-
-/**
- * A subscriber factory for all events of a given collection
- *
- * @param eventMap - an event collection to subscribe to
- * @returns a function that subscribes handlers to all events in the given event collection
- */
-export const subscribeToAll = <THandlersForAll> doForAll(subscribe);
-
-export const onAll = subscribeToAll;

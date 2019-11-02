@@ -35,26 +35,6 @@ export const emit = <M extends TEventMap>(
   ]).then(_ => resolve(), e)
 );
 
-export type TEventParamsMap<M extends TEventMap> = {
-  [name in keyof M]: TLastParams<THandlerOf<M, name>>;
-};
-
-/**
- * Emit all events for a given event collection
- *
- * @param eventMap - event collection to emit events for
- *
- * @returns a function that emits all events from a collection with given arguments
- */
-export const emitAll = <M extends TEventMap>(
-  eventMap: M
-) => (
-  eventArgs: TEventParamsMap<M>
-) => mapObject<M, Promise<void>>(
-  eventMap,
-  name => emit(eventMap)(name)(...eventArgs[name])
-);
-
 /**
  * Emits a meta-event
  *
