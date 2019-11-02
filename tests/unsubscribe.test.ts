@@ -51,7 +51,6 @@ describe('unsubscribe', () => {
 
   it(`doesn't fail on invalid events`, () => {
     const event: any = `event${Math.random()}`;
-    const someHandler = () => {};
 
     let failed = false;
 
@@ -59,7 +58,7 @@ describe('unsubscribe', () => {
       off(test_eventMap)(
         // intentionally wrong event
         event
-      )(someHandler);
+      )();
     } catch (e) {
       failed = true;
     }
