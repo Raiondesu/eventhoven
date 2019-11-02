@@ -1,5 +1,5 @@
 import { eventCollection } from '../src';
-import { test_eventMap } from './common';
+import { test_eventMap, symbolEvent } from './common';
 
 describe('eventCollection', () => {
   const eventCol = eventCollection(test_eventMap);
@@ -9,6 +9,7 @@ describe('eventCollection', () => {
       event1: expect.any(Function),
       event2: expect.any(Function),
       event3: expect.any(Function),
+      [symbolEvent]: expect.any(Function),
       promisedEvent: expect.any(Function),
     };
 
