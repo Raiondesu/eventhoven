@@ -55,7 +55,12 @@ export const emitAll = <M extends TEventMap>(
   name => emit(eventMap)(name)(...eventArgs[name])
 );
 
-export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
+/**
+ * Emits a meta-event
+ *
+ * @param event - a meta-event to emit
+ */
+export const emitMeta = <E extends EMetaEvents>(event: E) => (
   ...args: TLastParams<THandlerOf<TMetaEvents, E>>
 ): Promise<void> => args[0] !== metaEvents
   ? emit(metaEvents)(event)(...args)
