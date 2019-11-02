@@ -41,6 +41,8 @@ export interface IDebugOptions {
  *
  * @param enable - whether to enable the debug mode
  * - `true` to enable, `false` to disable
+ *
+ * @param [log] - a custom logging function
  */
 export const debug = ({ enable, log: logEvent = log }: IDebugOptions) => (
   enable ? onMeta : offMeta
