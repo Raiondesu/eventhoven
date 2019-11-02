@@ -1,5 +1,4 @@
 import { TMetaEvents, metaEvents, EMetaEvents } from './meta-events';
-import { mapObject } from './util';
 import { TEventMap, THandlerOf, TLastParams } from './types';
 
 /**
