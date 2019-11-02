@@ -1,5 +1,4 @@
 import { TMetaEvents, metaEvents, EMetaEvents } from './meta-events';
-import { mapObject } from './util';
 import { TEventMap, THandlerOf, TLastParams } from './types';
 
 /**
@@ -35,27 +34,12 @@ export const emit = <M extends TEventMap>(
   ]).then(_ => resolve(), e)
 );
 
-export type TEventParamsMap<M extends TEventMap> = {
-  [name in keyof M]: TLastParams<THandlerOf<M, name>>;
-};
-
 /**
- * Emit all events for a given event collection
+ * Emits a meta-event
  *
- * @param eventMap - event collection to emit events for
- *
- * @returns a function that emits all events from a collection with given arguments
+ * @param event - a meta-event to emit
  */
-export const emitAll = <M extends TEventMap>(
-  eventMap: M
-) => (
-  eventArgs: TEventParamsMap<M>
-) => mapObject<M, Promise<void>>(
-  eventMap,
-  name => emit(eventMap)(name)(...eventArgs[name])
-);
-
-export const emitMeta = <E extends keyof TMetaEvents>(event: E) => (
+export const emitMeta = <E extends EMetaEvents>(event: E) => (
   ...args: TLastParams<THandlerOf<TMetaEvents, E>>
 ): Promise<void> => args[0] !== metaEvents
   ? emit(metaEvents)(event)(...args)

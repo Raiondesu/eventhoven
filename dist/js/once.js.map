@@ -1,1 +1,1 @@
-{"version":3,"file":"once.js","sourceRoot":"","sources":["../../src/once.ts"],"names":[],"mappings":";;AAEa,QAAA,IAAI,GAAG,CAGlB,OAAyB,EAAE,EAAE,CAAC,CAC9B,CAAmB,EACnB,GAAG,IAAmC,EACtC,EAAE,CAAC,CAAC,OAAO,CAAC,CAAC,EAAE,GAAG,IAAI,CAAC,EAAE,CAAC,CAAC,WAAW,EAAE,CAAC,CAAC"}
+{"version":3,"file":"once.js","sourceRoot":"","sources":["../../src/once.ts"],"names":[],"mappings":";;AAUa,QAAA,IAAI,GAAG,CAGlB,OAAyB,EAAE,EAAE,CAAC,CAC9B,CAAmB,EACnB,GAAG,IAAmC,EACtC,EAAE,CAEF,CAAC,CAAC,CAAC,WAAW,EAAE,EAAE,OAAO,CAAC,CAAC,EAAE,GAAG,IAAI,CAAC,CAAC,CAAC"}

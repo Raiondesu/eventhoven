@@ -11,10 +11,13 @@ export const getCurrentSeconds = () => new Date().getTime() / msInSec;
 
 export type Context = TEventContext<TEventMap>;
 
+export const symbolEvent = Symbol('event');
+
 export const test_eventSignatures = {
   event1(ctx: Context, arg1: string, arg2: number) {},
   event2(ctx: Context, arg: boolean) {},
   event3(ctx: Context) {},
+  [symbolEvent](ctx: Context) {},
   promisedEvent(ctx: Context) {
     return new Promise<void>((r) => setTimeout(r, test_promiseDelayMS));
   },
