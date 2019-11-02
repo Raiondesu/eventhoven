@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const emit_1 = require("./emit");
-const util_1 = require("./util");
 exports.unsubscribe = (eventMap) => (event) => (...handlers) => {
     if (event in eventMap)
         for (const h of handlers.length > 0
@@ -11,6 +10,4 @@ exports.unsubscribe = (eventMap) => (event) => (...handlers) => {
                 eventMap[event].delete(h);
 };
 exports.off = exports.unsubscribe;
-exports.unsubscribeFromAll = util_1.doForAll(exports.unsubscribe);
-exports.offAll = exports.unsubscribeFromAll;
 //# sourceMappingURL=unsubscribe.js.map
