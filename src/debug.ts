@@ -19,10 +19,7 @@ const log = (
 
   `[${event} "${String(eventName)}"${eventName in map ? '' : ' (INVALID)'}] -`,
 
-  ...(Array.isArray(argsOrHandler)
-    ? argsOrHandler
-    : [argsOrHandler]
-  )
+  argsOrHandler
 );
 
 export type TLogHandler = typeof log;
