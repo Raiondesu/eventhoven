@@ -27,14 +27,14 @@ export const subscribe = <M extends TEventMap>(
     ...handlers: Array<THandlerOf<M, E>>
   ) => () => unsubscribe(eventMap)(event)(...handlers);
 
-  return (
-    ...handlers: Array<THandlerOf<M, E>>
-  ) => unsub(...handlers.map(handler => (
-    // Emit meta-event (ignore promise)
-    emitMeta(EMetaEvents.SUBSCRIBE)(eventMap, event, handler),
-    event in eventMap && eventMap[event].set(handler, unsub(handler)),
-    handler
-  )));
+  return (...handlers: Array<THandlerOf<M, E>>) => unsub(
+    ...handlers.map(handler => (
+      // Emit meta-event (ignore promise)
+      emitMeta(EMetaEvents.SUBSCRIBE)(eventMap, event, handler),
+      event in eventMap && eventMap[event].set(handler, unsub(handler)),
+      handler
+    ))
+  );
 };
 
 export const on = subscribe;
