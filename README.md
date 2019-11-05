@@ -4,7 +4,7 @@
 
 [![travis](https://img.shields.io/travis/com/raiondesu-experiments/eventhoven?style=flat-square)](https://travis-ci.com/raiondesu-experiments/eventhoven "Latest Travis CI build")
 [![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "Downloads per month, but who cares?")
-[![size](https://img.shields.io/bundlephobia/minzip/eventhoven?style=flat-square)](https://bundlephobia.com/result?p=eventhoven "minzipped size")
+[![size](https://img.shields.io/bundlephobia/minzip/eventhoven@latest?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@latest "minzipped size")
 [![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
 [![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
