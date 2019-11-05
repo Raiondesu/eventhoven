@@ -720,7 +720,7 @@ debug({ enable: true });
 emit(emojiEvents)('🎌')('🍣', 10);
 
 // logs:
-// 59:05.512 [EMIT "🎌"]: 🍣, 10
+// 59:05.512 [EMIT "🎌"]: [🍣, 10]
 ```
 
 If an event does not exist in an event-map, the log will contain `(INVALID)` mark:
@@ -731,7 +731,7 @@ debug({ enable: true });
 emit(emojiEvents)('😎')('🍣', 10);
 
 // logs:
-// 59:05.512 [EMIT "😎" (INVALID)]: 🍣, 10
+// 59:05.512 [EMIT "😎" (INVALID)]: [🍣, 10]
 ```
 
 If you want coloring or some other features - pass a custom logging function.
