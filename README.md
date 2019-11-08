@@ -8,7 +8,7 @@
 [![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
 [![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
-[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground")
+[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground") [![npm-next-version](https://img.shields.io/npm/v/eventhoven/next?label=next&style=flat-square)](https://www.npmjs.com/package/eventhoven/v/next "NPM package page (next version preview)")
 
 ## Table of Contents <!-- omit in toc -->
 - [What is this?](#what-is-this)
