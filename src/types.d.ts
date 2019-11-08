@@ -6,7 +6,7 @@ export type TEventContext<M extends TEventMap, N extends keyof M = keyof M> = {
 export type TEventHandler = (
   context: TEventContext<TEventMap>,
   ...args: any[]
-) => void | Promise<void>;
+) => unknown | Promise<unknown>;
 
 export type TEventSignatures<Events extends PropertyKey = PropertyKey> = {
   [name in Events]: TEventHandler;

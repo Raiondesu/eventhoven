@@ -23,6 +23,7 @@
 - [API](#api)
   - [`eventMap(events)`](#eventmapevents)
     - [Event context](#event-context)
+    - [Event handler](#event-handler)
   - [`emit(eventMap)(event)(...args): Promise<void>`](#emiteventmapeventargs-promisevoid)
   - [`emitAll(eventMap)(eventArgs): object`](#emitalleventmapeventargs-object)
   - [`subscribe(eventMap)(event)(...handlers): () => void`](#subscribeeventmapeventhandlers---void)
@@ -470,6 +471,10 @@ const map = eventMap({
 ```
 </details>
 
+#### Event handler
+
+
+
 ---
 
 ### `emit(eventMap)(event)(...args): Promise<void>`
@@ -838,6 +843,8 @@ One can subscribe to these events to execute some actions or emit these events t
 
 The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/debug.ts) plugin.\
 It can be used as an example for writing your own plugins for `eventhoven`!
+
+> Note: meta-event is always emitted **before** the event itself happens.
 
 Current list of all meta-events is as follows:
 
