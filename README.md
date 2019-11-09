@@ -447,7 +447,7 @@ How do I add new events at runtime?
 
 #### Event handler
 
-As stated earlier, event signatures are read from the default **event handlers** in the event-map.\
+As stated earlier, event signatures are read from the default **event handlers** in the event-map.
 
 Any event handler has [a following signature](https://github.com/raiondesu-experiments/eventhoven/tree/master/src/types.d.ts#L6):
 
