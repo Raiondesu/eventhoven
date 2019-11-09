@@ -184,14 +184,14 @@ const emojiEvents = eventMap({
 });
 
 on(emojiEvents)('🎌')(
-  (context, emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from ${context.event}!`)
+  (context, emoji, amount) => console.log(`Yay!, ${amount} ${emoji}-s from ${context.event}!`)
 );
 
 on(emojiEvents)('🎌')(
   // Returning promises is also allowed (example API from http://www.sushicount.com/api)
   (context, emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
     .then(_ => _.json())
-    .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} of ${emoji}-s loaded from sushicount!`))
+    .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} ${emoji}-s loaded from sushicount!`))
 );
 
 // It's possible to await execution of all event handlers too
