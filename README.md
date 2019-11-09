@@ -454,6 +454,7 @@ Any event handler has [a following signature](https://github.com/raiondesu-exper
 `(context: TEventContext, ...args: any[]) => unknown | Promise<unknown>`
 
 **Parameters**:
+
 name | type | description
 ------|-----|--------------
 `context` | [`TEventContext`](#event-context) | a context given by `eventhovent` for every event
