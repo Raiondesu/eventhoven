@@ -931,7 +931,7 @@ Then:
 npm run dev
 ```
 
-Then propose a PR!\
+Then introduce changes and propose a PR!\
 I'll be happy to review it!
 
 ---
