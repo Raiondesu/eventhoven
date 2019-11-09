@@ -22,8 +22,8 @@
   - [Simple usage examples](#simple-usage-examples)
 - [API](#api)
   - [`eventMap(events)`](#eventmapevents)
-    - [Event context](#event-context)
     - [Event handler](#event-handler)
+    - [Event context](#event-context)
   - [`emit(eventMap)(event)(...args): Promise<void>`](#emiteventmapeventargs-promisevoid)
   - [`emitAll(eventMap)(eventArgs): object`](#emitalleventmapeventargs-object)
   - [`subscribe(eventMap)(event)(...handlers): () => void`](#subscribeeventmapeventhandlers---void)
@@ -350,9 +350,9 @@ Creates an event-map from event signatures.
 
 name | type | description
 -----|------|---------------
-`events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L25) | a collection of event signatures
+`events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L12) | a collection of event signatures
 
-**Returns**: [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8)
+**Returns**: [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15)
 
 This function is the main "entry point" to the whole event management pipeline.
 It constructs a base storage for events and their handlers, which is then used by all of the other functions.
@@ -444,9 +444,56 @@ How do I add new events at runtime?
 
 </details>
 
+
+#### Event handler
+
+As stated earlier, event signatures are read from the default **event handlers** in the event-map.\
+
+Any event handler has [a following signature](https://github.com/raiondesu-experiments/eventhoven/tree/master/src/types.d.ts#L6):
+
+`(context: TEventContext, ...args: any[]) => unknown | Promise<unknown>`
+
+**Parameters**:
+name | type | description
+------|-----|--------------
+`context` | [`TEventContext`](#event-context) | a context given by `eventhovent` for every event
+`...args` | `any[]` (contextual) | an event-specific array of arguments
+
+**Returns**: any value or a promise with any value.\
+The type of said value is determined by the default handler in the event-map, or remains `unknown`.
+
+<details>
+<summary>
+Simple example
+</summary>
+
+```ts
+const map = eventMap({
+  // An event handler that returns a number
+  numberEvent(context): number {
+    // The default is 42
+    return 42;
+  }
+});
+
+// Type is usually inferred automatically
+const result: number[] = await emit(map)('numberEvent')();
+
+console.log(result); // => [42]
+
+// Let's add another handler to the mix
+on(map)('numberEvent')(ctx => 43);
+
+const result2 = await emit(map)('numberEvent')();
+
+console.log(result2); // => [42, 43]
+```
+
+</details>
+
 #### Event context
 
-You've probably noticed by now,\
+You've probably noticed by now,
 that all event handlers have a first `context` parameter.
 
 This is the event context, and it is an object of the following signature:
@@ -467,13 +514,9 @@ const map = eventMap({
     console.log(context.event); // => "eventName"
     console.log(typeof context.unsubscribe); // => "function"
   }
-})
+});
 ```
 </details>
-
-#### Event handler
-
-
 
 ---
 
@@ -488,7 +531,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to emit events from
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to emit events from
 `event` | `PropertyKey` | An event name to emit for a given event-map (can be a symbol too)
 `...args` | `any (contextual)` | Arguments for the specific event, spread
 
@@ -506,8 +549,8 @@ Emits **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
-`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/emit.ts#L52) | Parameters for all events in an event map.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
+`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/all.ts#L31) | Parameters for all events in an event map.
 
 **Returns**: `Record<keyof M, Promise<void>>` - a map for all events' emits promises (each will resolve upon all event handlers' resolution).
 
@@ -525,7 +568,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to get events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to get events from.
 `event` | `PropertyKey` | An event name to subscribe to for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to execute on the event, spread. If emtpy, no subscribing is done.
 
@@ -543,7 +586,7 @@ Subscribes handler(s) to **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
 `...handlers` | `function[]` | Handlers to execute on the events, spread. If emtpy, no subscribing is done.
 
 **Returns**: `void`
@@ -563,7 +606,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe handlers from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe handlers from.
 `event` | `PropertyKey` | An event name to unsub from for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to unsubscribe from the event, spread. If empty - all currently subbed handlers will be unsubscribed.
 
@@ -582,7 +625,7 @@ Unsubscribes handler(s) from **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe from.
 `...handlers` | `function[]` | Handlers to unsubscribe from the events, spread. If empty - all currently subbed handlers will be unsubscribed.
 
 **Returns**: `void`
@@ -626,7 +669,7 @@ It is a way to block execution flow until some event occurs.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 `event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
 
 **Returns**: `Promise<Array<unknown>> (contextual)` - a promise with array of parameters passed to the event.
@@ -665,7 +708,7 @@ which allows for an easier composition of waiters.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 `event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
 
 **Returns**: `() => Promise<Array<unknown>> (contextual)` - a promise factory with array of parameters passed to the event.
@@ -767,7 +810,7 @@ debug({
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 
 **Return**: A map of event names to the action for that event name.
 
