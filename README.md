@@ -307,7 +307,7 @@ name | type | description
 
 **Together they add up to less than 500 Bytes (gzipped)!**
 
-Everithyng else is just syntax sugar and boilerplate reduction.
+Everything else is just syntax sugar and boilerplate reduction.
 
 <details>
 <summary>
