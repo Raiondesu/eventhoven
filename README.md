@@ -497,7 +497,7 @@ console.log(result2); // => [42, 43]
 You've probably noticed by now,
 that all event handlers have a first `context` parameter.
 
-This is the event context, and it is an object of the following signature:
+This is the event context that's provided by `eventhoven`, and it is an object of the following signature:
 
 key | type | description
 ----|------|-----------------
