@@ -57,7 +57,7 @@ A main list of features includes (but not limited to):
 - **SOLID**
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
-  - **L**SP - all funcions are easily substitutable as long as they adhere to the same API
+  - **L**SP - all functions are easily substitutable as long as they adhere to the same API
   - **I**SP - all data types are the least specific versions of them
   - **D**IP - API depends only on abstractions
 - Code-generation-friendly:\
