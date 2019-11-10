@@ -810,10 +810,6 @@ emit(emojiEvents)('🎌')('🍣', 10);
 // custom! EMIT [object Object] 🎌 [🍣, 10]
 ```
 
-> **Note**\
-> Always store a reference to your custom log function.\
-> Without this reference, it will be impossible to turn off the debug mode.
-
 ---
 
 ### Collections
