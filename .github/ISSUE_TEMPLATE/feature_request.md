@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest your own idea for eventhoven
-title: "[FEATURE]"
+title: ''
 labels: enhancement
 assignees: ''
 
