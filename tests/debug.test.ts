@@ -1,5 +1,5 @@
 import { test_eventMap } from './common';
-import { debug, emit, on, off } from '../src';
+import { debug, emit, on, off, customDebug } from '../src';
 
 const originalLog = console.log;
 const logMock = jest.fn();
@@ -28,11 +28,11 @@ describe('debug', () => {
 
     console.log = logMock;
 
-    debug({ enable: true });
+    debug(true);
 
     await callEvents();
 
-    debug({ enable: false });
+    debug(false);
 
     await callEvents();
 
@@ -48,7 +48,7 @@ describe('debug', () => {
         undefined as any
       );
 
-      debug({ enable: true });
+      debug(true);
 
       await emit(test_eventMap)('event3')();
     } catch (e) {
@@ -70,7 +70,7 @@ describe('debug', () => {
     let failed = false;
 
     try {
-      debug({ enable: true });
+      debug(true);
 
       on(test_eventMap)(
         // Intentional invalid event
@@ -90,5 +90,33 @@ describe('debug', () => {
     expect(logs.length).toBe(expectedAmount);
     expect(logs[0]).toMatch(new RegExp(`\[SUBSCRIBE ${event} (INVALID)\]`));
     expect(logs[1]).toMatch(new RegExp(`\[EMIT ${event} (INVALID)\]`));
+  });
+
+  it('uses custom functions correctly', async () => {
+    const customDebugHandler = jest.fn();
+
+    const cdebug = customDebug(customDebugHandler);
+
+    const expectedLogs = 5;
+    const callEvents = async () => {
+      /* logs: */ const h = () => {};
+      /* - 1 - */ on(test_eventMap)('event3')(h);
+      /* - 2 - */ await emit(test_eventMap)('event3')();
+      /* - 3 - */ await emit(test_eventMap)('event2')(false);
+      /* - 4 - */ await emit(test_eventMap)('event1')('asd', 0);
+      /* - 5 - */ off(test_eventMap)('event3')(h);
+    };
+
+    console.log = logMock;
+
+    cdebug(true);
+
+    await callEvents();
+
+    cdebug(false);
+
+    await callEvents();
+
+    expect(customDebugHandler).toHaveBeenCalledTimes(expectedLogs);
   });
 });

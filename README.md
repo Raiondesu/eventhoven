@@ -33,7 +33,8 @@
   - [`once(handler): handler`](#oncehandler-handler)
   - [`wait(eventMap)(event): Promise<args[]>`](#waiteventmapevent-promiseargs)
   - [`harmonicWait(eventMap)(event)(): Promise<args[]>`](#harmonicwaiteventmapevent-promiseargs)
-  - [`debug(options)`](#debugoptions)
+  - [`debug(isEnabled)`](#debugisenabled)
+    - [Custom logging function](#custom-logging-function)
   - [Collections](#collections)
   - [Meta-Events (Plugin API)](#meta-events-plugin-api)
 - [Contribute](#contribute)
@@ -334,7 +335,8 @@ name | type | description
 [`eventCollection`](#collections) | `function` | Creates a collection of the three previous collections from an event-map
 [`wait`](#waiteventmapevent-promiseargs) | `function` | Waits for an event to be executed
 [`harmonicWait`](#harmonicwaiteventmapevent-promiseargs) | `function` | Same as [`wait`](#waiteventmapevent-promiseargs) but has an arity of 3, just as all the other event-handling functions
-[`debug`](#debugoptions) | `function` | Sets the debug mode (if enabled - logs all events to the console)
+[`debug`](#debugisenabled) | `function` | Sets the debug mode (if enabled - logs all events to the console)
+[`customDebug`](#custom-logging-function) | `function` | Creates a custom debugger based on a function passed to it
 [`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 `emitMeta` | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
 </details>
@@ -736,16 +738,15 @@ console.log(e);
 
 ---
 
-### `debug(options)`
+### `debug(isEnabled)`
 
 Sets the debug mode.
 
-**options** (object):
+**Parameters**:
 
 name | type | description
 -----|------|---------------
 `enabled` | `boolean` | Whether to enable the debug mode or disable it.
-`log` | `function` (optional) | A custom logging function.
 
 **Returns**: `void`
 
@@ -765,7 +766,9 @@ Where:
 
 Example:
 ```ts
-debug({ enable: true });
+import { emit, debug } from 'eventhoven';
+
+debug(true);
 
 emit(emojiEvents)('🎌')('🍣', 10);
 
@@ -775,7 +778,9 @@ emit(emojiEvents)('🎌')('🍣', 10);
 
 If an event does not exist in an event-map, the log will contain `(INVALID)` mark:
 ```ts
-debug({ enable: true });
+import { emit, debug } from 'eventhoven';
+
+debug(true);
 
 // event "😎" doesn't exist in the `emojiEvents` map
 emit(emojiEvents)('😎')('🍣', 10);
@@ -784,18 +789,25 @@ emit(emojiEvents)('😎')('🍣', 10);
 // 59:05.512 [EMIT "😎" (INVALID)]: [🍣, 10]
 ```
 
-If you want coloring or some other features - pass a custom logging function.
-It has the same signature as any other event handler:
+#### Custom logging function
+
+If you want coloring or some other features - pass a custom logging function to the `customDebug` factory.
+It accepts a function of the same signature as any other [event handler](#event-handler):
 ```ts
-import { debug, TLogHandler } from 'eventhoven';
+import { customDebug, TLogHandler, emit } from 'eventhoven';
 
 // Let's say we want warnings instead of logs
-const customLog: TLogHandler = (ctx, ...args) => console.warn(ctx.event, ...args);
+const customLogFunction: TLogHandler = (ctx, ...args) => console.warn('custom!', ctx.event, ...args);
 
-debug({
-  enable: true,
-  log: customLog
-});
+const debug = customDebug(customLog);
+
+// Then use your custom debug function exactly like the default one:
+debug(true);
+
+emit(emojiEvents)('🎌')('🍣', 10);
+
+// logs:
+// custom! EMIT [object Object] 🎌 [🍣, 10]
 ```
 
 > **Note**\
