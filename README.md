@@ -8,7 +8,7 @@
 [![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
 [![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
 
-[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground") [![npm-next-version](https://img.shields.io/npm/v/eventhoven/next?label=next&style=flat-square)](https://www.npmjs.com/package/eventhoven/v/next "NPM package page (next version preview)")
+[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground")
 
 ## Table of Contents <!-- omit in toc -->
 - [What is this?](#what-is-this)
@@ -22,6 +22,7 @@
   - [Simple usage examples](#simple-usage-examples)
 - [API](#api)
   - [`eventMap(events)`](#eventmapevents)
+    - [Event handler](#event-handler)
     - [Event context](#event-context)
   - [`emit(eventMap)(event)(...args): Promise<void>`](#emiteventmapeventargs-promisevoid)
   - [`emitAll(eventMap)(eventArgs): object`](#emitalleventmapeventargs-object)
@@ -38,7 +39,8 @@
 - [Contribute](#contribute)
 
 ## What is this?
-It's a simple type-safe event manager library for browser and node, less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#api)).
+It's a simple type-safe event manager library for browser and node,
+less than 1KB (gzipped, tree-shakeable - [essentials are less than 500B](#api)).
 
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
@@ -56,7 +58,7 @@ A main list of features includes (but not limited to):
 - **SOLID**
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
-  - **L**SP - all funcions are easily substitutable as long as they adhere to the same API
+  - **L**SP - all functions are easily substitutable as long as they adhere to the same API
   - **I**SP - all data types are the least specific versions of them
   - **D**IP - API depends only on abstractions
 - Code-generation-friendly:\
@@ -183,14 +185,14 @@ const emojiEvents = eventMap({
 });
 
 on(emojiEvents)('🎌')(
-  (context, emoji, amount) => console.log(`Yay!, ${amount} of ${emoji}-s from ${context.event}!`)
+  (context, emoji, amount) => console.log(`Yay!, ${amount} ${emoji}-s from ${context.event}!`)
 );
 
 on(emojiEvents)('🎌')(
   // Returning promises is also allowed (example API from http://www.sushicount.com/api)
   (context, emoji, amount) => fetch('http://api.sushicount.com/add-piece-of-sushi/')
     .then(_ => _.json())
-    .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} of ${emoji}-s loaded from sushicount!`))
+    .then(resp => console.log(`Yay!, ${resp.pieces_of_sushi} ${emoji}-s loaded from sushicount!`))
 );
 
 // It's possible to await execution of all event handlers too
@@ -306,7 +308,7 @@ name | type | description
 
 **Together they add up to less than 500 Bytes (gzipped)!**
 
-Everithyng else is just syntax sugar and boilerplate reduction.
+Everything else is just syntax sugar and boilerplate reduction.
 
 <details>
 <summary>
@@ -349,9 +351,9 @@ Creates an event-map from event signatures.
 
 name | type | description
 -----|------|---------------
-`events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L25) | a collection of event signatures
+`events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L12) | a collection of event signatures
 
-**Returns**: [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8)
+**Returns**: [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15)
 
 This function is the main "entry point" to the whole event management pipeline.
 It constructs a base storage for events and their handlers, which is then used by all of the other functions.
@@ -443,12 +445,60 @@ How do I add new events at runtime?
 
 </details>
 
+
+#### Event handler
+
+As stated earlier, event signatures are read from the default **event handlers** in the event-map.
+
+Any event handler has [a following signature](https://github.com/raiondesu-experiments/eventhoven/tree/master/src/types.d.ts#L6):
+
+`(context: TEventContext, ...args: any[]) => unknown | Promise<unknown>`
+
+**Parameters**:
+
+name | type | description
+------|-----|--------------
+`context` | [`TEventContext`](#event-context) | a context given by `eventhovent` for every event
+`...args` | `any[]` (contextual) | an event-specific array of arguments
+
+**Returns**: any value or a promise with any value.\
+The type of said value is determined by the default handler in the event-map, or remains `unknown`.
+
+<details>
+<summary>
+Simple example
+</summary>
+
+```ts
+const map = eventMap({
+  // An event handler that returns a number
+  numberEvent(context): number {
+    // The default is 42
+    return 42;
+  }
+});
+
+// Type is usually inferred automatically
+const result: number[] = await emit(map)('numberEvent')();
+
+console.log(result); // => [42]
+
+// Let's add another handler to the mix
+on(map)('numberEvent')(ctx => 43);
+
+const result2 = await emit(map)('numberEvent')();
+
+console.log(result2); // => [42, 43]
+```
+
+</details>
+
 #### Event context
 
-You've probably noticed by now,\
+You've probably noticed by now,
 that all event handlers have a first `context` parameter.
 
-This is the event context, and it is an object of the following signature:
+This is the event context that's provided by `eventhoven`, and it is an object of the following signature:
 
 key | type | description
 ----|------|-----------------
@@ -466,7 +516,7 @@ const map = eventMap({
     console.log(context.event); // => "eventName"
     console.log(typeof context.unsubscribe); // => "function"
   }
-})
+});
 ```
 </details>
 
@@ -483,7 +533,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to emit events from
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to emit events from
 `event` | `PropertyKey` | An event name to emit for a given event-map (can be a symbol too)
 `...args` | `any (contextual)` | Arguments for the specific event, spread
 
@@ -501,8 +551,8 @@ Emits **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
-`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/emit.ts#L52) | Parameters for all events in an event map.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
+`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/all.ts#L31) | Parameters for all events in an event map.
 
 **Returns**: `Record<keyof M, Promise<void>>` - a map for all events' emits promises (each will resolve upon all event handlers' resolution).
 
@@ -520,7 +570,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to get events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to get events from.
 `event` | `PropertyKey` | An event name to subscribe to for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to execute on the event, spread. If emtpy, no subscribing is done.
 
@@ -538,7 +588,7 @@ Subscribes handler(s) to **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to subscribe to.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
 `...handlers` | `function[]` | Handlers to execute on the events, spread. If emtpy, no subscribing is done.
 
 **Returns**: `void`
@@ -558,7 +608,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe handlers from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe handlers from.
 `event` | `PropertyKey` | An event name to unsub from for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to unsubscribe from the event, spread. If empty - all currently subbed handlers will be unsubscribed.
 
@@ -577,7 +627,7 @@ Unsubscribes handler(s) from **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to unsubscribe from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe from.
 `...handlers` | `function[]` | Handlers to unsubscribe from the events, spread. If empty - all currently subbed handlers will be unsubscribed.
 
 **Returns**: `void`
@@ -621,7 +671,7 @@ It is a way to block execution flow until some event occurs.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 `event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
 
 **Returns**: `Promise<Array<unknown>> (contextual)` - a promise with array of parameters passed to the event.
@@ -660,7 +710,7 @@ which allows for an easier composition of waiters.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 `event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
 
 **Returns**: `() => Promise<Array<unknown>> (contextual)` - a promise factory with array of parameters passed to the event.
@@ -762,7 +812,7 @@ debug({
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/events.ts#L8) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 
 **Return**: A map of event names to the action for that event name.
 
@@ -839,6 +889,8 @@ One can subscribe to these events to execute some actions or emit these events t
 The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/debug.ts) plugin.\
 It can be used as an example for writing your own plugins for `eventhoven`!
 
+> Note: meta-event is always emitted **before** the event itself happens.
+
 Current list of all meta-events is as follows:
 
  name  | emitted when
@@ -880,7 +932,7 @@ Then:
 npm run dev
 ```
 
-Then propose a PR!\
+Then introduce changes and propose a PR!\
 I'll be happy to review it!
 
 ---

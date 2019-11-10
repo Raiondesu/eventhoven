@@ -82,6 +82,39 @@ describe('emit', () => {
 
     expect(test_eventMap[event]).toBeUndefined();
   });
+
+  it('processes return values correctly', async () => {
+    const expectedNumberResults = 2;
+    const expectedStringResults = 2;
+    const expectedVoidResults = 1;
+
+    const testMap = eventMap({
+      randomNumer: () => Math.random(),
+      string: () => 'default',
+      void: (): void => {},
+    });
+
+    const testNumber = 42;
+    const testString = 'test string';
+
+    on(testMap)('randomNumer')(() => testNumber);
+    on(testMap)('string')(() => testString);
+
+    const numbers: number[] = await emit(testMap)('randomNumer')();
+    const strings: string[] = await emit(testMap)('string')();
+    const voids: void[] = await emit(testMap)('void')();
+
+    expect(numbers.length).toBe(expectedNumberResults);
+    expect(numbers).toContain(testNumber);
+    expect(numbers.every(_ => typeof _ === 'number')).toBe(true);
+
+    expect(strings.length).toBe(expectedStringResults);
+    expect(strings).toContain(testString);
+    expect(strings.every(_ => typeof _ === 'string')).toBe(true);
+
+    expect(voids.length).toBe(expectedVoidResults);
+    expect(voids.every(_ => typeof _ === 'undefined')).toBe(true);
+  });
 });
 
 describe('emitAll', () => {
