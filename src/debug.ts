@@ -46,6 +46,6 @@ export const customDebug = (logEvent: TLogHandler) => (enable: boolean) => (
  * with a timestamp and other information.
  *
  * @param enable - whether to enable the debug mode
- * - `true` to enable, `false` to disable
+ * * `true` to enable, `false` to disable
  */
 export const debug = customDebug(log);
