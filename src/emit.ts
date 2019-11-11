@@ -22,16 +22,15 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: TLastParams<THandlerOf<M, E>>) => emitMeta(EMetaEvents.EMIT)(
-  eventMap,
-  event,
-  args
-).then(_ => Promise.all(
-  [...(eventMap[event] || [])].map(
-    ([handler, unsubscribe]) => handler
-      && handler({ event, unsubscribe }, ...args)
+(...args: TLastParams<THandlerOf<M, E>>): Promise<Array<ReturnType<THandlerOf<M, E>>>> => (
+  emitMeta(EMetaEvents.EMIT)(eventMap, event, args),
+  Promise.all(
+    [...(eventMap[event] || [])].map(
+      ([handler, unsubscribe]) => handler
+        && handler({ event, unsubscribe }, ...args)
+    ) as Array<ReturnType<THandlerOf<M, E>>>
   )
-)) as Promise<Array<ReturnType<THandlerOf<M, E>>>>;
+);
 
 /**
  * Emits a meta-event
