@@ -27,11 +27,11 @@ export type TLogHandler = typeof log;
 /**
  * Custom debugger factory
  *
- * When debug mode is enabled - every event is logged to the console
- * with a timestamp and other information.
+ * Creates a function that toggles debug mode using the provided `logEvent` function.
  *
  * @param logEvent - a custom logging function
- * - overrides the default
+ * * Overrides the default
+ * * When debug mode is enabled - the `logEvent` function is called for all meta-events
  *
  * @returns a debug toggler function
  */
