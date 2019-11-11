@@ -24,10 +24,27 @@ const log = (
 
 export type TLogHandler = typeof log;
 
-export interface IDebugOptions {
-  enable: boolean;
-  log?: TLogHandler;
-}
+/**
+ * Custom debugger factory
+ *
+ * Creates a function that toggles debug mode using the provided `logEvent` function.
+ *
+ * @param logEvent - a custom logging function
+ * * Overrides the default
+ * * When debug mode is enabled - the `logEvent` function is called for all meta-events
+ *
+ * @returns a debug toggler function
+ */
+export const customDebug = (logEvent: TLogHandler) =>
+/**
+ * Enable or disable the debug mode.
+ *
+ * @param enable - whether to enable the debug mode
+ * * `true` to enable, `false` to disable
+ */
+(enable: boolean) => (
+  enable ? onMeta : offMeta
+)(logEvent);
 
 /**
  * Enable or disable the debug mode.
@@ -36,11 +53,6 @@ export interface IDebugOptions {
  * with a timestamp and other information.
  *
  * @param enable - whether to enable the debug mode
- * - `true` to enable, `false` to disable
- *
- * @param [log] - a custom logging function
- * - overrides the default
+ * * `true` to enable, `false` to disable
  */
-export const debug = ({ enable, log: logEvent = log }: IDebugOptions) => (
-  enable ? onMeta : offMeta
-)(logEvent);
+export const debug = customDebug(log);
