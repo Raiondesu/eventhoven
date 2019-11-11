@@ -35,7 +35,17 @@ export type TLogHandler = typeof log;
  *
  * @returns a debug toggler function
  */
-export const customDebug = (logEvent: TLogHandler) => (enable: boolean) => (
+export const customDebug = (logEvent: TLogHandler) =>
+/**
+ * Enable or disable the debug mode.
+ *
+ * When debug mode is enabled - every event is logged to the console
+ * with a timestamp and other information.
+ *
+ * @param enable - whether to enable the debug mode
+ * * `true` to enable, `false` to disable
+ */
+(enable: boolean) => (
   enable ? onMeta : offMeta
 )(logEvent);
 
