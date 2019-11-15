@@ -7,6 +7,14 @@
   "module": "dist/es",
   "unpkg": "dist/es",
   "typings": "src",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "tsconfig.json",
+    "tslint.json",
+    "README.md"
+  ],
   "keywords": [
     "event manager",
     "event",

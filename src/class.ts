@@ -28,4 +28,3 @@ export class Eventhoven<T extends TEventSignatures> {
   public static readonly on = on;
   public static readonly off = off;
 }
-
