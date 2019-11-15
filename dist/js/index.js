@@ -13,4 +13,5 @@ __export(require("./once"));
 __export(require("./emit"));
 __export(require("./wait"));
 __export(require("./all"));
+__export(require("./class"));
 //# sourceMappingURL=index.js.map
