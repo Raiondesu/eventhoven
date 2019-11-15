@@ -37,7 +37,7 @@
     - [Custom logging function](#custom-logging-function)
   - [Collections](#collections)
   - [Meta-Events (Plugin API)](#meta-events-plugin-api)
-- [Contribute](#contribute)
+  - [Class API](#class-api)
 
 ## What is this?
 It's a simple type-safe event manager library for browser and node,
@@ -339,6 +339,7 @@ name | type | description
 [`customDebug`](#custom-logging-function) | `function` | Creates a custom debugger based on a function passed to it
 [`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 `emitMeta` | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
+[`Eventhoven`](#class-api) | `class` | A class wrapper for `eventMap` and `eventCollection`.
 </details>
 
 
@@ -922,6 +923,46 @@ on(metaEvents)(EMetaEvents.EMIT)(
   )
 );
 ```
+
+### Class API
+
+Even though `eventhoven` is functional in its nature, nothing prohibits to use it in Object-Oriented way.\
+Class API can help with this:
+```ts
+import { Eventhoven } from 'eventhoven';
+
+const myEventManager = new Eventhoven({
+  myEvent1(ctx, arg: string) {
+    console.log('yay, my oop event!', arg);
+  }
+});
+
+myEventManager.emit.myEvent1('first emit');
+// => yay, my oop event! first emit
+
+myEventManager.on.myEvent1((ctx, arg) => {
+  console.log('another handler!', arg);
+});
+
+myEventManager.emit.myEvent1('second emit');
+// => yay, my oop event! second emit
+// => another handler! second emit
+
+console.log(Object.keys(myEventManager.events));
+// => ['myEvent1']
+```
+
+Basically, the `Eventhoven` class is a wrapper of [`eventCollection`](#collections) with the following properties:
+
+visibility | name | type | description
+------|------|---------|-----------------
+`public` | `map` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event map that contains all of the instance events
+`public` | `emit` | [`emitCollection`](#collections) | A collection of all event emitters
+`public` | `on` | [`subscribeCollection`](#collections) | A collection of all event subscribers
+`public` | `off` | [`unsubscribeCollection`](#collections) | A collection of all event unsubscribers
+`static` | `emit` | [`emit`](#emiteventmapeventargs-promisevoid) | The `emit` function
+`static` | `on` | [`subscribe`](#subscribeeventmapeventhandlers---void) | The `subscribe` function
+`static` | `off` | [`unsubscribe`](#unsubscribeeventmapeventhandlers---void) | The `unsubscribe` function
 
 ---
 
