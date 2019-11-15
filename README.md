@@ -1,14 +1,20 @@
-# eventhoven [![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page") <!-- omit in toc -->
+<h1 align="center" style="text-align: center">
+  <a href="https://www.npmjs.com/package/eventhoven"><img src="assets/logo.png"/></a>
+</h1>
 
-> Compose events effortlessly 🎵
+<p align="center">
+<a href="https://travis-ci.com/raiondesu-experiments/eventhoven" title="Latest Travis CI build"><img src="https://img.shields.io/travis/com/raiondesu-experiments/eventhoven?style=flat-square" alt="travis"></a>
+<a href="https://www.npmjs.com/package/eventhoven" title="Downloads per month, but who cares?"><img src="https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square" alt="npm"></a>
+<a href="https://bundlephobia.com/result?p=eventhoven@latest" title="minzipped size"><img src="https://img.shields.io/bundlephobia/minzip/eventhoven@latest?style=flat-square" alt="size"></a>
+<a href="https://coveralls.io/github/raiondesu-experiments/eventhoven" title="Code coverage"><img src="https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square" alt="coveralls"></a>
+<a href="https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability" title="Code quality"><img src="https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square" alt="code quality"></a></p>
+</p>
 
-[![travis](https://img.shields.io/travis/com/raiondesu-experiments/eventhoven?style=flat-square)](https://travis-ci.com/raiondesu-experiments/eventhoven "Latest Travis CI build")
-[![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "Downloads per month, but who cares?")
-[![size](https://img.shields.io/bundlephobia/minzip/eventhoven@latest?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@latest "minzipped size")
-[![coveralls](https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square)](https://coveralls.io/github/raiondesu-experiments/eventhoven "Code coverage")
-[![code quality](https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square)](https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability "Code quality")
+<p align="center">
+<a href="https://codepen.io/raiondesu/pen/qBBPPom" title="Link to in-browser playground"><img src="https://img.shields.io/badge/playground-link-blueviolet?style=flat-square" alt="code pen"></a>
+</p>
 
-[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground")
+---
 
 ## Table of Contents <!-- omit in toc -->
 - [What is this?](#what-is-this)
