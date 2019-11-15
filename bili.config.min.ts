@@ -5,7 +5,7 @@ export default {
   output: {
     moduleName: 'eventhoven',
     fileName: 'minimal.js',
-    format: 'umd',
+    format: 'umd-min',
     target: 'browser',
   },
   plugins: {
