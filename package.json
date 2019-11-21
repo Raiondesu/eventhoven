@@ -70,14 +70,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/raiondesu-experiments/eventhoven.git"
+    "url": "git+https://github.com/raiondesu/eventhoven.git"
   },
   "author": "raiondesu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/raiondesu-experiments/eventhoven/issues"
+    "url": "https://github.com/raiondesu/eventhoven/issues"
   },
-  "homepage": "https://github.com/raiondesu-experiments/eventhoven#readme",
+  "homepage": "https://github.com/raiondesu/eventhoven#readme",
   "jest": {
     "preset": "ts-jest",
     "verbose": true,
