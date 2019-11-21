@@ -3,11 +3,11 @@
 </h1>
 
 <p align="center">
-<a href="https://travis-ci.com/raiondesu-experiments/eventhoven" title="Latest Travis CI build"><img src="https://img.shields.io/travis/com/raiondesu-experiments/eventhoven?style=flat-square" alt="travis"></a>
+<a href="https://travis-ci.com/raiondesu/eventhoven" title="Latest Travis CI build"><img src="https://img.shields.io/travis/com/raiondesu/eventhoven?style=flat-square" alt="travis"></a>
 <a href="https://www.npmjs.com/package/eventhoven" title="Downloads per month, but who cares?"><img src="https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square" alt="npm"></a>
 <a href="https://bundlephobia.com/result?p=eventhoven@latest" title="minzipped size"><img src="https://img.shields.io/bundlephobia/minzip/eventhoven@latest?style=flat-square" alt="size"></a>
-<a href="https://coveralls.io/github/raiondesu-experiments/eventhoven" title="Code coverage"><img src="https://img.shields.io/coveralls/github/raiondesu-experiments/eventhoven?style=flat-square" alt="coveralls"></a>
-<a href="https://codeclimate.com/github/raiondesu-experiments/eventhoven/maintainability" title="Code quality"><img src="https://img.shields.io/codeclimate/maintainability/raiondesu-experiments/eventhoven?style=flat-square" alt="code quality"></a></p>
+<a href="https://coveralls.io/github/raiondesu/eventhoven" title="Code coverage"><img src="https://img.shields.io/coveralls/github/raiondesu/eventhoven?style=flat-square" alt="coveralls"></a>
+<a href="https://codeclimate.com/github/raiondesu/eventhoven/maintainability" title="Code quality"><img src="https://img.shields.io/codeclimate/maintainability/raiondesu/eventhoven?style=flat-square" alt="code quality"></a></p>
 </p>
 
 <p align="center">
@@ -75,7 +75,7 @@ A main list of features includes (but not limited to):
 - **KISS** and **DRY**
 
 Something's missing or found a bug?\
-Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
+Feel free to [create an issue](https://github.com/raiondesu/eventhoven/issues/new)! 😉
 
 ---
 
@@ -364,9 +364,9 @@ Creates an event-map from event signatures.
 
 name | type | description
 -----|------|---------------
-`events` | [`TEventSignatures`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L12) | a collection of event signatures
+`events` | [`TEventSignatures`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L12) | a collection of event signatures
 
-**Returns**: [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15)
+**Returns**: [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15)
 
 This function is the main "entry point" to the whole event management pipeline.
 It constructs a base storage for events and their handlers, which is then used by all of the other functions.
@@ -463,7 +463,7 @@ How do I add new events at runtime?
 
 As stated earlier, event signatures are read from the default **event handlers** in the event-map.
 
-Any event handler has [a following signature](https://github.com/raiondesu-experiments/eventhoven/tree/master/src/types.d.ts#L6):
+Any event handler has [a following signature](https://github.com/raiondesu/eventhoven/tree/master/src/types.d.ts#L6):
 
 `(context: TEventContext, ...args: any[]) => unknown | Promise<unknown>`
 
@@ -546,7 +546,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to emit events from
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to emit events from
 `event` | `PropertyKey` | An event name to emit for a given event-map (can be a symbol too)
 `...args` | `any (contextual)` | Arguments for the specific event, spread
 
@@ -564,8 +564,8 @@ Emits **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
-`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/all.ts#L31) | Parameters for all events in an event map.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
+`eventArgs` | [`TEventParamsMap`](https://github.com/raiondesu/eventhoven/blob/master/src/all.ts#L31) | Parameters for all events in an event map.
 
 **Returns**: `Record<keyof M, Promise<void>>` - a map for all events' emits promises (each will resolve upon all event handlers' resolution).
 
@@ -583,7 +583,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to get events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to get events from.
 `event` | `PropertyKey` | An event name to subscribe to for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to execute on the event, spread. If emtpy, no subscribing is done.
 
@@ -601,7 +601,7 @@ Subscribes handler(s) to **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to subscribe to.
 `...handlers` | `function[]` | Handlers to execute on the events, spread. If emtpy, no subscribing is done.
 
 **Returns**: `void`
@@ -621,7 +621,7 @@ If an event does not exist, it will be ignored.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe handlers from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe handlers from.
 `event` | `PropertyKey` | An event name to unsub from for a given event-map (can be a symbol too).
 `...handlers` | `function[]` | Handlers to unsubscribe from the event, spread. If empty - all currently subbed handlers will be unsubscribed.
 
@@ -640,7 +640,7 @@ Unsubscribes handler(s) from **all** events in an event map.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to unsubscribe from.
 `...handlers` | `function[]` | Handlers to unsubscribe from the events, spread. If empty - all currently subbed handlers will be unsubscribed.
 
 **Returns**: `void`
@@ -684,7 +684,7 @@ It is a way to block execution flow until some event occurs.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 `event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
 
 **Returns**: `Promise<Array<unknown>> (contextual)` - a promise with array of parameters passed to the event.
@@ -723,7 +723,7 @@ which allows for an easier composition of waiters.
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 `event` | `PropertyKey` | An event name to wait for in a given event-map (can be a symbol too).
 
 **Returns**: `() => Promise<Array<unknown>> (contextual)` - a promise factory with array of parameters passed to the event.
@@ -769,7 +769,7 @@ MM:SS.fff [{event-type} {event-name}]: {event-handler-or-params}
 ```
 
 Where:
-- `{event-type}` - [type of the event](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/meta-events.ts)
+- `{event-type}` - [type of the event](https://github.com/raiondesu/eventhoven/blob/master/src/meta-events.ts)
 - `{event-name}` - name of the event
 - `{event-handler-or-params}`
   - the handler for the event (when subscribing or unsubscribing)
@@ -831,7 +831,7 @@ emit(emojiEvents)('🎌')('🍣', 10);
 
 name | type | description
 -----|------|---------------
-`eventMap` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
+`eventMap` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event-map to wait events from.
 
 **Return**: A map of event names to the action for that event name.
 
@@ -905,7 +905,7 @@ It's also possible to write custom plugins for `eventhoven` thanks to meta-event
 Meta-events is a simple [`event-map`](#eventmapevents) with events for internal `eventhoven` actions, like [`emit`](#emiteventmapeventargs-promisevoid).\
 One can subscribe to these events to execute some actions or emit these events to emulate them for the `eventhoven`.
 
-The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/debug.ts) plugin.\
+The simplest possible plugin is already written for you - the [`debug`](https://github.com/raiondesu/eventhoven/blob/master/src/debug.ts) plugin.\
 It can be used as an example for writing your own plugins for `eventhoven`!
 
 > Note:
@@ -920,7 +920,7 @@ Current list of all meta-events is as follows:
 `SUBSCRIBE` | Any event is subscribed to, except itself.
 `UNSUBSCRIBE` | Any event is unsubscribed from, except itself.
 
-This list is also described as a [const enum EMetaEvents](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/meta-events.ts).
+This list is also described as a [const enum EMetaEvents](https://github.com/raiondesu/eventhoven/blob/master/src/meta-events.ts).
 
 Simple example:
 
@@ -966,7 +966,7 @@ Basically, the `Eventhoven` class is a wrapper of [`eventCollection`](#collectio
 
 visibility | name | type | description
 ------|------|---------|-----------------
-`public` | `map` | [`TEventMap`](https://github.com/raiondesu-experiments/eventhoven/blob/master/src/types.d.ts#L15) | An event map that contains all of the instance events
+`public` | `map` | [`TEventMap`](https://github.com/raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event map that contains all of the instance events
 `public` | `emit` | [`emitCollection`](#collections) | A collection of all event emitters
 `public` | `on` | [`subscribeCollection`](#collections) | A collection of all event subscribers
 `public` | `off` | [`unsubscribeCollection`](#collections) | A collection of all event unsubscribers
@@ -999,4 +999,4 @@ I'll be happy to review it!
 ---
 
 Something's missing or found a bug?\
-Feel free to [create an issue](https://github.com/raiondesu-experiments/eventhoven/issues/new)! 😉
+Feel free to [create an issue](https://github.com/raiondesu/eventhoven/issues/new)! 😉
