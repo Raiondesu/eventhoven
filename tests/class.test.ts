@@ -20,4 +20,23 @@ describe('Eventhoven', () => {
     expect(eventh).toBeInstanceOf(Eventhoven);
     expect(myeventh).toBeInstanceOf(Eventhoven);
   });
+
+  it('proxies events properly', async () => {
+    const handler = jest.fn();
+    const eventh = new Eventhoven(test_eventSignatures);
+
+    await eventh.emit('event3');
+
+    expect(handler).not.toHaveBeenCalled();
+
+    eventh.on('event3', handler);
+    await eventh.emit('event3');
+
+    expect(handler).toHaveBeenCalledTimes(1);
+
+    eventh.off('event3', handler);
+    await eventh.emit('event3');
+
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
 });
