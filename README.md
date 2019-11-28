@@ -947,18 +947,18 @@ const myEventManager = new Eventhoven({
   }
 });
 
-myEventManager.emit.myEvent1('first emit');
+myEventManager.emit('myEvent1', 'first emit');
 // => yay, my oop event! first emit
 
-myEventManager.on.myEvent1((ctx, arg) => {
+myEventManager.on('myEvent1', (ctx, arg) => {
   console.log('another handler!', arg);
 });
 
-myEventManager.emit.myEvent1('second emit');
+myEventManager.emit('myEvent1', 'second emit');
 // => yay, my oop event! second emit
 // => another handler! second emit
 
-console.log(Object.keys(myEventManager.events));
+console.log(Object.keys(myEventManager.map));
 // => ['myEvent1']
 ```
 
@@ -967,9 +967,9 @@ Basically, the `Eventhoven` class is a wrapper of [`eventCollection`](#collectio
 visibility | name | type | description
 ------|------|---------|-----------------
 `public` | `map` | [`TEventMap`](https://github.com/Raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event map that contains all of the instance events
-`public` | `emit` | [`emitCollection`](#collections) | A collection of all event emitters
-`public` | `on` | [`subscribeCollection`](#collections) | A collection of all event subscribers
-`public` | `off` | [`unsubscribeCollection`](#collections) | A collection of all event unsubscribers
+`public` | `emit` | `(event, ...args) => Promise<any[]>` | An event emitter function. Basically, an uncurried version of [`emit`](#emiteventmapeventargs-promisevoid)
+`public` | `on` | `(event, ...handlers) => () => void` | An event subscriber function. Basically, an uncurried version of [`subscribe`](#subscribeeventmapeventhandlers---void).
+`public` | `off` | `(event, ...handlers) => void` | An event unsubscriber function. Basically, an uncurried version of [`unsubscribe`](#unsubscribeeventmapeventhandlers---void).
 `static` | `emit` | [`emit`](#emiteventmapeventargs-promisevoid) | The `emit` function
 `static` | `on` | [`subscribe`](#subscribeeventmapeventhandlers---void) | The `subscribe` function
 `static` | `off` | [`unsubscribe`](#unsubscribeeventmapeventhandlers---void) | The `unsubscribe` function
