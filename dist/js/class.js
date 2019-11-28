@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const collections_1 = require("./collections");
 const events_1 = require("./events");
 const emit_1 = require("./emit");
 const subscribe_1 = require("./subscribe");
@@ -9,10 +8,15 @@ class Eventhoven {
     constructor(events) {
         this.events = events;
         this.map = events_1.eventMap(events);
-        const collection = collections_1.eventCollection(this.map);
-        this.emit = collection.emit;
-        this.on = collection.subscribe;
-        this.off = collection.unsubscribe;
+    }
+    emit(event, ...args) {
+        return emit_1.emit(this.map)(event)(...args);
+    }
+    on(event, ...handlers) {
+        return subscribe_1.on(this.map)(event)(...handlers);
+    }
+    off(event, ...handlers) {
+        return unsubscribe_1.off(this.map)(event)(...handlers);
     }
 }
 exports.Eventhoven = Eventhoven;

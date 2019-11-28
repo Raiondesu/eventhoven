@@ -1,4 +1,3 @@
-import { eventCollection } from "./collections.js";
 import { eventMap } from "./events.js";
 import { emit } from "./emit.js";
 import { on } from "./subscribe.js";
@@ -7,10 +6,15 @@ export class Eventhoven {
     constructor(events) {
         this.events = events;
         this.map = eventMap(events);
-        const collection = eventCollection(this.map);
-        this.emit = collection.emit;
-        this.on = collection.subscribe;
-        this.off = collection.unsubscribe;
+    }
+    emit(event, ...args) {
+        return emit(this.map)(event)(...args);
+    }
+    on(event, ...handlers) {
+        return on(this.map)(event)(...handlers);
+    }
+    off(event, ...handlers) {
+        return off(this.map)(event)(...handlers);
     }
 }
 Eventhoven.emit = emit;
