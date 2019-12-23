@@ -1,6 +1,8 @@
 import { TMetaEvents, metaEvents, EMetaEvents } from './meta-events';
 import { TEventMap, THandlerOf, TLastParams } from './types';
 
+export type TEmitReturn<M extends TEventMap, E extends keyof M> = Promise<Array<ReturnType<THandlerOf<M, E>>>>;
+
 /**
  * Event-emitter factory creator
  *
@@ -22,7 +24,7 @@ export const emit = <M extends TEventMap>(
 /**
  * Emits an event with proper arguments
  */
-(...args: TLastParams<THandlerOf<M, E>>): Promise<Array<ReturnType<THandlerOf<M, E>>>> => (
+(...args: TLastParams<THandlerOf<M, E>>): TEmitReturn<M, E> => (
   emitMeta(EMetaEvents.EMIT)(eventMap, event, args),
   Promise.all(
     [...(eventMap[event] || [])].map(
