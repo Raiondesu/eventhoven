@@ -1,7 +1,7 @@
 import { TEventSignatures, TEventMap, TLastParams, THandlerOf } from './types';
 import { eventMap } from './events';
-import { emit } from './emit';
-import { on } from './subscribe';
+import { emit, TEmitReturn } from './emit';
+import { on, TSubscriber } from './subscribe';
 import { off } from './unsubscribe';
 
 export class Eventhoven<
@@ -14,16 +14,24 @@ export class Eventhoven<
     this.map = eventMap(events) as M;
   }
 
-  public emit<E extends keyof T>(event: E, ...args: TLastParams<THandlerOf<M, E>>) {
-    return emit(this.map)(event)(...args);
+  private apply<F extends (arg1: any) => (arg2: any) => (...args: any[]) => any>(
+    action: F,
+    arg2: any,
+    args: any[]
+  ) {
+    return action(this.map)(arg2)(...args);
   }
 
-  public on<E extends keyof T>(event: E, ...handlers: Array<THandlerOf<M, E>>) {
-    return on(this.map)(event)(...handlers);
+  public emit<E extends keyof T>(event: E, ...args: TLastParams<THandlerOf<M, E>>): TEmitReturn<M ,E> {
+    return this.apply(emit, event, args);
   }
 
-  public off<E extends keyof T>(event: E, ...handlers: Array<THandlerOf<M, E>>) {
-    return off(this.map)(event)(...handlers);
+  public on<E extends keyof T>(event: E, ...handlers: Array<THandlerOf<M, E>>): TSubscriber<M, E> {
+    return this.apply(on, event, handlers);
+  }
+
+  public off<E extends keyof T>(event: E, ...handlers: Array<THandlerOf<M, E>>): void {
+    return this.apply(off, event, handlers);
   }
 
   public static readonly emit = emit;
