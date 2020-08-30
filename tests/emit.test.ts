@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
 
 import { emit, emitAll, eventMap, on } from '../src';
-import { test_eventMap, test_promiseDelaySEC, msInSec, Context, getCurrentSeconds } from './common';
+import { test_eventMap, test_promiseDelaySEC, Context, getCurrentSeconds } from './common';
 
 describe('emit', () => {
   it(`doesn't affect the event-map`, () => {

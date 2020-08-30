@@ -1,4 +1,4 @@
-import { emit, wait, harmonicWait, TEventMap, eventMap } from '../src';
+import { emit, wait, harmonicWait, TEventMap } from '../src';
 import { test_eventMap, getCurrentSeconds, msInSec } from './common';
 
 const waitTests = (_wait: (map: TEventMap, event: PropertyKey) => Promise<any[]>) => {
