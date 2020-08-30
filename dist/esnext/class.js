@@ -14,10 +14,23 @@ export class Eventhoven {
         return on(this.map)(event)(...handlers);
     }
     off(event, ...handlers) {
-        return off(this.map)(event)(...handlers);
+        off(this.map)(event)(...handlers);
+        return this;
+    }
+    static emit(eventMap, event, ...args) {
+        return emit(eventMap instanceof Eventhoven
+            ? eventMap.map
+            : eventMap)(event)(...args);
+    }
+    static on(eventMap, event, ...handlers) {
+        return on(eventMap instanceof Eventhoven
+            ? eventMap.map
+            : eventMap)(event)(...handlers);
+    }
+    static off(eventMap, event, ...handlers) {
+        return off(eventMap instanceof Eventhoven
+            ? eventMap.map
+            : eventMap)(event)(...handlers);
     }
 }
-Eventhoven.emit = emit;
-Eventhoven.on = on;
-Eventhoven.off = off;
 //# sourceMappingURL=class.js.map

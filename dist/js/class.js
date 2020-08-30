@@ -16,11 +16,24 @@ class Eventhoven {
         return subscribe_1.on(this.map)(event)(...handlers);
     }
     off(event, ...handlers) {
-        return unsubscribe_1.off(this.map)(event)(...handlers);
+        unsubscribe_1.off(this.map)(event)(...handlers);
+        return this;
+    }
+    static emit(eventMap, event, ...args) {
+        return emit_1.emit(eventMap instanceof Eventhoven
+            ? eventMap.map
+            : eventMap)(event)(...args);
+    }
+    static on(eventMap, event, ...handlers) {
+        return subscribe_1.on(eventMap instanceof Eventhoven
+            ? eventMap.map
+            : eventMap)(event)(...handlers);
+    }
+    static off(eventMap, event, ...handlers) {
+        return unsubscribe_1.off(eventMap instanceof Eventhoven
+            ? eventMap.map
+            : eventMap)(event)(...handlers);
     }
 }
 exports.Eventhoven = Eventhoven;
-Eventhoven.emit = emit_1.emit;
-Eventhoven.on = subscribe_1.on;
-Eventhoven.off = unsubscribe_1.off;
 //# sourceMappingURL=class.js.map
