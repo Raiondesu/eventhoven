@@ -970,9 +970,44 @@ visibility | name | type | description
 `public` | `emit` | `(event, ...args) => Promise<any[]>` | An event emitter function. Basically, an uncurried version of [`emit`](#emiteventmapeventargs-promisevoid)
 `public` | `on` | `(event, ...handlers) => () => void` | An event subscriber function. Basically, an uncurried version of [`subscribe`](#subscribeeventmapeventhandlers---void).
 `public` | `off` | `(event, ...handlers) => void` | An event unsubscriber function. Basically, an uncurried version of [`unsubscribe`](#unsubscribeeventmapeventhandlers---void).
-`static` | `emit` | [`emit`](#emiteventmapeventargs-promisevoid) | The `emit` function
-`static` | `on` | [`subscribe`](#subscribeeventmapeventhandlers---void) | The `subscribe` function
-`static` | `off` | [`unsubscribe`](#unsubscribeeventmapeventhandlers---void) | The `unsubscribe` function
+`static` | `emit` | [`emit`](#emiteventmapeventargs-promisevoid) | The `emit` function, with all of its args flattened
+`static` | `on` | [`subscribe`](#subscribeeventmapeventhandlers---void) | The `subscribe` function, with all of its args flattened
+`static` | `off` | [`unsubscribe`](#unsubscribeeventmapeventhandlers---void) | The `unsubscribe` function, with all of its args flattened
+
+It's also possible to utilize static methods of the `Eventhovent` class in order to use a shorter version of main API:
+```ts
+import { Eventhoven } from 'eventhoven';
+
+const myEventManager = new Eventhoven({
+  myEvent1(ctx, arg: string) {
+    console.log('yay, my oop event!', arg);
+  }
+});
+
+const myEvents = eventMap({
+  someEvent(ctx, arg: boolean) {
+    console.log('functional event -', arg);
+  },
+});
+
+// All three methods accept an event-map or an Eventhoven instance as a first argument
+
+// Accepting a class
+Eventhoven.on(myEventManager, 'myEvent1', (ctx, arg) => {
+  console.log('another handler!', arg);
+});
+Eventhoven.emit(myEventManager, 'myEvent1', 'static emit');
+// => yay, my oop event! static emit
+// => another handler! static emit
+
+// Accepting an event-map
+Eventhoven.on(myEvents, 'someEvent', (ctx, arg) => {
+  console.log('another handler:', arg);
+});
+Eventhoven.emit(myEvents, 'someEvent', true);
+// => functional event - true
+// => another handler: true
+```
 
 ---
 
