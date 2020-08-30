@@ -401,7 +401,18 @@ The decision to use plain functions as event signatures comes down to 3 advantag
 
 2. It allows to compose event managers easier.\
    Having an event signature be a default event handler\
-   allows to emit other managers' event directly in the event declaration, for example.
+   allows to emit other managers' event directly in the event declaration, for example:
+   ```ts
+    import { eventMap } from 'eventhoven';
+    import { VueApp } from './app.vue';
+
+    const someEventMap = eventMap({
+      someEvent() {
+        // Emitting a Vue event
+        VueApp.$emit('someEvent');
+      }
+    });
+   ```
 
    Also, it is a common practice to add a default handler for the event\
    right after its declaration, which produces lines like this:
