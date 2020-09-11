@@ -149,9 +149,6 @@ npm i -S eventhoven
 <!-- ES5 with IE11+ general syntax polyfills, global object - `eventhoven` -->
 <!-- Polyfill `window.Promise` and `Object.assign` yourself! -->
 <script src="https://unpkg.com/eventhoven/dist/umd.js"></script>
-
-<!-- Same as previous, but only includes `eventMap`, `emit`, `on`, `off` -->
-<script src="https://unpkg.com/eventhoven/dist/minimal.js"></script>
 ```
 
 ### Importing
