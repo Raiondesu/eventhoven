@@ -53,7 +53,7 @@ It's a tiny and simple type-safe event manager library for browser and node,
 It provides a powerful set of tools for creating and composing event managers.\
 In other words, it manages event managers!
 
-A main list of features includes (but not limited to):
+Main list of features includes (but is not limited to):
 - Full tree-shaking
 - Functional-style API
 - Multiple event arguments
