@@ -1,5 +1,4 @@
 import { mapObject } from '../src/util';
-import { eventMap } from '../src';
 
 describe('util', () => {
   describe('mapObject', () => {

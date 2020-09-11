@@ -4,7 +4,7 @@ import { subscribe } from './subscribe';
 import { unsubscribe } from './unsubscribe';
 import { TEventMap, THandlerOf, TEventHandler, TLastParams } from './types';
 
-type TEventHandlerFrom<H extends TEventHandler> = (...args: TLastParams<H>) => Promise<void>;
+type TEventHandlerFrom<H extends TEventHandler> = (...args: TLastParams<H>) => Promise<Array<ReturnType<H>>>;
 
 export type THandlerMap<M extends TEventMap> = {
   [event in keyof M]: TEventHandlerFrom<THandlerOf<M, event>>;

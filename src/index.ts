@@ -9,3 +9,4 @@ export * from './once';
 export * from './emit';
 export * from './wait';
 export * from './all';
+export * from './class';

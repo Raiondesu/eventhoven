@@ -1,14 +1,20 @@
-# eventhoven [![npm](https://img.shields.io/npm/v/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "NPM package page") <!-- omit in toc -->
+<h1 align="center" style="text-align: center">
+  <a href="https://www.npmjs.com/package/eventhoven"><img src="assets/logo.png"/></a>
+</h1>
 
-> Compose events effortlessly 🎵
+<p align="center">
+<a href="https://travis-ci.com/Raiondesu/eventhoven" title="Latest Travis CI build"><img src="https://img.shields.io/travis/com/raiondesu/eventhoven?style=flat-square" alt="travis"></a>
+<a href="https://www.npmjs.com/package/eventhoven" title="Downloads per month, but who cares?"><img src="https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square" alt="npm"></a>
+<a href="https://bundlephobia.com/result?p=eventhoven@latest" title="minzipped size"><img src="https://img.shields.io/bundlephobia/minzip/eventhoven@latest?style=flat-square" alt="size"></a>
+<a href="https://coveralls.io/github/Raiondesu/eventhoven" title="Code coverage"><img src="https://img.shields.io/coveralls/github/Raiondesu/eventhoven?style=flat-square" alt="coveralls"></a>
+<a href="https://codeclimate.com/github/Raiondesu/eventhoven/maintainability" title="Code quality"><img src="https://img.shields.io/codeclimate/maintainability/Raiondesu/eventhoven?style=flat-square" alt="code quality"></a></p>
+</p>
 
-[![travis](https://img.shields.io/travis/com/raiondesu/eventhoven?style=flat-square)](https://travis-ci.com/raiondesu/eventhoven "Latest Travis CI build")
-[![npm](https://img.shields.io/npm/dm/eventhoven.svg?style=flat-square)](https://www.npmjs.com/package/eventhoven "Downloads per month, but who cares?")
-[![size](https://img.shields.io/bundlephobia/minzip/eventhoven@latest?style=flat-square)](https://bundlephobia.com/result?p=eventhoven@latest "minzipped size")
-[![coveralls](https://img.shields.io/coveralls/github/Raiondesu/eventhoven?style=flat-square)](https://coveralls.io/github/Raiondesu/eventhoven "Code coverage")
-[![code quality](https://img.shields.io/codeclimate/maintainability/Raiondesu/eventhoven?style=flat-square)](https://codeclimate.com/github/Raiondesu/eventhoven/maintainability "Code quality")
+<p align="center">
+<a href="https://codepen.io/raiondesu/pen/qBBPPom" title="Link to in-browser playground"><img src="https://img.shields.io/badge/playground-link-blueviolet?style=flat-square" alt="code pen"></a>
+</p>
 
-[![code pen](https://img.shields.io/badge/playground-link-blueviolet?style=flat-square)](https://codepen.io/raiondesu/pen/qBBPPom "Link to in-browser playground")
+---
 
 ## Table of Contents <!-- omit in toc -->
 - [What is this?](#what-is-this)
@@ -37,6 +43,7 @@
     - [Custom logging function](#custom-logging-function)
   - [Collections](#collections)
   - [Meta-Events (Plugin API)](#meta-events-plugin-api)
+  - [Class API](#class-api)
 - [Contribute](#contribute)
 
 ## What is this?
@@ -339,6 +346,7 @@ name | type | description
 [`customDebug`](#custom-logging-function) | `function` | Creates a custom debugger based on a function passed to it
 [`metaEvents`](#meta-events-plugin-api) | `object` | A meta-event-map. Can be used to subscribe to the internal eventhoven's events
 `emitMeta` | `function` | A meta-event emitter. An [`emit`](#emiteventmapeventargs-promisevoid) function created for [`metaEvents`](#meta-events-plugin-api)
+[`Eventhoven`](#class-api) | `class` | A class wrapper for `eventMap` and `eventCollection`.
 </details>
 
 
@@ -390,7 +398,18 @@ The decision to use plain functions as event signatures comes down to 3 advantag
 
 2. It allows to compose event managers easier.\
    Having an event signature be a default event handler\
-   allows to emit other managers' event directly in the event declaration, for example.
+   allows to emit other managers' events directly in the event declaration, for example:
+   ```ts
+    import { eventMap } from 'eventhoven';
+    import { VueApp } from './app.vue';
+
+    const someEventMap = eventMap({
+      someEvent() {
+        // Emitting a Vue event
+        VueApp.$emit('someEvent');
+      }
+    });
+   ```
 
    Also, it is a common practice to add a default handler for the event\
    right after its declaration, which produces lines like this:
@@ -921,6 +940,81 @@ on(metaEvents)(EMetaEvents.EMIT)(
     `This handler will be executed when ANY event is emitted, for example ${eventName}!`
   )
 );
+```
+
+### Class API
+
+Even though `eventhoven` is functional in its nature, nothing prohibits to use it in Object-Oriented way.\
+Class API can help with this:
+```ts
+import { Eventhoven } from 'eventhoven';
+
+const myEventManager = new Eventhoven({
+  myEvent1(ctx, arg: string) {
+    console.log('yay, my oop event!', arg);
+  }
+});
+
+myEventManager.emit('myEvent1', 'first emit');
+// => yay, my oop event! first emit
+
+myEventManager.on('myEvent1', (ctx, arg) => {
+  console.log('another handler!', arg);
+});
+
+myEventManager.emit('myEvent1', 'second emit');
+// => yay, my oop event! second emit
+// => another handler! second emit
+
+console.log(Object.keys(myEventManager.map));
+// => ['myEvent1']
+```
+
+Basically, the `Eventhoven` class is a wrapper of [`eventCollection`](#collections) with the following properties:
+
+visibility | name | type | description
+------|------|---------|-----------------
+`public` | `map` | [`TEventMap`](https://github.com/Raiondesu/eventhoven/blob/master/src/types.d.ts#L15) | An event map that contains all of the instance events
+`public` | `emit` | `(event, ...args) => Promise<any[]>` | An event emitter function. Basically, an uncurried version of [`emit`](#emiteventmapeventargs-promisevoid)
+`public` | `on` | `(event, ...handlers) => () => void` | An event subscriber function. Basically, an uncurried version of [`subscribe`](#subscribeeventmapeventhandlers---void).
+`public` | `off` | `(event, ...handlers) => void` | An event unsubscriber function. Basically, an uncurried version of [`unsubscribe`](#unsubscribeeventmapeventhandlers---void).
+`static` | `emit` | [`emit`](#emiteventmapeventargs-promisevoid) | The `emit` function, with all of its args flattened
+`static` | `on` | [`subscribe`](#subscribeeventmapeventhandlers---void) | The `subscribe` function, with all of its args flattened
+`static` | `off` | [`unsubscribe`](#unsubscribeeventmapeventhandlers---void) | The `unsubscribe` function, with all of its args flattened
+
+It's also possible to utilize static methods of the `Eventhovent` class in order to use a shorter version of main API:
+```ts
+import { Eventhoven } from 'eventhoven';
+
+const myEventManager = new Eventhoven({
+  myEvent1(ctx, arg: string) {
+    console.log('yay, my oop event!', arg);
+  }
+});
+
+const myEvents = eventMap({
+  someEvent(ctx, arg: boolean) {
+    console.log('functional event -', arg);
+  },
+});
+
+// All three methods accept an event-map or an Eventhoven instance as a first argument
+
+// Accepting a class
+Eventhoven.on(myEventManager, 'myEvent1', (ctx, arg) => {
+  console.log('another handler!', arg);
+});
+Eventhoven.emit(myEventManager, 'myEvent1', 'static emit');
+// => yay, my oop event! static emit
+// => another handler! static emit
+
+// Accepting an event-map
+Eventhoven.on(myEvents, 'someEvent', (ctx, arg) => {
+  console.log('another handler:', arg);
+});
+Eventhoven.emit(myEvents, 'someEvent', true);
+// => functional event - true
+// => another handler: true
 ```
 
 ---

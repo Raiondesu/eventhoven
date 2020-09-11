@@ -8,4 +8,5 @@ export * from "./once.js";
 export * from "./emit.js";
 export * from "./wait.js";
 export * from "./all.js";
+export * from "./class.js";
 //# sourceMappingURL=index.js.map
