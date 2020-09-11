@@ -63,7 +63,7 @@ Main list of features includes (but is not limited to):
 - Fully type-safe - each event remembers its name and type signature
 - All functions are curried and point-free, which makes them easier to use in a functional environment
   (for example, with [`ramda`](https://github.com/ramda/ramda) and similar tools)
-- **SOLID**
+- **SOLID** code
   - **S**RP - every function does only one thing
   - **O**CP - HOFs allow to change certain behaviours without the need to rewrite code
   - **L**SP - all functions are easily substitutable as long as they adhere to the same API
@@ -72,7 +72,7 @@ Main list of features includes (but is not limited to):
 - Code-generation-friendly:\
   Due to the SRP, all functions have a very limited number of ways of invocation.\
   This allows to automatically generate efficient code (for example, CRUD events) for this library without concerns about its stability.
-- **KISS** and **DRY**
+- **KISS** and **DRY** code
 
 Something's missing or found a bug?\
 Feel free to [create an issue](https://github.com/Raiondesu/eventhoven/issues/new)! 😉
