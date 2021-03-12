@@ -50,7 +50,7 @@
     "coveralls": "^3.0.7",
     "jest": "^24.9.0",
     "lodash.clonedeep": "^4.5.0",
-    "madge": "^3.5.0",
+    "madge": "^4.0.1",
     "rollup-plugin-typescript2": "^0.24.3",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
